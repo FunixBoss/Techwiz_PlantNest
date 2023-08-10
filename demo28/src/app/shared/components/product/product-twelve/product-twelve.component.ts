@@ -57,6 +57,7 @@ export class ProductTwelveComponent implements OnInit {
 
   addToWishlist(event: Event) {
     event.preventDefault();
+    console.log(event);
 
     // if (this.isInWishlist()) {
     //   this.router.navigate(['/shop/wishlist']);
