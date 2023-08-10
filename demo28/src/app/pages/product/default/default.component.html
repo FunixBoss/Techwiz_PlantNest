@@ -1,0 +1,41 @@
+<main class="main">
+  <molla-breadcrumb current="Default">
+  </molla-breadcrumb>
+
+  <div class="page-content default-page">
+    <div class="container skeleton-body">
+      <div class="product-details-top">
+        <div class="row skel-pro-single" [class.loaded]="loaded">
+          <div class="col-md-6">
+            <div class="skel-product-gallery"></div>
+
+            <molla-gallery2 [product]="product" *ngIf="loaded"></molla-gallery2>
+          </div>
+
+          <div class="col-md-6">
+            <div class="entry-summary row">
+              <div class="col-md-12">
+                <div class="entry-summary1 mt-2 mt-md-0"></div>
+              </div>
+              <div class="col-md-12">
+                <div class="entry-summary2"></div>
+              </div>
+            </div>
+            <!-- <product-detail-one [product]="product" *ngIf="loaded"></product-detail-one> -->
+            <molla-product-detail [product]="product" *ngIf="loaded"></molla-product-detail>
+          </div>
+        </div>
+      </div>
+
+      <div class="skel-pro-tabs" *ngIf="!loaded else infoBlock"></div>
+      <ng-template #infoBlock>
+        <!-- <product-info-one [product]="product"></product-info-one> -->
+        <molla-info-new [product]="product"></molla-info-new>
+      </ng-template>
+
+
+
+      <!-- <molla-related-new [products]="related" [loaded]="loaded"></molla-related-new> -->
+    </div>
+  </div>
+</main>
