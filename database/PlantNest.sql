@@ -1,11 +1,12 @@
-﻿DROP DATABASE IF EXISTS BigGuyGear
-CREATE DATABASE BigGuyGear
+﻿DROP DATABASE IF EXISTS PlantNest
+CREATE DATABASE PlantNest
 GO
 
-USE BigGuyGear
+USE PlantNest
 GO
+
+
 -- ADDRESS 
-
 DROP TABLE IF EXISTS [AdministrativeUnit];
 CREATE TABLE [AdministrativeUnit] (
 	[id] INT PRIMARY KEY, 
@@ -71,6 +72,9 @@ CREATE TABLE [Address] (
 
 
 
+
+
+
 -- COUPON
 DROP TABLE IF EXISTS [CouponType];
 CREATE TABLE [CouponType] (
@@ -104,6 +108,7 @@ CREATE TABLE [Image] (
 DROP TABLE IF EXISTS [Role];
 CREATE TABLE [Role] (
 	[role_id] INT PRIMARY KEY IDENTITY,
+	[authorities] NVARCHAR(50),
 	[name] NVARCHAR(50) UNIQUE NOT NULL,
 )
 
@@ -111,27 +116,18 @@ CREATE TABLE [Role] (
 DROP TABLE IF EXISTS [Account];
 CREATE TABLE [Account] (
 	[id] INT PRIMARY KEY IDENTITY,
+	[username] NVARCHAR(50) UNIQUE NOT NULL,
+	[email] NVARCHAR(255) UNIQUE NOT NULL,
 	[password] NVARCHAR(255) NOT NULL,
 	[full_name] NVARCHAR(255) NOT NULL,
-	[email] NVARCHAR(255) UNIQUE NOT NULL,
 	[phone_number] NVARCHAR(20) NOT NULL,
 	[image_id] INT,
 	[active] BIT,
-	[role_id] INT NOT NULL DEFAULT '2',
+	[role_id] INT NOT NULL,
 	[created_at] DATETIME DEFAULT CURRENT_TIMESTAMP,
 	[updated_at] DATETIME DEFAULT CURRENT_TIMESTAMP,
 	CONSTRAINT [account_ibfk_1] FOREIGN KEY ([role_id]) REFERENCES [Role] ([role_id]),
 	CONSTRAINT [account_ibfk_2] FOREIGN KEY ([image_id]) REFERENCES [Image] ([image_id])
-) 
-
-DROP TABLE IF EXISTS [Notification];
-CREATE TABLE [Notification] (
-	[notification_id] INT PRIMARY KEY  IDENTITY,
-	[message] NVARCHAR(200) NOT NULL,
-	[account_id] INT,
-	[created_at] DATETIME DEFAULT CURRENT_TIMESTAMP,
-	[is_read] BIT,
-	CONSTRAINT [notification_ibfk_1] FOREIGN KEY ([account_id]) REFERENCES [Account] ([id])
 )
 
 DROP TABLE IF EXISTS [AccountAddress];
@@ -167,27 +163,17 @@ CREATE TABLE [AccountCoupon] (
 
 
 -- PRODUCT
-DROP TABLE IF EXISTS [Category];
-CREATE TABLE [Category] (
-	[category_id] INT PRIMARY KEY IDENTITY,
-	[category_name] NVARCHAR(100) NOT NULL,
+DROP TABLE IF EXISTS [Catalog];
+CREATE TABLE [Catalog] (
+	[catalog_id] INT PRIMARY KEY IDENTITY,
+	[catalog_name] NVARCHAR(100) NOT NULL,
+	[description] NVARCHAR(500) NOT NULL,
 	[image_id] INT,
-	CONSTRAINT [category_ibfk_1] FOREIGN KEY ([image_id]) REFERENCES [Image] ([image_id])
-) 
-
-DROP TABLE IF EXISTS [ProductStyle];
-CREATE TABLE [ProductStyle] (
-	[product_style_id] INT PRIMARY KEY IDENTITY,
-	[style_name] NVARCHAR(50),
+	[catalog_parent_id] INT,
+	CONSTRAINT [catalog_ibfk_1] FOREIGN KEY ([image_id]) REFERENCES [Image] ([image_id]),
+	CONSTRAINT [catalog_ibfk_2] FOREIGN KEY ([catalog_parent_id]) REFERENCES [Catalog] ([catalog_id])
 )
 
-DROP TABLE IF EXISTS [ProductBrand];
-CREATE TABLE [ProductBrand] (
-	[product_brand_id] INT PRIMARY KEY IDENTITY,
-	[brand_name] NVARCHAR(50),
-	[image_id] INT,
-	CONSTRAINT [brand_ibfk_1] FOREIGN KEY ([image_id]) REFERENCES [Image] ([image_id])
-)
 
 DROP TABLE IF EXISTS [ProductSaleType];
 CREATE TABLE [ProductSaleType] (
@@ -208,27 +194,52 @@ CREATE TABLE [ProductSale] (
 	CONSTRAINT [sale_ibfk_1] FOREIGN KEY ([product_sale_type_id]) REFERENCES [ProductSaleType] ([product_sale_type_id])
 )
 
+DROP TABLE IF EXISTS [ProductCareGuide]
+CREATE TABLE [ProductCareGuide] (	
+	[product_id] INT PRIMARY KEY IDENTITY,
+	[watering] NVARCHAR(500),
+	[light] NVARCHAR(500),
+	[nutrition] NVARCHAR(500),
+	[cleaning] NVARCHAR(500),
+	[pruning] NVARCHAR(500),
+	[bugs] NVARCHAR(500),
+	[trouble] NVARCHAR(500),
+	[warning] NVARCHAR(500),
+)
+GO
+
+DROP TABLE IF EXISTS [PlantingDifficultyLevel]	
+CREATE TABLE [PlantingDifficultyLevel] (
+	[planting_difficulty_level_id] INT PRIMARY KEY IDENTITY,
+	[level] NVARCHAR(50) NOT NULL,
+)
+GO
+
+
+
 DROP TABLE IF EXISTS [Product];
 CREATE TABLE [Product] (
 	[product_id] INT PRIMARY KEY IDENTITY,
 	[product_name] NVARCHAR(200) NOT NULL,
+	[slug] NVARCHAR(200) UNIQUE NOT NULL,
 	[description] NVARCHAR(1000),
 	[active] BIT DEFAULT 1,
 	[sale] BIT DEFAULT 0,
 	[top] BIT DEFAULT 0,
 	[new] BIT DEFAULT 1,
 	[product_sale_id] INT,
-	[product_brand_id] INT,
-	[category_id] INT,
-	[product_style_id] INT,
+	[image_size_guide_id] INT,
+	[planting_difficulty_level_id] INT,
+	[catalog_id] INT,
 	[created_at] DATETIME DEFAULT CURRENT_TIMESTAMP,
 	[updated_at] DATETIME DEFAULT CURRENT_TIMESTAMP,
-	CONSTRAINT [product_ibfk_1] FOREIGN KEY ([category_id]) REFERENCES [Category] ([category_id]),
-	CONSTRAINT [product_ibfk_2] FOREIGN KEY ([product_brand_id]) REFERENCES [ProductBrand] ([product_brand_id]),
-	CONSTRAINT [product_ibfk_3] FOREIGN KEY ([product_style_id]) REFERENCES [ProductStyle] ([product_style_id]),
-	CONSTRAINT [product_ibfk_4] FOREIGN KEY ([product_sale_id]) REFERENCES [ProductSale] ([product_sale_id])
-
+	CONSTRAINT [product_ibfk_1] FOREIGN KEY ([catalog_id]) REFERENCES [Catalog] ([catalog_id]),
+	CONSTRAINT [product_ibfk_4] FOREIGN KEY ([product_sale_id]) REFERENCES [ProductSale] ([product_sale_id]),
+	CONSTRAINT [product_ibfk_3] FOREIGN KEY ([product_id]) REFERENCES [ProductCareGuide] ([product_id]),
+	CONSTRAINT [product_ibfk_2] FOREIGN KEY ([image_size_guide_id]) REFERENCES [Image] ([image_id]),
+	CONSTRAINT [product_ibfk_5] FOREIGN KEY ([planting_difficulty_level_id]) REFERENCES [PlantingDifficultyLevel] ([planting_difficulty_level_id]),
 ) 
+
 
 
 
@@ -254,29 +265,13 @@ CREATE TABLE [ProductReview] (
 	CONSTRAINT [product_review_ibfk_2] FOREIGN KEY ([product_id]) REFERENCES[Product] ([product_id])
 )
 
-INSERT INTO [ProductReview] ([account_id], [product_id], [content], [rating])
-VALUES
-(1, 2, 'Comment ABC', 5),
-(2, 2, 'Comment 6', 3),
-(3, 2, 'Comment 7', 2),
-(2, 2, 'Comment 8', 1)
-GO
 
 
-
-
-DROP TABLE IF EXISTS [ProductColor];
-CREATE TABLE [ProductColor] (
-	[product_color_id] INT PRIMARY KEY IDENTITY,
-	[color_type] NVARCHAR(6),
-	[color_name] NVARCHAR(50),
-)
 
 DROP TABLE IF EXISTS [ProductSize];
 CREATE TABLE [ProductSize] (
 	[product_size_id] INT PRIMARY KEY IDENTITY,
-	[size_type] NVARCHAR(10),
-	[size_name] NVARCHAR(50),
+	[size_name] NVARCHAR(50)
 )
 
 DROP TABLE IF EXISTS [ProductVariant];
@@ -284,12 +279,12 @@ CREATE TABLE [ProductVariant] (
 	[product_variant_id] INT PRIMARY KEY IDENTITY,
 	[product_id] INT NOT NULL,
 	[size_id] INT NOT NULL,
-	[color_id] INT NOT NULL,
+	[height] INT,
+	[width] INT,
 	[quantity] INT NOT NULL,
 	[price] decimal(18,2) NOT NULL,
 	[image_id] INT,
 	CONSTRAINT [product_variant_ibfk_1] FOREIGN KEY ([product_id]) REFERENCES [Product] ([product_id]),
-	CONSTRAINT [product_variant_ibfk_2] FOREIGN KEY ([color_id]) REFERENCES [ProductColor] ([product_color_id]),
 	CONSTRAINT [product_variant_ibfk_3] FOREIGN KEY ([image_id]) REFERENCES [Image] ([image_id]),
 	CONSTRAINT [product_variant_ibfk_4] FOREIGN KEY ([size_id]) REFERENCES [ProductSize] ([product_size_id])
 )

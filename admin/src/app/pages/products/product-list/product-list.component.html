@@ -1,0 +1,38 @@
+<nb-card>
+    <nb-card-header class="d-flex justify-content-between align-items-center">
+        <h6>
+            Product List
+        </h6>
+        <nb-select 
+                [placeholder]="'Items Per Page'"
+                [selected]="numberOfItem"
+                (selectedChange)="numberOfItemsChange()"
+                >
+            <nb-select-label>
+                Number Of Item: {{ numberOfItem }}
+            </nb-select-label>
+            <nb-option value="10">10</nb-option>
+            <nb-option value="20">20</nb-option>
+            <nb-option value="50">50</nb-option>
+        </nb-select>
+    </nb-card-header>
+    <nb-card-body>
+        <ng2-smart-table id="product-table" [settings]="settings"
+            [source]="source" [ngClass]="'smart-table'"
+            (userRowSelect)="onRowSelect($event)">
+        </ng2-smart-table>
+    </nb-card-body>
+    <nb-card-footer>
+        <ng-container *ngIf="selectedProducts.length > 0">
+            <ngx-products-list-multi 
+                [selectedProducts]="selectedProducts"
+                (isDeleted)="onDelete($event)"
+                (isUpdatedNewStatus)="onUpdateNewStatus($event)"
+                (isUpdatedTopStatus)="onUpdateTopStatus($event)"
+                (isUpdatedActiveStatus)="onUpdateActiveStatus($event)"
+                (isAppliedSale)="onAppliedSale($event)"
+                (isUpdatedStatuses)="onUpdateStatuses($event)">
+            </ngx-products-list-multi>
+        </ng-container>
+    </nb-card-footer>
+</nb-card>

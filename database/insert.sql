@@ -1,39 +1,50 @@
-﻿use BigGuyGear
+﻿use PlantNest
 GO
 
 INSERT INTO [Image]
 VALUES 
-('category/polo-shirt.jpg'),
-('category/jacket.jpg'),
-('category/pants.jpg'),
-('category/hoodie-zip-up.jpg'),
-('category/zip-up-fleece-jacket.jpg'),
-('category/khaki-pants.jpg'),
-('category/tank-top.jpg'),
-('category/unisex-short-sleeve-t-shirt.jpg'),
-('category/shirt.jpg')
+('plants.jpg'),
+('flowering.jpg'),
+('non-flowering.jpg'),
+('indoor.jpg'),
+('outdoor.jpg'),
+('succulents.jpg'),
+('medicinal.jpg'),
+
+('accessories.jpg'),
+('soil.jpg'),
+('fertilizers.jpg'),
+('pesticides.jpg')
 GO
+
 
 --INSERT PRODUCTS
-INSERT INTO Category 
+INSERT INTO [Catalog] ([catalog_name], [image_id], [catalog_parent_id], [description])
 VALUES 
-('Polo Shirt', 1),
-('Jacket', 2),
-('Pants', 3),
-('Hoodie (zip-up)', 4),
-('Zip-up Fleece Jacket', 5),
-('Khaki Pants', 6),
-('Tank Top', 7),
-('Unisex Short-Sleeve T-Shirt', 8),
-('Shirt', 9)
+('Plants', 1, null, ''),
+('Flowering', 2, 1,
+'Flowering plants, or angiosperms, are a diverse group of plants known for their vibrant and varied flowers. These plants include everything from tiny wildflowers to towering trees. Flowers are their reproductive structures, attracting pollinators for fertilization and seed production. This group''s significance lies in its role as primary producers in ecosystems, its cultural importance in art and traditions, and its contributions to agriculture and medicine.'),
+('Non-flowering', 3, 1,
+'Non-flowering plants, or gymnosperms and ferns, lack the typical flowers of flowering plants. Gymnosperms, such as conifers, produce seeds in cones, while ferns reproduce via spores. These plants have distinctive reproductive methods and play essential roles in ecosystems, often as dominant species in certain habitats. While they don''t possess the showy flowers of angiosperms, their unique characteristics make them crucial components of the plant kingdom.'),
+('Indoor', 4, 1,
+'Indoor plants are cultivated within indoor environments, such as homes, offices, and other indoor spaces. They offer numerous benefits beyond aesthetic appeal, including improving air quality by absorbing pollutants and releasing oxygen. Indoor plants come in various sizes and types, ranging from small succulents to large tropical foliage plants. Common indoor plants include snake plants, pothos, peace lilies, and spider plants..'),
+('Outdoor', 5, 1,
+'Outdoor plants are grown in outdoor environments like gardens, parks, and natural landscapes. They encompass a wide range of species, from flowering plants to shrubs, trees, and grasses. Outdoor plants contribute to the beauty and biodiversity of outdoor spaces, providing habitat and food for various animals. They can be ornamental, edible, or functional, such as shade-providing trees.'),
+('Succulents', 6, 1,
+'Succulent plants are renowned for their water-storing adaptation, featuring thick, fleshy leaves or stems that enable survival in arid conditions. These plants come in diverse shapes, colors, and sizes, making them popular for both indoor and outdoor cultivation. Examples include echeverias, sedums, and haworthias. Succulents require infrequent watering due to their water reservoirs, making them relatively low-maintenance choices.'),
+('Medicinal', 7, 1, 
+'Medicinal plants refer to a diverse group of botanical species that have been recognized for their potential therapeutic properties. These plants have been used for centuries in traditional medicine systems and are still studied for their medicinal applications today. They contain various bioactive compounds that can positively impact human health.'),
+
+
+('Accessories', 8, null, 'accessories necessary for taking care of plants.'),
+('Soil', 9, 8, 
+'Plant soil refers to the me0dium in which plants grow and anchor their roots. It''s a crucial component for plant health and growth, providing nutrients, water, and physical support. Different plants have specific soil preferences based on factors like moisture levels, pH, and drainage'),
+('Fertilizers', 10, 8,
+'Plant fertilizers are substances added to the soil to supply essential nutrients that support plant growth and development. Fertilizers provide elements like nitrogen, phosphorus, and potassium, which are vital for various plant functions, including photosynthesis, root development, and flowering'),
+('Pesticides', 11, 8,
+'Pesticides for plants are substances used to control or manage pests that can damage crops, gardens, or landscapes. These pests include insects, weeds, fungi, bacteria, and other organisms that can negatively impact plant health and productivity.')
 GO
 
-INSERT INTO ProductBrand
-VALUES 
-('Brand A', 1),
-('Brand B', 2),
-('Brand C', 3)
-GO
 
 INSERT INTO [CouponType]
 VALUES
@@ -62,35 +73,32 @@ VALUES
 ('Percent')
 GO
 
-INSERT INTO [ProductColor]
+
+INSERT INTO [ProductSize] ([size_name])
 VALUES
-('basic', 'white'),
-('basic', 'black'),
-('basic', 'red'),
-('basic', 'blue'),
-('basic', 'yellow'),
-('basic', 'purple')
+('S'),
+('M'),
+('L'),
+('XL'),
+('2XL'),
+('3XL'),
+('4XL'),
+('5XL'),
+('6XL')
 GO
 
-INSERT INTO [ProductSize]
+INSERT INTO [PlantingDifficultyLevel]
 VALUES
-('basic', 'XL'),
-('basic', '2XL'),
-('basic', '3XL'),
-('basic', '4XL'),
-('basic', '5XL'),
-('basic', '6XL'),
-('basic', '34'),
-('basic', '36'),
-('basic', '38'),
-('basic', '40'),
-('basic', '42')
+('Easy'),
+('Medium'),
+('Difficult')
 GO
+
 
 INSERT INTO [Role]
 VALUES
-('admin'),
-('customer')
+('ROLE_ADMIN'),
+('ROLE_CUSTOMER')
 
 /*
 INSERT INTO [Address] 
