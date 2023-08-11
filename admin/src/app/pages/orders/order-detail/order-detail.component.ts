@@ -23,8 +23,6 @@ export class OrderDetailComponent {
         this.orderService.findById(+params['id']).subscribe(
           data => {
             this.order = data
-            console.log(this.order);
-            
           }
         )
       }

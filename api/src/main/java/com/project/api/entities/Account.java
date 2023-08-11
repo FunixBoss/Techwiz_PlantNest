@@ -75,6 +75,7 @@ public class Account implements java.io.Serializable {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account", cascade = CascadeType.ALL)
 	private Set<Cart> carts = new HashSet<Cart>(0);
 
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account", cascade = CascadeType.ALL)
 	private Set<AccountCoupon> accountCoupons = new HashSet<AccountCoupon>(0);
 

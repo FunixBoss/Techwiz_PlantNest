@@ -14,7 +14,6 @@ public class OrderDetailDTO {
     private String imageUrl;
     private int quantity;
     private String size;
-    private String color;
     private BigDecimal price;
 
     public OrderDetailDTO(OrderDetail orderDetail){
@@ -22,7 +21,6 @@ public class OrderDetailDTO {
         this.productName = orderDetail.getProductName();
         this.quantity = orderDetail.getQuantity();
         this.size = orderDetail.getSize();
-        this.color = orderDetail.getColor();
         this.price = orderDetail.getPrice();
         if(orderDetail.getProduct() != null) {
             this.productId = orderDetail.getProduct().getProductId();

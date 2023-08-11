@@ -10,6 +10,7 @@ import java.util.List;
 @Data
 public class AccountDetailDTO {
     private Integer id;
+    private String username;
     private String email;
     private ImageDTO image;
     private RoleDTO role;
@@ -27,6 +28,7 @@ public class AccountDetailDTO {
     public AccountDetailDTO(Account account) {
         this.id = account.getId();
         this.email = account.getEmail();
+        this.username = account.getUsername();
         this.phoneNumber = account.getPhoneNumber();
         this.fullName = account.getFullName();
         this.active = account.getActive();

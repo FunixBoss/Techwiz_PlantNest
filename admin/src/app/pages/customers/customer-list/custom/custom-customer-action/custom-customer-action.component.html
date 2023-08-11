@@ -17,10 +17,13 @@
             <nb-card-body>
                 <div class="row">
                     <div class="col-lg-6 col-md-12">
+                        <input type="text" nbInput fullWidth placeholder="Username" formControlName="username" disabled>
+                    </div>
+                    <div class="col-lg-6 col-md-12">
                         <input type="email" nbInput fullWidth placeholder="Email" formControlName="email" disabled>
                     </div>
 
-                    <div class="col-lg-6 col-md-12">
+                    <div class="col-lg-6 col-md-12 mt-3">
                         <input type="password" nbInput fullWidth placeholder="Password" formControlName="password">
                     </div>
 
@@ -46,12 +49,12 @@
                                 Phone Number is required
                             </div>
                             <div *ngIf="editCustomerFormGroup.get('phoneNumber').errors['maxlength']">
-                                Phone Number must not exceed 100 characters
+                                Phone Number must not exceed 10 characters
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-12 mt-3">
+                    <div class="col-lg-6 col-md-12 mt-3">
                         <nb-checkbox (checkedChange)="editCustomerFormGroup.get('active').setValue($event)"
                             [checked]="editCustomerFormGroup.get('active').value" status="warning">
                             Active

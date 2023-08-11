@@ -47,9 +47,6 @@ public class OrderDetail implements Serializable {
 	@Column(name = "size")
 	private String size;
 
-	@Column(name = "color")
-	private String color;
-
 	@Column(name = "price", nullable = false, precision = 18)
 	private BigDecimal price;
 
@@ -64,13 +61,12 @@ public class OrderDetail implements Serializable {
 	}
 
 	public OrderDetail(Order order, Product product, String productName, int quantity,
-			String size, String color, BigDecimal price) {
+			String size, BigDecimal price) {
 		this.order = order;
 		this.product = product;
 		this.productName = productName;
 		this.quantity = quantity;
 		this.size = size;
-		this.color = color;
 		this.price = price;
 	}
 

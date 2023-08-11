@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { ProductSale } from '../../models/sale/product-sale.model';
 import { ProductSize } from '../../models/product/product-size.model';
+import { ProductVariant } from '../../models/product/product-variant.model';
 
 export class ToastState {
   bahavior: String;
@@ -167,14 +168,9 @@ export class ProductService {
     return this.httpClient.get<boolean>(url)
   }
 
-
-
-// FOR ADDING ORDER 
-  findSizesFromProductId(id: number): Observable<ProductSize[]> {
-    const url: string = `${this.baseUrlService.baseURL}/products/${id}/sizes/`
-    return this.httpClient.get<ProductSize[]>(url).pipe(
-      map(colors => removeDuplicateSize(colors))
-    ); 
+  findVariantsFromProductId(id: number): Observable<ProductVariant[]> {
+    const url: string = `${this.baseUrlService.baseURL}/products/${id}/variants/`
+    return this.httpClient.get<ProductVariant[]>(url)
   }
 
 
@@ -186,25 +182,4 @@ export class ProductService {
     const url: string = `${this.baseUrlService.baseURL}/products/findPrice`
     return this.httpClient.post<number>(url, formData); 
   }
-
-  findMaxQuantity(productId: number, productSize: ProductSize, price: number): Observable<number> {
-    let formData: FormData = new FormData()
-    formData.append("productId", productId.toString())
-    formData.append("sizeJson", JSON.stringify(productSize))
-    formData.append("price", JSON.stringify(price))
-
-
-    const url: string = `${this.baseUrlService.baseURL}/products/findMaxQuantity`
-    return this.httpClient.post<number>(url, formData); 
-  }
-}
-
-
-export function removeDuplicateSize(sizes: ProductSize[]): ProductSize[] {
-  return sizes.filter((value, index) => {
-    const _value = JSON.stringify(value);
-    return index === sizes.findIndex(obj => {
-      return JSON.stringify(obj) === _value;
-    });
-  });
 }

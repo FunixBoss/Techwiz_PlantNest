@@ -24,6 +24,8 @@ public interface ProductService {
     Boolean delete(List<Product> products);
     Boolean existById(Integer productId);
     List<ProductFindAllDTO> findByNameKeyword(String keyword);
+
+    List<ProductVariantDTO> findVariantsByProductId(Integer productId);
     List<ProductSizeDTO> findSizesByProductId(Integer productId);
     BigDecimal findPrice(Integer productId, ProductSize productSize);
     Integer findMaxQuantity(Integer productId, ProductSize productSize, BigDecimal price);

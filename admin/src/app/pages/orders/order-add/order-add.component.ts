@@ -24,9 +24,9 @@ import { Order } from '../../../@core/models/order/order.model';
 import { AddressService } from '../../../@core/services/account/address.service';
 import { ProductCouponService } from '../../../@core/services/product/product-coupon.service';
 import { Router } from '@angular/router';
-import { ProductSize } from '../../../@core/models/product/product-size.model';
 import { isEqual } from 'lodash';
 import { Coupon } from '../../../@core/models/coupon/coupon.model';
+import { ProductVariant } from '../../../@core/models/product/product-variant.model';
 
 @Component({
   selector: 'ngx-order-add',
@@ -236,10 +236,8 @@ export class OrderAddComponent implements OnInit, AfterViewInit {
     const productForm = this.formBuilder.group({
       product: [],
       name: ['', [CustomValidator.notBlank], [isProductNotExisting(this.productService)]],
-      size: [, [Validators.required]],
-      sizes: [],
-      color: [, [Validators.required]],
-      colors: [],
+      variant: [, [Validators.required]],
+      variants: [],
       price: [],
       maxQuantity: [],
       quantity: [, [Validators.required, Validators.min(1)]],
@@ -259,16 +257,22 @@ export class OrderAddComponent implements OnInit, AfterViewInit {
       return;
     }
     productForm.get('product').setValue(product);
-    productForm.get('size').setValue(null)
-    productForm.get('color').setValue(null)
+    productForm.get('variant').setValue(null)
     productForm.get('price').setValue(null)
 
-    // load sizes
-    this.productService.findSizesFromProductId(product.productId).subscribe(
-      (data: ProductSize[]) => {
-        productForm.get('sizes').setValue(data)
+    // load variants
+    this.productService.findVariantsFromProductId(product.productId).subscribe(
+      (data: ProductVariant[]) => {
+        productForm.get('variants').setValue(data)
       }
     )
+    
+    const variantControl = productForm.get('variant')
+    variantControl.valueChanges.subscribe(data => {
+      productForm.get('price').setValue(variantControl.value['price'])
+      productForm.get('maxQuantity').setValue(variantControl.value['quantity'])
+      productForm.get('quantity').setValidators(Validators.max(variantControl.value['quantity']))
+    })
 
     productForm.get('quantity').valueChanges.subscribe(() => { this.countTotalPriceAndTotalQuantity() })
   }
@@ -301,7 +305,6 @@ export class OrderAddComponent implements OnInit, AfterViewInit {
 
   // FOR SUBMIT
   onSubmit() {
-    
     if(this.accountForm.get('addressOption').value == 'new') {
       this.accountForm.get('address').setErrors(null)
     } else if (this.accountForm.get('addressOption').value == 'existing') {
@@ -314,8 +317,6 @@ export class OrderAddComponent implements OnInit, AfterViewInit {
     if(!this.accountForm.get('applyCoupon').value) {
       this.accountForm.get('coupon').setErrors(null)
     }
-
-    console.log(this.addOrderFormGroup);
 
     if (this.addOrderFormGroup.invalid) {
       this.addOrderFormGroup.markAllAsTouched();
@@ -336,7 +337,6 @@ export class OrderAddComponent implements OnInit, AfterViewInit {
       error => {
         this.utilsService.updateToastState(new ToastState('Add Order Failed!', "danger"))
         console.log(error);
-
       }
     )
   }
@@ -371,9 +371,8 @@ export class OrderAddComponent implements OnInit, AfterViewInit {
       let product: any = {
         productId: productForm.get('product').value['productId'],
         productName: productForm.get('product').value['productName'],
-        productSize: productForm.get('size').value,
-        productColor: productForm.get('color').value,
         quantity: productForm.get('quantity').value,
+        productVariant: productForm.get('variant').value,
         price: productForm.get('price').value
       }
       order.products.push(product)
@@ -381,4 +380,7 @@ export class OrderAddComponent implements OnInit, AfterViewInit {
     return order;
   }
 
+  getSizeStrFromVariant(variant) {
+    return "Size: " + variant.productSize.sizeName + " - h: " + variant.height + "cm * w: " + variant.width + "cm"
+  }
 }

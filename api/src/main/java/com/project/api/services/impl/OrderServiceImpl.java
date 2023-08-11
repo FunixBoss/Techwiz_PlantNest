@@ -104,7 +104,7 @@ public class OrderServiceImpl implements OrderService {
                 orderDetail.setProduct(new Product() {{setProductId(product.getProductId());}});
                 orderDetail.setProductName(product.getProductName());
                 orderDetail.setQuantity(product.getQuantity());
-                orderDetail.setSize(product.getProductSize().getSizeName());
+                orderDetail.setSize(product.getProductVariant().getProductSize().getSizeName());
                 orderDetail.setPrice(product.getPrice());
                 orderDetail.setOrder(insertingOrder);
                 orderDetails.add(orderDetail);

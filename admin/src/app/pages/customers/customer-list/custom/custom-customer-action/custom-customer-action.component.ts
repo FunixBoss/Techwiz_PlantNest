@@ -42,6 +42,7 @@ export class CustomCustomerActionComponent implements ViewCell, OnInit{
     ngOnInit() {
         this.editCustomerFormGroup = this.formBuilder.group({
             id: [],
+            username: [],
             email: [, [Validators.required, Validators.maxLength(100)]],
             password: [],
             fullName: [, [Validators.required, Validators.maxLength(100)]],
@@ -54,6 +55,7 @@ export class CustomCustomerActionComponent implements ViewCell, OnInit{
 
     fillFormValues() {
         this.editCustomerFormGroup.get('id').setValue(this.rowData.id)
+        this.editCustomerFormGroup.get('username').setValue(this.rowData.username)
         this.editCustomerFormGroup.get('email').setValue(this.rowData.email)
         this.editCustomerFormGroup.get('fullName').setValue(this.rowData.fullName)
         this.editCustomerFormGroup.get('phoneNumber').setValue(this.rowData.phoneNumber)
@@ -80,6 +82,7 @@ export class CustomCustomerActionComponent implements ViewCell, OnInit{
         }
         let account: any = new Account();
         account.id = this.editCustomerFormGroup.get('id').value
+        account.username = this.editCustomerFormGroup.get('username').value
         account.email = this.editCustomerFormGroup.get('email').value
         account.password = this.editCustomerFormGroup.get('password').value
         account.fullName = this.editCustomerFormGroup.get('fullName').value

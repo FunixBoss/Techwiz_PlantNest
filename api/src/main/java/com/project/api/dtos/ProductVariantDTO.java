@@ -15,6 +15,9 @@ public class ProductVariantDTO {
     private ProductSizeDTO productSize;
     private String imageUrl;
 
+    public ProductVariantDTO() {
+
+    }
     public ProductVariantDTO(ProductVariant variant) {
         this.productVariantId = variant.getProductVariantId();
         this.height = variant.getHeight();

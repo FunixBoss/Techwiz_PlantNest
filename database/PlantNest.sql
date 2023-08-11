@@ -96,7 +96,7 @@ CREATE TABLE [Coupon] (
 
 
 
-DROP TABLE IF EXISTS[Image];
+DROP TABLE IF EXISTS [Image];
 CREATE TABLE [Image] (
 	[image_id] INT  PRIMARY KEY IDENTITY,
 	[image_url] NVARCHAR(200) NOT NULL,
@@ -366,7 +366,6 @@ CREATE TABLE [OrderDetail] (
 	[product_id] INT,
 	[quantity] INT NOT NULL,
 	[size] NVARCHAR(50),
-	[color] NVARCHAR(50),
 	[price] decimal(18,2) NOT NULL,
 	CONSTRAINT [order_detail_ibfk_1] FOREIGN KEY ([order_id]) REFERENCES [Order] ([order_id]),
 	CONSTRAINT [order_detail_ibfk_2] FOREIGN KEY ([product_id]) REFERENCES [Product] ([product_id])

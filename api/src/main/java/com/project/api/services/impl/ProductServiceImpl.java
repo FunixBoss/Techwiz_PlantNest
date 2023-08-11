@@ -328,6 +328,19 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<ProductVariantDTO> findVariantsByProductId(Integer productId) {
+        try {
+            Product product = productRepository.findById(productId).get();
+            return product.getProductVariants().stream()
+                    .map(ProductVariantDTO::new)
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
+
+    @Override
     public List<ProductSizeDTO> findSizesByProductId(Integer productId) {
         try {
             Product product = productRepository.findById(productId).get();

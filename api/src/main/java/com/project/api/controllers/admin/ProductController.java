@@ -228,6 +228,16 @@ public class ProductController {
         }
     }
 
+    @GetMapping("/{productId}/variants")
+    public ResponseEntity<List<ProductVariantDTO>> findVariantsByProductId(@PathVariable Integer productId) {
+        try {
+            return new ResponseEntity<>(productService.findVariantsByProductId(productId), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @PostMapping("findPrice")
     public ResponseEntity<BigDecimal> findPrice(
             @RequestParam Integer productId,

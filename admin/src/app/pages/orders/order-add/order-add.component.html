@@ -117,10 +117,6 @@
                                                 <div *ngIf="accountForm.get('roadName').errors['required']">
                                                     Address is required
                                                 </div>
-                                            </div>
-                
-                                            <div class="alert alert-danger mt-1"
-                                                *ngIf="accountForm.get('roadName').invalid && (accountForm.get('roadName').dirty || accountForm.get('roadName').touched)">
                                                 <div *ngIf="accountForm.get('roadName').errors['maxlength']">
                                                     Address must be under 50 characters
                                                 </div>
@@ -268,33 +264,20 @@
                                 </nb-option>
                             </nb-autocomplete>
 
-                            <nb-select fullWidth placeholder="Size" class="inputs-group" formControlName="size">
+                            <nb-select fullWidth placeholder="Variant" class="inputs-group" formControlName="variant">
                                 <nb-select-label>
-                                    Size: {{ productForm.get('size').value !== null ? productForm.get('size').value['sizeName'] : null }}
+                                    Variant: {{ productForm.get('variant').value !== null ?
+                                        getSizeStrFromVariant(productForm.get('variant').value) :
+                                        null }}
                                 </nb-select-label>
-                                <nb-option *ngFor="let siz of productForm.get('sizes').value" [value]="siz">
-                                    {{siz.sizeName}}
+                                <nb-option *ngFor="let vari of productForm.get('variants').value" [value]="vari">
+                                    {{ getSizeStrFromVariant(vari) }}
                                 </nb-option>
                             </nb-select>
                             <div class="alert alert-danger mt-1" 
-                                *ngIf="productForm.get('size').invalid && (productForm.get('size').dirty || productForm.get('size').touched)">
-                                <div *ngIf="productForm.get('size').errors['required']">
-                                    Product Size is required
-                                </div>
-                            </div> 
-
-                            <nb-select fullWidth placeholder="Color" class="inputs-group" formControlName="color">
-                                <nb-select-label>
-                                    Color: {{ productForm.get('color').value !== null ? productForm.get('color').value['colorName'] : null}}
-                                </nb-select-label>
-                                <nb-option *ngFor="let color of productForm.get('colors').value" [value]="color">
-                                    {{color.colorName}}
-                                </nb-option>
-                            </nb-select>
-                            <div class="alert alert-danger mt-1" 
-                                *ngIf="productForm.get('color').invalid && (productForm.get('color').dirty || productForm.get('color').touched)">
-                                <div *ngIf="productForm.get('color').errors['required']">
-                                    Product Color is required
+                                *ngIf="productForm.get('variant').invalid && (productForm.get('variant').dirty || productForm.get('variant').touched)">
+                                <div *ngIf="productForm.get('variant').errors['required']">
+                                    Product Variant is required
                                 </div>
                             </div> 
 
