@@ -49,61 +49,68 @@
             </nb-card>
         </div>
         <div class="col-lg-6 col-md-12">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th scope="col" style="width: 20%;" class="align-middle text-center">
-                            <p><span class="font-weight-bold">Image</span></p>
-                        </th>
-                        <th scope="col" style="width: 20%;" class="align-middle text-center">
-                            <p><span class="font-weight-bold">Name</span></p>
-                        </th>
-                        <th scope="col" style="width: 20%;" class="align-middle text-center">
-                            <p><span class="font-weight-bold">Size</span></p>
-                        </th>
-                        <th scope="col" style="width: 20%;" class="align-middle text-center">
-                            <p><span class="font-weight-bold">Unit Price</span></p>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <ng-container *ngFor="let detail of order.orderDetails">
-                        <tr>
-                            <ng-container *ngIf="detail.productId !== null">
-                                <a [href]="'/admin/products/detail/' + detail.productId">
-                                    <th class="d-flex justify-content-center">
-                                        <img [src]="
-                                            detail.imageUrl !== null ?
-                                            'http://localhost:9090/assets/upload/product/' + detail.imageUrl :
-                                            'assets/images/no-image.jpg'" 
-                                            [height]="75" class="d-block">
-                                    </th>
-                                </a>
-                            </ng-container>
-                            <ng-container *ngIf="detail.productId === null">
-                                <th class="d-flex justify-content-center">
-                                    <img [src]="'assets/images/no-image.jpg'" 
-                                        [height]="75" class="d-block">
+            <nb-card>
+                <nb-card-header>
+                    Order's Products Information
+                </nb-card-header>
+                <nb-card-body>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col" style="width: 20%;" class="align-middle text-center">
+                                    <p><span class="font-weight-bold">Image</span></p>
                                 </th>
+                                <th scope="col" style="width: 20%;" class="align-middle text-center">
+                                    <p><span class="font-weight-bold">Name</span></p>
+                                </th>
+                                <th scope="col" style="width: 20%;" class="align-middle text-center">
+                                    <p><span class="font-weight-bold">Size</span></p>
+                                </th>
+                                <th scope="col" style="width: 20%;" class="align-middle text-center">
+                                    <p><span class="font-weight-bold">Unit Price</span></p>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let detail of order.orderDetails">
+                                <tr>
+                                    <ng-container *ngIf="detail.productId !== null">
+                                        <a [href]="'/admin/products/detail/' + detail.productId">
+                                            <th class="d-flex justify-content-center">
+                                                <img [src]="
+                                                    detail.imageUrl !== null ?
+                                                    'http://localhost:9090/assets/upload/product/' + detail.imageUrl :
+                                                    'assets/images/no-image.jpg'" 
+                                                    [height]="75" class="d-block">
+                                            </th>
+                                        </a>
+                                    </ng-container>
+                                    <ng-container *ngIf="detail.productId === null">
+                                        <th class="d-flex justify-content-center">
+                                            <img [src]="'assets/images/no-image.jpg'" 
+                                                [height]="75" class="d-block">
+                                        </th>
+                                    </ng-container>
+                                    
+                                    <th class="align-middle text-center">
+                                        <p>{{detail.productName}}</p>
+                                    </th>
+                                    <th class="align-middle text-center">
+                                        <p>{{detail.size | uppercase}}</p>
+                                    </th>
+                                    <th class="align-middle text-center">
+                                        <p>
+                                            {{detail.price | currency: 'USD'}} *
+                                            <span class="text-monospace">{{detail.quantity}}</span>
+                                        </p>
+                                    </th>
+                                </tr>
                             </ng-container>
                             
-                            <th class="align-middle text-center">
-                                <p>{{detail.productName}}</p>
-                            </th>
-                            <th class="align-middle text-center">
-                                <p>{{detail.size | uppercase}}</p>
-                            </th>
-                            <th class="align-middle text-center">
-                                <p>
-                                    {{detail.price | currency: 'USD'}} *
-                                    <span class="text-monospace">{{detail.quantity}}</span>
-                                </p>
-                            </th>
-                        </tr>
-                    </ng-container>
-                    
-                </tbody>
-            </table>
+                        </tbody>
+                    </table>
+                </nb-card-body>
+            </nb-card>
         </div>
 
     </div>

@@ -125,14 +125,6 @@ INSERT INTO [AdministrativeUnit] (id,full_name,full_name_en,short_name,short_nam
 	 (9,N'Thị trấn',N'Commune-level town',N'Thị trấn',N'Township',N'thi_tran',N'commune_level_town'),
 	 (10,N'Xã',N'Commune',N'Xã',N'Commune',N'xa',N'commune');
 
-	 SELECT TOP (1000) [code]
-      ,[name]
-      ,[name_en]
-      ,[full_name]
-      ,[full_name_en]
-      ,[code_name]
-      ,[administrative_unit_id]
-  FROM [PlantNest].[dbo].[Province]
 -- DATA for [Province]
 INSERT INTO [Province] (code,name,name_en,full_name,full_name_en,code_name,administrative_unit_id) VALUES
 	 ('01',N'Hà Nội',N'Ha Noi',N'Thành phố Hà Nội',N'Ha Noi City',N'ha_noi',1),

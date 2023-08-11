@@ -2,7 +2,9 @@ package com.project.api.services;
 
 import com.project.api.dtos.AccountDTO;
 import com.project.api.dtos.AccountDetailDTO;
+import com.project.api.dtos.ProductFindAllDTO;
 import com.project.api.entities.Account;
+import com.project.api.entities.Product;
 
 import java.util.List;
 
@@ -20,4 +22,5 @@ public interface AccountService {
     AccountDetailDTO findById(Integer accountId);
     Account register(String email, String password, String fullName, String phoneNumber);
 
+    List<ProductFindAllDTO> findAllWishlists(Integer accountId);
 }

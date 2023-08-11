@@ -141,7 +141,7 @@ CREATE TABLE [AccountAddress] (
 
 DROP TABLE IF EXISTS [AccountCoupon];
 CREATE TABLE [AccountCoupon] (
-	[coupon_id] INT IDENTITY,
+	[coupon_id] INT NOT NULL,
 	[account_id] INT NOT NULL,
 	[is_used] BIT NOT NULL,
 	PRIMARY KEY  ([coupon_id],[account_id]),

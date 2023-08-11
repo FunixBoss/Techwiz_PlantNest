@@ -72,8 +72,8 @@ public class Account implements java.io.Serializable {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
 	private Set<Order> orders = new HashSet<Order>(0);
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account", cascade = CascadeType.ALL)
-	private Set<Cart> carts = new HashSet<Cart>(0);
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "account", cascade = CascadeType.ALL)
+	private Cart cart;
 
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account", cascade = CascadeType.ALL)
@@ -95,7 +95,7 @@ public class Account implements java.io.Serializable {
 
 	public Account(Image image, Role role, String password, String fullName, String email,
 			String phoneNumber, Date createdAt, Date updatedAt, Set<Address> addresses,
-			Set<ProductReview> productReviews, Set<Order> orders, Set<Cart> carts,
+			Set<ProductReview> productReviews, Set<Order> orders, Cart cart,
 			Set<AccountCoupon> accountCoupons) {
 		this.image = image;
 		this.role = role;
@@ -108,7 +108,7 @@ public class Account implements java.io.Serializable {
 		this.addresses = addresses;
 		this.productReviews = productReviews;
 		this.orders = orders;
-		this.carts = carts;
+		this.cart = cart;
 		this.accountCoupons = accountCoupons;
 	}
 

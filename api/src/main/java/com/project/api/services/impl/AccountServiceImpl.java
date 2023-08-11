@@ -5,6 +5,7 @@ import com.project.api.entities.Account;
 import com.project.api.repositories.AccountRepository;
 import com.project.api.repositories.RoleRepository;
 import com.project.api.services.AccountService;
+import com.project.api.services.ProductService;
 import com.project.api.utilities.ImageUploadUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -207,6 +208,19 @@ public class AccountServiceImpl implements AccountService {
         account.setRole(roleRepository.findById(2).get());
 //        account.setAuthorities(Role.ROLE_USER.getAuthorities());
         return accountRepository.save(account);
+    }
+
+    @Override
+    public List<ProductFindAllDTO> findAllWishlists(Integer accountId) {
+        try {
+            Account account = accountRepository.findById(accountId).get();
+            return account.getWishlists().stream()
+                    .map(ProductFindAllDTO::new)
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
     }
 
 

@@ -6,7 +6,7 @@ import { NbWindowRef, NbWindowService } from "@nebular/theme";
 @Component({
     selector: 'ngx-catalog-custom-action',
     template: `
-        <div class="row no-gutters">
+        <div class="row no-gutters  d-flex justify-content-center">
             <div class="col-lg-6  d-flex justify-content-center">
                 <button nbButton status="warning" (click)="onEdit($event)">
                     <nb-icon icon="edit-2-outline"></nb-icon>

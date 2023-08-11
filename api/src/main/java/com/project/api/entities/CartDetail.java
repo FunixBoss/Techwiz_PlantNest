@@ -4,6 +4,7 @@ package com.project.api.entities;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -42,24 +43,30 @@ public class CartDetail implements java.io.Serializable {
 	@Column(name = "quantity", nullable = false)
 	private int quantity;
 
-	@Column(name = "price", nullable = false, precision = 18)
-	private BigDecimal price;
-
 	public CartDetail() {
 	}
 
-	public CartDetail(Cart cart, Product product, int quantity, BigDecimal price) {
+	public CartDetail(Cart cart, Product product, int quantity) {
 		this.cart = cart;
 		this.product = product;
 		this.quantity = quantity;
-		this.price = price;
 	}
 
-	public CartDetail(Cart cart, Product product, ProductVariant productVariant, int quantity, BigDecimal price) {
+	public CartDetail(Product product, ProductVariant productVariant, int quantity) {
+		this.product = product;
+		this.productVariant = productVariant;
+		this.quantity = quantity;
+	}
+
+	public CartDetail(Cart cart, Product product, ProductVariant productVariant, int quantity) {
 		this.cart = cart;
 		this.product = product;
 		this.productVariant = productVariant;
 		this.quantity = quantity;
-		this.price = price;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(cartDetailId);
 	}
 }

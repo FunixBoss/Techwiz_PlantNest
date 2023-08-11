@@ -123,9 +123,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row d-flex justify-content-center">
-                                    <div class="col-8 d-flex justify-content-center">
-                                        <ngx-images-carousel></ngx-images-carousel>
+                                <div class="col-12">
+                                    <div class="row align-item-center justify-content-center">
+                                        <div class="col-8 align-item-center justify-content-center border border-primary"  style="height: 300px">
+                                            <ngx-images-carousel></ngx-images-carousel>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -294,9 +296,13 @@
                                     <label class="custom-file-label">Choose image</label>
                                 </div>
                             </div>
-                            <ng-container *ngIf="product.get('imgSizeGuide').value !== null">
-                                <img [src]="product.get('imgSizeGuide').value" class="d-block w-100" alt="Slide Image">
-                            </ng-container>
+                            <div class="row d-flex justify-content-center align-item-center">
+                                <div class="col-8 d-flex justify-content-center align-item-center border border-primary"  style="height: 275px">
+                                    <ng-container *ngIf="product.get('imgSizeGuide').value !== null">
+                                        <img [src]="product.get('imgSizeGuide').value" class="d-block w-100" alt="Slide Image" style="max-height: 275px">
+                                    </ng-container>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-12 d-flex justify-content-center mt-3">
                             <button nbButton nbStepperPrevious>prev</button>
