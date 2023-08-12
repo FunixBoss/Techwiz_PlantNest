@@ -26,6 +26,7 @@ import { ECommerceProgressSectionComponent } from './progress-section/progress-s
 import { SlideOutComponent } from './slide-out/slide-out.component';
 
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { StatusCardComponent } from './status-card/status-card.component';
 
 @NgModule({
   imports: [
@@ -54,6 +55,7 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
     ECommerceChartsPanelComponent,
     ECommerceProgressSectionComponent,
     SlideOutComponent,
+    StatusCardComponent,
   ],
   providers: [
   ],

@@ -6,6 +6,7 @@ import com.project.api.entities.Product;
 import jdk.jfr.Category;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,6 +34,8 @@ public class ProductDetailDTO {
     private Integer totalLikes;
     private Integer totalRating;
     private Double avgRating;
+    private BigDecimal minPrice;
+    private BigDecimal maxPrice;
 
     public ProductDetailDTO(Product product) {
         this.productId = product.getProductId();
