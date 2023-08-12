@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RepositoryRestResource(collectionResourceRel = "productSales", path="product-sales",
         excerptProjection = ProductSaleProjection.class)
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin({"http://localhost:4200", "http://localhost:4300"})
 public interface ProductSaleRepository extends JpaRepository<ProductSale, Integer> {
 }

@@ -27,29 +27,8 @@ export class IndexComponent implements OnInit {
   constructor(
     public apiService: ApiService,
     public utilsService: UtilsService,
-    private modalService: ModalService,
     private productService: ProductService
   ) {
-    this.modalService.openNewsletter();
-
-    // this.apiService.fetchHomeData().subscribe(result => {
-
-    // 	this.products = result.products;
-    // 	this.posts = result.blogs;
-
-    // 	this.topProducts = result.products.filter(
-    //     item=>{
-    //       return item.top == true;
-    //     }
-    //   );
-
-    //   console.log(this.topProducts);
-
-    // 	this.featuredProducts = utilsService.attrFilter(result.products, 'featured');
-    // 	this.loaded = true;
-
-    //   utilsService.scrollToPageContent('home-page');
-    // })
     this.productService.findAll().subscribe((result) => {
       this.products = result;
       // this.posts = result.blogs;

@@ -12,7 +12,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @RepositoryRestResource(collectionResourceRel = "accounts", path="accounts")
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin({"http://localhost:4200", "http://localhost:4300"})
 public interface AccountRepository extends JpaRepository<Account, Integer> {
     boolean existsByEmail(String email);
 

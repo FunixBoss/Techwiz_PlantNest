@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import java.util.List;
 
 @RepositoryRestResource(collectionResourceRel = "products", path="products")
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin({"http://localhost:4200", "http://localhost:4300"})
 public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     @Query("SELECT img.imageUrl FROM Product p JOIN p.images img WHERE p.productId = :productId")

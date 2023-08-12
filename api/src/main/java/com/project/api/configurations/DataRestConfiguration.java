@@ -18,9 +18,6 @@ import java.util.Set;
 
 @Configuration
 public class DataRestConfiguration  implements RepositoryRestConfigurer {
-    @Value("${allowed.origins}")
-    private String[] allowedOrigins;
-
     private EntityManager entityManager;
 
     @Autowired
@@ -34,7 +31,7 @@ public class DataRestConfiguration  implements RepositoryRestConfigurer {
         exposeIds(config);
 
         cors.addMapping("/*")
-                .allowedOrigins("http://localhost:4200")
+                .allowedOrigins("http://localhost:4200", "http://localhost:4300")
                 .allowedMethods("GET", "POST", "PUT", "DELETE");
     }
 

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import java.util.List;
 
 @RepositoryRestResource(collectionResourceRel = "catalogs", path="catalogs" )
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin({"http://localhost:4200", "http://localhost:4300"})
 public interface CatalogRepository extends JpaRepository<Catalog, Integer> {
 
     List<Catalog> findCatalogByParentCatalogIsNull();

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import java.util.List;
 
 @RepositoryRestResource(collectionResourceRel = "productSizes", path="product-sizes")
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin({"http://localhost:4200", "http://localhost:4300"})
 public interface ProductSizeRepository extends JpaRepository<ProductSize, Integer> {
 //    List<ProductSize> findBySizeType(String sizeType);
 }

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import java.util.Date;
 
 @RepositoryRestResource(collectionResourceRel = "orders", path="orders")
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin({"http://localhost:4200", "http://localhost:4300"})
 public interface OrderRepository extends JpaRepository<Order, Integer> {
     Long countByCreatedAtGreaterThanEqualAndCreatedAtLessThan(Date start, Date end);
 

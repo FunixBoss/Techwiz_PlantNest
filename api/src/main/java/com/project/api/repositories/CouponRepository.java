@@ -11,7 +11,7 @@ import java.util.Date;
 
 @RepositoryRestResource(collectionResourceRel = "coupons", path="coupons",
         excerptProjection = CouponProjection.class)
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin({"http://localhost:4200", "http://localhost:4300"})
 public interface CouponRepository extends JpaRepository<Coupon, Integer> {
 
     boolean existsByCode(String code);

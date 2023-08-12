@@ -52,7 +52,6 @@ import { CountToComponent } from './components/count-to/count-to.component';
 import { QuickViewComponent } from './components/modals/quick-view/quick-view.component';
 import { QuickViewTwoComponent } from './components/modals/quick-view-two/quick-view-two.component';
 import { VideoModalComponent } from './components/modals/video-modal/video-modal.component';
-import { NewsletterModalComponent } from './components/modals/newsletter-modal/newsletter-modal.component';
 import { LoginModalComponent } from './components/modals/login-modal/login-modal.component';
 import { IsotopeGridComponent } from './components/isotope-grid/isotope-grid.component';
 import { ImageComponent } from './components/image/image.component';
@@ -109,7 +108,6 @@ import { PostFourComponent } from './components/blog-post/post-four/post-four.co
 		PageHeaderComponent,
 		QuickViewComponent,
 		QuickViewTwoComponent,
-		NewsletterModalComponent,
 		LoginModalComponent,
 		VideoModalComponent,
 		QuantityInputComponent,
@@ -172,7 +170,7 @@ import { PostFourComponent } from './components/blog-post/post-four/post-four.co
 		ProductTenComponent,
 		ProductElevenComponent,
 		ProductTwelveComponent,
-		
+
 		ProductThirteenComponent,
 
 		// // single-use components
@@ -209,7 +207,6 @@ import { PostFourComponent } from './components/blog-post/post-four/post-four.co
 		VideoModalComponent,
 		QuickViewComponent,
 		QuickViewTwoComponent,
-		NewsletterModalComponent,
 		LoginModalComponent
 	]
 })
