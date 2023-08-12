@@ -8,6 +8,7 @@ import { ProductReview } from "../product/product-review.model";
 
 export class Account {
     id: number
+    username: string;
     password?: string;   
     fullName: string;
     email: string;

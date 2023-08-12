@@ -1,8 +1,13 @@
 <div class="product mb-0 rounded-0 w-100">
   <figure class="product-media bg-white">
+    <span class="product-label label-sale" *ngIf="product.sale">
+      Sale {{
+        (product.productSale.productSaleType.typeName == 'Fixed' ?
+        "$" + product.productSale.discount :
+        product.productSale.discount + "%") }}
+    </span>
     <span class="product-label label-new" *ngIf="product.new_">New</span>
-    <span class="product-label label-sale" *ngIf="product.sale">Sale</span>
-    <span class="product-label label-top" *ngIf="product.top">Top</span>
+    <span class="product-label label-top" style="margin-top: 2px" *ngIf="product.top">Top</span>
 
 
     <a [routerLink]="['/product/default/']">
@@ -10,15 +15,15 @@
       </molla-image>
     </a>
 
-    <a href="javascript:;" class="btn-product-zoom btn-quickview" title="Quick view"
-      (click)="quickView( $event )"><span>quick view</span></a>
   </figure>
 
   <div class="product-body position-static bg-transparent">
     <div class="product-cat overflow-hidden my-2 mt-0 font-weight-normal">
       <span>
-        <a [routerLink]="['/shop/sidebar/list']" [queryParams]="{category: product.productName}">{{
-          product.productName}}</a> </span>
+        <a [routerLink]="['/shop/sidebar/list']" [queryParams]="{category: product.productName}">
+          {{ product.catalog.catalogName }}
+        </a>
+      </span>
     </div>
 
     <h3 class="product-title overflow-hidden letter-spacing-normal">
@@ -26,31 +31,35 @@
     </h3>
 
     <div class="product-price font-weight-bold align-items-center d-flex mb-0">
-      ${{minPrice}}&ndash;${{maxPrice}}</div>
+      <ng-container *ngIf="hasOnlyOnePrice; else elseBlock">
+        <ng-container *ngIf="product.productSale === null; else discountBlock">
+          {{ maxPrice | currency: 'USD'}}
+        </ng-container>
+        <ng-template #discountBlock>
+          <span style="text-decoration: line-through; font-weight: bold; color: grey">
+            {{ maxPrice | currency: 'USD' }}
+          </span>
+          <span>
+            {{ " - "}}
+          </span>
+          <span>
+            {{
+              (product.productSale.productSaleType.typeName == 'Fixed' ?
+                product.minPrice - product.productSale.discount :
+                product.minPrice * (1 - product.productSale.discount/100)) | currency: 'USD'
+            }}
+          </span>
+        </ng-template>
+      </ng-container>
+      <ng-template #elseBlock>
+        {{minPrice | currency: 'USD'}}&ndash;{{maxPrice | currency: 'USD'}}
+      </ng-template>
+    </div>
   </div>
 
-  <!-- <ng-template #elseBlock>
-    <div class="product-price font-weight-bold align-items-center d-flex mb-0"
-      *ngIf="minPrice == maxPrice else elseBlock">${{ minPrice.toFixed(2) }}</div>
-    <ng-template #elseBlock>
-      <div class="product-price font-weight-bold align-items-center d-flex mb-0"
-        *ngIf="product.variants.length == 0 else elseBlock">
-        <span class="new-price">${{ minPrice.toFixed(2) }}</span>
-        <span class="old-price">${{ maxPrice.toFixed(2) }}</span>
-      </div>
-      <ng-template #elseBlock>
-        <div class="product-price font-weight-bold align-items-center d-flex mb-0">
-          ${{minPrice.toFixed(2)}}&ndash;${{maxPrice.toFixed(2)}}</div>
-      </ng-template>
-    </ng-template>
-  </ng-template> -->
-
-  <!-- <div class="product-sold position-absolute" *ngIf="isShownSold">
-    <div class="product-sold-val" [style.width]="( product.totalSold) * 100 + '%'">
-    </div>
-  </div> -->
-  <span class="sold-text font-weight-normal text-light position-absolute" *ngIf="isShownSold">Sold: {{ product.totalSold
-    }}</span>
+  <span class="sold-text font-weight-normal text-light position-absolute" *ngIf="isShownSold">
+    Sold: {{ product.totalSold }}
+  </span>
   <div class="product-footer bg-white rounded-0 d-block position-absolute">
     <div class="ratings-container text-truncate">
       <div class="ratings">
@@ -65,8 +74,6 @@
         (click)="addToWishlist($event)">
         <span class="border-0"><i class="icon-heart-o"></i>{{ isInWishlist() ? 'Go' : 'Add' }} to Wishlist</span>
       </button>
-
-      
     </div>
   </div>
 </div>

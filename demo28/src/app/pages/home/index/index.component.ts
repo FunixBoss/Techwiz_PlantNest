@@ -31,7 +31,6 @@ export class IndexComponent implements OnInit {
   ) {
     this.productService.findAll().subscribe((result) => {
       this.products = result;
-      // this.posts = result.blogs;
       this.topProducts = result.filter((item) => {
         return item.top == true;
       });
@@ -41,7 +40,7 @@ export class IndexComponent implements OnInit {
       this.loaded = true;
     });
     console.log();
-    
+
   }
 
   ngOnInit(): void {}

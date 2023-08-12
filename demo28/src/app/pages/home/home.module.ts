@@ -8,14 +8,12 @@ import { SharedModule } from '../../shared/shared.module';
 
 import { IndexComponent } from './index/index.component';
 import { TrendyCollectionComponent } from './trendy-collection/trendy-collection.component';
-import { BlogCollectionComponent } from './blog-collection/blog-collection.component';
 import { RecommendCollectionComponent } from './recommend-collection/recommend-collection.component';
 
 @NgModule({
 	declarations: [
 		IndexComponent,
 		TrendyCollectionComponent,
-		BlogCollectionComponent,
 		RecommendCollectionComponent
 	],
 

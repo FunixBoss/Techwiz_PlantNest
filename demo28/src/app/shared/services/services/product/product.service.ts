@@ -8,7 +8,6 @@ import { Subject } from 'rxjs';
 import { Product } from 'src/app/shared/models/product/product.model';
 import { ProductSale } from 'src/app/shared/models/sale/product-sale.model';
 import { ProductSize } from 'src/app/shared/models/product/product-size.model';
-import { ProductColor } from 'src/app/shared/models/product/product-color.model';
 
 export class ToastState {
   bahavior: String;
@@ -183,46 +182,18 @@ export class ProductService {
       .pipe(map((colors) => removeDuplicateSize(colors)));
   }
 
-  findColorFromSize(
-    productId: number,
-    productSize: ProductSize
-  ): Observable<ProductColor[]> {
-    let formData: FormData = new FormData();
-    formData.append('productId', productId.toString());
-    formData.append('sizeJson', JSON.stringify(productSize));
-    const url: string = `${this.baseUrlService.baseURL}/products/findColorsBySizeAndId`;
-    return this.httpClient.post<ProductColor[]>(url, formData);
-  }
-
   findPrice(
     productId: number,
     productSize: ProductSize,
-    productColor: ProductColor
   ): Observable<number | null> {
     let formData: FormData = new FormData();
     formData.append('productId', productId.toString());
     formData.append('sizeJson', JSON.stringify(productSize));
-    formData.append('colorJson', JSON.stringify(productColor));
 
     const url: string = `${this.baseUrlService.baseURL}/products/findPrice`;
     return this.httpClient.post<number>(url, formData);
   }
 
-  findMaxQuantity(
-    productId: number,
-    productSize: ProductSize,
-    productColor: ProductColor,
-    price: number
-  ): Observable<number> {
-    let formData: FormData = new FormData();
-    formData.append('productId', productId.toString());
-    formData.append('sizeJson', JSON.stringify(productSize));
-    formData.append('colorJson', JSON.stringify(productColor));
-    formData.append('price', JSON.stringify(price));
-
-    const url: string = `${this.baseUrlService.baseURL}/products/findMaxQuantity`;
-    return this.httpClient.post<number>(url, formData);
-  }
 }
 
 export function removeDuplicateSize(sizes: ProductSize[]): ProductSize[] {

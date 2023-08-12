@@ -21,7 +21,9 @@
       <div class="product-body product-action-inner">
         <div class="product-cat">
           <span>
-            <a [routerLink]="['/shop/sidebar/list']" [queryParams]="{category: product.category}">categorynaem</a>
+            <a [routerLink]="['/shop/sidebar/list']" [queryParams]="{catalog: product.catalog}">
+              {{product.catalog.catalogName}}
+            </a>
           </span>
         </div>
 

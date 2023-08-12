@@ -78,10 +78,10 @@
 
   <div class="product-details-footer">
     <div class="product-cat w-100 text-truncate">
-      <span>Category:</span>
+      <span>Catalog:</span>
       <span>
-        <a [routerLink]="['/shop/sidebar/list']" [queryParams]="{category: product.category}">{{
-          product.category.categoryName
+        <a [routerLink]="['/shop/sidebar/list']" [queryParams]="{catalog: product.catalog.catalogName}">{{
+          product.catalog.catalogName
           }}</a></span>
     </div>
 

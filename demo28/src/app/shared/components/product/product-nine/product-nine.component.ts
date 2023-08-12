@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 
 import { ModalService } from 'src/app/shared/services/modal.service';
 import { CartService } from 'src/app/shared/services/cart.service';
-import { WishlistService } from 'src/app/shared/services/wishlist.service';
 import { CompareService } from 'src/app/shared/services/compare.service';
 
 import { environment } from 'src/environments/environment';

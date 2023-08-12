@@ -3,12 +3,10 @@ import { Paging } from "../response-page";
 export class ProductSize {
     productSizeId: number;
     sizeName: string;
-    sizeType: string;
 
-    constructor(productSizeId: number, sizeName: string, sizeType: string) {
+    constructor(productSizeId: number, sizeName: string) {
         this.productSizeId = productSizeId
-        this.sizeName = sizeName,
-        this.sizeType = sizeType
+        this.sizeName = sizeName
     }
 }
 
