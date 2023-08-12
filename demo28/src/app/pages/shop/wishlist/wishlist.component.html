@@ -30,7 +30,8 @@
                         <tr>
                             <th>Product</th>
                             <th>Price</th>
-                            <th>Stock Status</th>
+                            <th>Catalog</th>
+                            <th>Difficulty</th>
                             <th></th>
                             <th></th>
                         </tr>
@@ -41,21 +42,23 @@
                             <td class="product-col">
                                 <div class="product">
                                     <figure class="product-media">
-                                        <a [routerLink]="['/product/default/'+ product.slug]">
-                                            <molla-image [src]="SERVER_URL + product.sm_pictures[0].url" alt="Product">
+                                        <a [routerLink]="['/product/default/']">
+                                            <molla-image [src]="PRODUCT_IMAGE_DIRECTORY + product.imageUrl" alt="Product">
                                             </molla-image>
                                         </a>
                                     </figure>
 
                                     <h3 class="product-title">
-                                        <a [routerLink]="['/product/default/'+ product.slug]">{{ product.name }}</a>
+                                        <a [routerLink]="['/product/default/']">{{ product.productName }}</a>
                                     </h3>
                                 </div>
                             </td>
                             <td class="price-col">
                                 <div class="product-price d-inline-block mb-0"
                                     *ngIf="!product.stock || product.stock == 0 else elseBlock">
-                                    <span class="out-price">${{ product.price.toFixed(2) }}</span>
+                                    <span class="out-price">
+                                        ${{product.minPrice}}&ndash;${{product.maxPrice}}
+                                    </span>
                                 </div>
 
                                 <ng-template #elseBlock>
@@ -78,17 +81,21 @@
                                 </ng-template>
                             </td>
                             <td class="stock-col">
-                                <span class="in-stock" *ngIf="product.stock > 0">In stock</span>
-                                <span class="out-of-stock" *ngIf="product.stock < 1">Out of stock</span>
+                                <span class="in-stock" >{{product.catalog.catalogName}}</span>
+                                <!-- <span class="out-of-stock" *ngIf="product.stock < 1">Out of stock</span> -->
                             </td>
                             <td class="action-col">
-                                <button class="btn btn-block btn-outline-primary-2" *ngIf="product.stock > 0"
+                                {{product.plantingDifficultyLevel.level}}
+                             </td>
+                            <td class="action-col">
+                                <button class="btn btn-block btn-outline-primary-2" 
                                     (click)="wishlistService.moveToCart( product )"><i class="icon-cart-plus"></i>Add to
                                     Cart</button>
                                 <button class="btn btn-block btn-outline-primary-2 disabled"
                                     *ngIf="product.stock < 1">Out
                                     of Stock</button>
                             </td>
+                           
                             <td class="remove-col"><button class="btn-remove"
                                     (click)="wishlistService.removeFromWishList( product )"><i
                                         class="icon-close"></i></button></td>
@@ -98,6 +105,7 @@
                 <div class="wishlist-share">
                     <div class="social-icons social-icons-sm mb-2">
                         <label class="social-label">Share on:</label>
+                        <button (click)="wishlistService.test(wishItems[0])">click</button>
                         <a href="javascript:;" class="social-icon" title="Facebook"><i class="icon-facebook-f"></i></a>
                         <a href="javascript:;" class="social-icon" title="Twitter"><i class="icon-twitter"></i></a>
                         <a href="javascript:;" class="social-icon" title="Instagram"><i class="icon-instagram"></i></a>
