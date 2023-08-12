@@ -13,6 +13,7 @@ import { Product } from '../models/product/product.model';
 import { HttpClient } from '@angular/common/http';
 import { CartRequest } from '../models/cart/cartRequest.model';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ProductVariant } from '../models/product/product-variant.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -80,9 +81,42 @@ export class Wishlist2Service {
 
   // Product moved from Wishlist to Cart
   moveToCart(product): void {
-    this.store.dispatch(new RemoveFromWishListAction({ product }));
-    this.store.dispatch(new AddToCartAction({ product, qty: 1 }));
-    this.toastrService.success('Product moved to Cart.');
+    console.log(product);
+    
+    const accountId = this.accountId; // Thay thế bằng accountId thích hợp
+    const productId = product.productId;
+
+    // API URL for removing product from wishlist
+    const removeWishlistUrl = `${this._removeWishlistURL}?accountId=${accountId}&productId=${productId}`;
+    
+    // API URL for adding product to cart
+    const addToCartUrl = `http://localhost:9090/api/carts/add`;
+    const requestBody:CartRequest = {
+      accountId: accountId,
+      productId: productId,
+      productVariantId: product.ProductVariant.productVariantId,
+      quantity: 1, // Số lượng sản phẩm bạn muốn thêm vào giỏ hàng (1 trong trường hợp này)
+    };
+
+    // Gửi API để xóa sản phẩm khỏi danh sách yêu thích
+    this.httpClient.get(removeWishlistUrl).subscribe(
+      () => { 
+        // Xóa sản phẩm khỏi wishlist thành công, bây giờ thêm sản phẩm vào giỏ hàng
+        this.httpClient.post(addToCartUrl, requestBody).subscribe(
+          () => {
+            // Thêm sản phẩm vào giỏ hàng thành công
+            
+            this.toastrService.success('Product moved to Cart.');
+          },
+          (error) => {
+            console.error('Error while adding product to Cart:', error);
+          }
+        );
+      },
+      (error) => {
+        console.error('Error while removing product from Wishlist:', error);
+      }
+    );
   }
 
   // Check whether product is in Wishlist or not

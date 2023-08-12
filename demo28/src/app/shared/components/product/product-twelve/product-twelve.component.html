@@ -61,16 +61,12 @@
     </div>
     <div class="product-action d-flex justify-content-center flex-column align-items-center position-relative">
       <button
-        class="btn btn-product font-weight-normal text-uppercase text-truncate btn-cart btn-outline-primary-2 btn-outline-primary-2"
-        (click)="addToCart($event)">
-        <span class="border-0">add to cart</span>
+        class="btn btn-product font-weight-normal text-uppercase text-truncate  btn-outline-primary-2 btn-outline-primary-2"
+        (click)="addToWishlist($event)">
+        <span class="border-0"><i class="icon-heart-o"></i>{{ isInWishlist() ? 'Go' : 'Add' }} to Wishlist</span>
       </button>
 
-      <a href="javascript:;" class="wishlist-link-product px-3 ml-0 font-weight-normal mt-1"
-        [class.added-to-wishlist]="isInWishlist()" (click)="addToWishlist($event)">
-        <span><i class="icon-heart-o"></i> {{ isInWishlist() ? 'Go' : 'Add' }} to Wishlist</span>
-      </a>
+      
     </div>
   </div>
 </div>
-<!-- </div> -->

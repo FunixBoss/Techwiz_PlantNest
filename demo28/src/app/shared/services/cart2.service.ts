@@ -35,17 +35,34 @@ export class Cart2Service {
     this.getCartItems(this.accountId).subscribe((result) => {
       this.cartItems = result.cartDetails;
   
-      this.cartItems2.next(result.cartDetails);
+      // this.cartItems2.next(result.cartDetails);
+
+      // this.cartItems = result.cartDetails;
   
+      
+      this.cartItems = this.cartItems.reduce((acc, cur) => {
+        acc.push({
+          ...cur,
+          sum: cur.quantity * cur.productVariant.price
+        });
+        return acc;
+      }, [])
+      this.cartItems2.next(this.cartItems);
+      console.log(this.cartItems);
+      
+
+
+
+
       this.qtyTotal.next(
         this.cartItems.reduce((acc, cur) => {
-          return acc + cur.productVariant.quantity;
+          return acc + cur.quantity;
         }, 0)
       );
   
       this.priceTotal.next(
         this.cartItems.reduce((acc, cur) => {
-          return acc + cur.productVariant.price;
+          return acc + cur.productVariant.price * cur.quantity;
         }, 0)
       );
     });
@@ -60,14 +77,35 @@ export class Cart2Service {
     return this.httpClient.get<any>(url);
   }
   // Product Add to Cart
-  addToCart(product: Product, qty = 1) {
+  addToCart(product, qty = 1) {
+
+    console.log(product);
+    
     if (this.canAddToCart(product, qty)) {
-      this.store.dispatch(new AddToCartAction({ product, qty }));
-      this.toastrService.success('Product added to Cart.');
+      const addToCartUrl = `${this._baseURL}/add`;
+      const requestBody = {
+        accountId: this.accountId,
+        productId: product.productId,
+        productVariantId: product.productVariantId,
+        quantity: qty,
+      };
+
+      this.httpClient.post(addToCartUrl, requestBody).subscribe(
+        () => {
+          this.store.dispatch(new AddToCartAction({ product, qty }));
+          this.toastrService.success('Product added to Cart.');
+        },
+        (error) => {
+          console.error('Error while adding product to Cart:', error);
+          this.toastrService.error("Failed to add product to Cart. Please try again later.");
+        }
+      );
     } else {
       this.toastrService.error("Sorry, you can't add that amount to the cart.");
     }
   }
+
+
 
   // Product Removed from the Cart
   removeFromCart(product) {
@@ -113,6 +151,7 @@ export class Cart2Service {
 
   // Check where product could be added to the cart
   canAddToCart(product: Product, qty = 1) {
+
     var find = this.cartItems.find((item) => item.id == product.id);
 
     if (find) {
@@ -128,4 +167,7 @@ export class Cart2Service {
       else return true;
     }
   }
+
+
+  
 }

@@ -27,6 +27,8 @@ export class WishlistComponent implements OnInit, OnDestroy {
 		this.subscr = this.wishlistService.wishlistStream.subscribe(items => {
 			this.wishItems = items;
 		  });
+		  console.log(this.wishItems);
+		  
 		// this.subscr = this.wishlistService.wishlistStream.subscribe(items => {
 		// 	this.wishItems = items.reduce((acc, product) => {
 		// 		let max = 0;

@@ -9,6 +9,7 @@ import { CompareService } from 'src/app/shared/services/compare.service';
 import { environment } from 'src/environments/environment';
 import { Product } from 'src/app/shared/models/product/product.model';
 import { Wishlist2Service } from 'src/app/shared/services/wishlist2.service';
+import { Cart2Service } from 'src/app/shared/services/cart2.service';
 
 @Component({
   selector: 'molla-product-twelve',
@@ -29,7 +30,7 @@ export class ProductTwelveComponent implements OnInit {
   constructor(
     private router: Router,
     private modalService: ModalService,
-    private cartService: CartService,
+    private cartService: Cart2Service,
     private wishlistService: Wishlist2Service,
     private compareService: CompareService
   ) {}
@@ -54,7 +55,7 @@ export class ProductTwelveComponent implements OnInit {
 
   addToCart(event: Event) {
     event.preventDefault();
-    // this.cartService.addToCart(this.product);
+    this.cartService.addToCart(this.product);
   }
 
   addToWishlist(event: Event) {

@@ -29,12 +29,12 @@ export class CartComponent implements OnInit, OnDestroy {
 		
 		this.subscr = this.cartService.cartItems2.subscribe(items => {
 			this.cartItems = items;
+			console.log(this.cartItems);
 		  });
 
 		  this.cartService.priceTotal.subscribe(items => {
 			this.total = items
 		  });
-		  console.log(this.cartItems);
 		  
 	}
 
@@ -63,20 +63,28 @@ export class CartComponent implements OnInit, OnDestroy {
 		this.shippingCost = value;
 	}
 
+		ngOnChanges(){
+
+		}
+
 	onChangeQty(event: number, product: any) {
+		
 		document.querySelector('.btn-cart-update.disabled') && document.querySelector('.btn-cart-update.disabled').classList.remove('disabled');
 
 		this.cartItems = this.cartItems.reduce((acc, cur) => {
-			if (cur.name === product.name) {
+
+			if (cur.product.productName === product.product.productName) {
 				acc.push({
 					...cur,
 					qty: event,
-					sum: (cur.sale_price ? cur.sale_price : cur.price) * event
+					sum: cur.productVariant.price * event
 				});
 			}
 			else acc.push(cur);
-
+			
 			return acc;
 		}, [])
+		this.cartService.cartItems2.next(this.cartItems);
+		
 	}
 }
