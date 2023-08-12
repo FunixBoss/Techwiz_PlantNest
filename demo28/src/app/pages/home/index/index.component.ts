@@ -40,6 +40,8 @@ export class IndexComponent implements OnInit {
       });
       this.loaded = true;
     });
+    console.log();
+    
   }
 
   ngOnInit(): void {}

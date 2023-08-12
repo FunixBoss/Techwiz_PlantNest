@@ -69,9 +69,7 @@ public class ProductServiceImpl implements ProductService {
             pro.setTotalRating(productRepository.countTotalRating(pro.getProductId()));
             pro.setAvgRating(productRepository.countAvgRating(pro.getProductId()));
 
-            List<BigDecimal> minAndMaxPrice = findMinAndMaxPrice(pro.getProductId());
-            pro.setMinPrice(minAndMaxPrice.get(0));
-            pro.setMaxPrice(minAndMaxPrice.get(1));
+
         });
         return products;
     }

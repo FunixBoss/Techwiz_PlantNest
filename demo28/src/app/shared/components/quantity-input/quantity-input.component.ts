@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { CartService } from '../../services/cart.service';
 
 @Component( {
 	selector: 'molla-quantity-input',
@@ -15,7 +16,7 @@ export class QuantityInputComponent implements OnInit, OnChanges {
 
 	current = 1;
 
-	constructor () {
+	constructor ( private cartService:CartService) {
 		this.changeQty = new EventEmitter<number>();
 	}
 
@@ -29,7 +30,6 @@ export class QuantityInputComponent implements OnInit, OnChanges {
 	increment () {
 		if ( this.max <= 0 || this.current >= this.max )
 			return;
-
 		this.current++;
 		this.changeQty.emit( this.current );
 	}

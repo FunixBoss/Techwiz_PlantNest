@@ -26,7 +26,7 @@ public class CartController {
         }
     }
 
-    @GetMapping("add")
+    @PostMapping("add")
     public ResponseEntity<Boolean> add(@RequestBody CartRequestDTO item) {
         try {
             Boolean result = cartService.save(item.getAccountId(), item.getProductId(), item.getProductVariantId(), item.getQuantity());

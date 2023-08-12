@@ -21,9 +21,7 @@
       <div class="product-body product-action-inner">
         <div class="product-cat">
           <span>
-            <a [routerLink]="['/shop/sidebar/list']" [queryParams]="{category: product.category}">{{
-              product.category.categoryName
-              }}</a>
+            <a [routerLink]="['/shop/sidebar/list']" [queryParams]="{category: product.category}">categorynaem</a>
           </span>
         </div>
 
@@ -44,7 +42,7 @@
     <div class="col-lg-3 col-md-3 col-6 order-md-last order-lg-last">
       <div class="product-list-action">
         <div class="product-price">
-          <span class="product-price">${{minPrice.toFixed(2)}}&ndash;${{maxPrice.toFixed(2)}}</span>
+          <span class="product-price">${{minPrice}}&ndash;${{maxPrice}}</span>
         </div>
 
         <!-- <ng-template #elseBlock>
@@ -72,7 +70,7 @@
         <div class="product-action">
           <a href="javascript:;" class="btn-product btn-quickview" title="Quick view"
             (click)="quickView($event)"><span>Quick view</span></a>
-          <a href="javascript:;" class="btn-product btn-wishlist" [class.added-to-wishlist]="isInWishlist()"
+          <a href="javascript:;"  class="btn-product btn-wishlist" [class.added-to-wishlist]="isInWishlist()"
             (click)="addToWishlist($event)"><span>Wishlist</span></a>
         </div>
         <button class="btn-product btn-cart" (click)="addToCart($event)">

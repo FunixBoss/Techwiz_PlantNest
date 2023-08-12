@@ -17,6 +17,7 @@ export class TrendyCollectionComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    
   }
 
 }

@@ -53,7 +53,5 @@ export class WishlistService {
   isInWishlist(product: Product): boolean {
     return this.wishlist.find((item) => item.id == product.id) ? true : false;
   }
-  // isInWishlist2(product: Product): boolean {
-  //   return this.wishlist.find((item) => item.id == product.id) ? true : false;
-  // }
+ 
 }

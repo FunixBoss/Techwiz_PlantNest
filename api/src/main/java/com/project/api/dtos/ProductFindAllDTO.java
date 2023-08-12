@@ -4,7 +4,10 @@ import com.project.api.entities.*;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 @Data
 public class ProductFindAllDTO {
@@ -46,7 +49,35 @@ public class ProductFindAllDTO {
         this.sale = product.getSale();
         this.top = product.getTop();
         this.new_ = product.getNew_();
+        List<BigDecimal> minAndMaxPrice = findMinAndMaxPrice(product);
+        this.minPrice = minAndMaxPrice.get(0);
+        this.maxPrice = minAndMaxPrice.get(1);
         this.createdAt = product.getCreatedAt();
         this.updatedAt = product.getUpdatedAt();
     }
+
+    private List<BigDecimal> findMinAndMaxPrice(Product product) {
+        BigDecimal minPrice = BigDecimal.valueOf(10000);
+        BigDecimal maxPrice = BigDecimal.valueOf(0);
+        Set<ProductVariant> variants = product.getProductVariants();
+
+        if(variants.size() == 1) {
+            minPrice = variants.iterator().next().getPrice();
+            maxPrice = variants.iterator().next().getPrice();
+        } else if (variants.size() > 1) {
+            for (ProductVariant variant : variants) {
+                int compareValue = variant.getPrice().compareTo(minPrice);
+                if(compareValue == - 1) {
+                    minPrice = variant.getPrice();
+                } else if (compareValue == 1) {
+                    maxPrice = variant.getPrice();
+                }
+            }
+        }
+        List<BigDecimal> minAndMax = new ArrayList<>();
+        minAndMax.add(minPrice);
+        minAndMax.add(maxPrice);
+        return  minAndMax;
+    }
+
 }
