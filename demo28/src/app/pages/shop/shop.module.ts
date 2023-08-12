@@ -16,6 +16,7 @@ import { ShopSidebarThreeComponent } from './shared/sidebar/shop-sidebar-three/s
 import { ShopListOneComponent } from './shared/list/shop-list-one/shop-list-one.component';
 import { ShopListTwoComponent } from './shared/list/shop-list-two/shop-list-two.component';
 import { ShopListThreeComponent } from './shared/list/shop-list-three/shop-list-three.component';
+import { CartComponent } from './cart/cart.component';
 
 @NgModule( {
 	declarations: [
@@ -27,6 +28,7 @@ import { ShopListThreeComponent } from './shared/list/shop-list-three/shop-list-
 		ShopListOneComponent,
 		ShopListTwoComponent,
 		ShopListThreeComponent,
+    CartComponent
 	],
 	imports: [
 		CommonModule,
