@@ -3,18 +3,17 @@ import { Store, select } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, BehaviorSubject } from 'rxjs';
 
-import { Product } from '../classes/product';
 import { wishlistSelector } from 'src/app/core/selectors/selectors';
 import {
   AddToWishListAction,
   RemoveFromWishListAction,
   AddToCartAction,
 } from 'src/app/core/actions/actions';
-
+import { Product } from '../models/product/product.model';
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
-export class WishlistService {
+export class Wishlist2Service {
   wishlist = [];
   wishlistStream: Subject<any> = new BehaviorSubject([]);
   wishlistQty: Subject<number> = new BehaviorSubject(0);
@@ -30,7 +29,7 @@ export class WishlistService {
 
   // Product add to Wishlist
   addToWishList(product): void {
-    if (this.wishlist.findIndex((item) => item.id === product.id) === -1) {
+    if (this.wishlist.findIndex((item) => item.id === product.productId) === -1) {
       this.store.dispatch(new AddToWishListAction({ product }));
       this.toastrService.success('Product added to Wishlist.');
     }
@@ -51,7 +50,6 @@ export class WishlistService {
 
   // Check whether product is in Wishlist or not
   isInWishlist(product: Product): boolean {
-    return this.wishlist.find((item) => item.id == product.id) ? true : false;
+    return this.wishlist.find((item) => item.id == product.productId) ? true : false;
   }
- 
 }

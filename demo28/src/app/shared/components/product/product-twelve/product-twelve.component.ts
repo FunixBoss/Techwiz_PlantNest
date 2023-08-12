@@ -34,6 +34,7 @@ export class ProductTwelveComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    
     // this.product.variants.map((item) => {
     //   if (min > item.price) min = item.price;
     //   if (max < item.price) max = item.price;
