@@ -14,7 +14,7 @@ import { Cart2Service } from 'src/app/shared/services/cart2.service';
 })
 
 export class CartComponent implements OnInit, OnDestroy {
-
+	accountId=1;
 	cartItems = [];
 	SERVER_URL = environment.SERVER_URL;
 	shippingCost = 0;
@@ -29,7 +29,6 @@ export class CartComponent implements OnInit, OnDestroy {
 		
 		this.subscr = this.cartService.cartItems2.subscribe(items => {
 			this.cartItems = items;
-			console.log(this.cartItems);
 		  });
 
 		  this.cartService.priceTotal.subscribe(items => {
@@ -71,7 +70,7 @@ export class CartComponent implements OnInit, OnDestroy {
 		
 		document.querySelector('.btn-cart-update.disabled') && document.querySelector('.btn-cart-update.disabled').classList.remove('disabled');
 
-		this.cartItems = this.cartItems.reduce((acc, cur) => {
+		this.cartItems = this.cartService.cartItems.reduce((acc, cur) => {
 
 			if (cur.product.productName === product.product.productName) {
 				acc.push({
@@ -79,12 +78,28 @@ export class CartComponent implements OnInit, OnDestroy {
 					qty: event,
 					sum: cur.productVariant.price * event
 				});
+				//update db
+				this.cartService.updateCart(product,event)
 			}
 			else acc.push(cur);
 			
 			return acc;
 		}, [])
 		this.cartService.cartItems2.next(this.cartItems);
-		
+		this.updatePriceCart(this.cartItems);
+
 	}
+	
+	updatePriceCart(cartItems){
+		const newTotalQuantity = this.cartItems.reduce(
+			(acc, cur) => acc + cur.qty,
+			0
+		  );
+		  const newTotalPrice = this.cartItems.reduce(
+			(acc, cur) => acc + cur.sum,
+			0
+		  );
+		  this.cartService.qtyTotal.next(newTotalQuantity);
+		  this.cartService.priceTotal.next(newTotalPrice);
+	  }
 }
