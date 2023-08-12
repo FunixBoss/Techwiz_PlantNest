@@ -25,11 +25,7 @@ export class WishlistComponent implements OnInit, OnDestroy {
 
 	ngOnInit(): void {
 		this.subscr = this.wishlistService.wishlistStream.subscribe(items => {
-			console.log(items);
-			
-			this.wishItems = items.map(product => ({
-			  ...product,
-			}));
+			this.wishItems = items;
 		  });
 		// this.subscr = this.wishlistService.wishlistStream.subscribe(items => {
 		// 	this.wishItems = items.reduce((acc, product) => {
@@ -58,7 +54,6 @@ export class WishlistComponent implements OnInit, OnDestroy {
 		// 		];
 		// 	}, []);
 		// });
-		console.log(this.wishItems);
 		
 	
 	}

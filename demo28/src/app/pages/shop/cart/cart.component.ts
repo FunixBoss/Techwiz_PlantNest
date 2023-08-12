@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { CartService } from 'src/app/shared/services/cart.service';
 
 import { environment } from 'src/environments/environment';
+import { Cart2Service } from 'src/app/shared/services/cart2.service';
 
 @Component({
 	selector: 'shop-cart-page',
@@ -17,16 +18,24 @@ export class CartComponent implements OnInit, OnDestroy {
 	cartItems = [];
 	SERVER_URL = environment.SERVER_URL;
 	shippingCost = 0;
-
+	PRODUCT_IMAGE_DIRECTORY: string = 'http://localhost:9090/assets/upload/product/' 
+	total =0 ;
 	private subscr: Subscription;
 
-	constructor(private store: Store<any>, public cartService: CartService) {
+	constructor(private store: Store<any>, public cartService: Cart2Service) {
 	}
 
 	ngOnInit() {
-		this.subscr = this.cartService.cartStream.subscribe(items => {
+		
+		this.subscr = this.cartService.cartItems2.subscribe(items => {
 			this.cartItems = items;
-		});
+		  });
+
+		  this.cartService.priceTotal.subscribe(items => {
+			this.total = items
+		  });
+		  console.log(this.cartItems);
+		  
 	}
 
 	ngOnDestroy() {
@@ -40,13 +49,14 @@ export class CartComponent implements OnInit, OnDestroy {
 
 	updateCart(event: any) {
 		event.preventDefault();
-		event.target.parentElement.querySelector('.icon-refresh').classList.add('load-more-rotating');
 
-		setTimeout(() => {
-			this.cartService.updateCart(this.cartItems);
-			event.target.parentElement.querySelector('.icon-refresh').classList.remove('load-more-rotating');
-			document.querySelector('.btn-cart-update:not(.diabled)') && document.querySelector('.btn-cart-update').classList.add('disabled');
-		}, 400);
+		// event.target.parentElement.querySelector('.icon-refresh').classList.add('load-more-rotating');
+
+		// setTimeout(() => {
+		// 	this.cartService.updateCart(this.cartItems);
+		// 	event.target.parentElement.querySelector('.icon-refresh').classList.remove('load-more-rotating');
+		// 	document.querySelector('.btn-cart-update:not(.diabled)') && document.querySelector('.btn-cart-update').classList.add('disabled');
+		// }, 400);
 	}
 
 	changeShipping(value: number) {

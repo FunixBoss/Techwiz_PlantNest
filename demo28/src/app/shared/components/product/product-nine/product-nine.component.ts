@@ -8,6 +8,7 @@ import { CompareService } from 'src/app/shared/services/compare.service';
 
 import { environment } from 'src/environments/environment';
 import { Product } from 'src/app/shared/models/product/product.model';
+import { Wishlist2Service } from 'src/app/shared/services/wishlist2.service';
 
 @Component({
   selector: 'molla-product-nine',
@@ -27,7 +28,7 @@ export class ProductNineComponent implements OnInit {
     private router: Router,
     private modalService: ModalService,
     private cartService: CartService,
-    private wishlistService: WishlistService,
+    private wishlistService: Wishlist2Service,
     private compareService: CompareService
   ) {}
 
@@ -67,7 +68,6 @@ export class ProductNineComponent implements OnInit {
   }
 
   isInWishlist() {
-    // return this.wishlistService.isInWishlist(this.product);
-    return true;
+    return this.wishlistService.isInWishlist(this.product);
   }
 }

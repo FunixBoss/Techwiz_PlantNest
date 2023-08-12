@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { CartService } from 'src/app/shared/services/cart.service';
+import { Cart2Service } from 'src/app/shared/services/cart2.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -11,12 +12,16 @@ import { environment } from 'src/environments/environment';
 
 export class CartMenuComponent implements OnInit {
 
-	SERVER_URL = environment.SERVER_URL;
+	PRODUCT_IMAGE_DIRECTORY: string = 'http://localhost:9090/assets/upload/product/' 
+	total =0 ;
+	quantity=0;
+	constructor(public cartService: Cart2Service) {
 
-	constructor(public cartService: CartService) {
 	}
 
 	ngOnInit(): void {
+		
+		
 	}
 
 	removeFromCart(event: Event, product: any) {

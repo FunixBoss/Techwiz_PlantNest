@@ -35,11 +35,16 @@ public class CartServiceImpl implements CartService {
     @Override
     public CartDTO findAll(Integer accountId) {
         Account account = accountRepository.findById(accountId).get();
+        Cart cart = account.getCart();
 
         if(account.getCart() != null) {
             return new CartDTO(account.getCart());
         } else {
-            return null;
+            cart = new Cart();
+            cart.setCartId(account.getId());
+            cart.setUpdatedAt(new Date());
+            cart.setCreatedAt(new Date());
+            return new CartDTO(cartRepository.save(cart));
         }
     }
 

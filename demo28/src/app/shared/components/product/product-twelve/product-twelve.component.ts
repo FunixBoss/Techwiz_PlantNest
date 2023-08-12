@@ -8,6 +8,7 @@ import { CompareService } from 'src/app/shared/services/compare.service';
 
 import { environment } from 'src/environments/environment';
 import { Product } from 'src/app/shared/models/product/product.model';
+import { Wishlist2Service } from 'src/app/shared/services/wishlist2.service';
 
 @Component({
   selector: 'molla-product-twelve',
@@ -29,7 +30,7 @@ export class ProductTwelveComponent implements OnInit {
     private router: Router,
     private modalService: ModalService,
     private cartService: CartService,
-    private wishlistService: WishlistService,
+    private wishlistService: Wishlist2Service,
     private compareService: CompareService
   ) {}
 
@@ -58,13 +59,12 @@ export class ProductTwelveComponent implements OnInit {
 
   addToWishlist(event: Event) {
     event.preventDefault();
-    console.log(event);
 
-    // if (this.isInWishlist()) {
-    //   this.router.navigate(['/shop/wishlist']);
-    // } else {
-    //   this.wishlistService.addToWishList(this.product);
-    // }
+    if (this.isInWishlist()) {
+      this.router.navigate(['/shop/wishlist']);
+    } else {
+      this.wishlistService.addToWishList(this.product);
+    }
   }
 
   addToCompare(event: Event) {
@@ -83,7 +83,6 @@ export class ProductTwelveComponent implements OnInit {
   }
 
   isInWishlist() {
-    // return this.wishlistService.isInWishlist(this.product);
-    return true;
+    return this.wishlistService.isInWishlist(this.product);
   }
 }
