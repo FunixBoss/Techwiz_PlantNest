@@ -14,6 +14,7 @@ import {
   UpdateCartAction,
 } from 'src/app/core/actions/actions';
 import { HttpClient } from '@angular/common/http';
+import { ProductVariant } from '../models/product/product-variant.model';
 
 @Injectable({
   providedIn: 'root',
@@ -68,8 +69,21 @@ export class Cart2Service {
     });
   }
   
-
-
+  updateCart(product, qty = 1) {
+      const addToCartUrl = `${this._baseURL}/add`;
+      
+      const requestBody = {
+        accountId: this.accountId,
+        productId: product.product.productId,
+        productVariantId: product.productVariant.productVariantId,
+        quantity: qty,  
+      };
+      
+      this.httpClient.post(addToCartUrl, requestBody).subscribe(
+        () => {}
+      );
+    
+  }
  
   
   getCartItems(accountId: number): Observable<any> {
@@ -79,8 +93,6 @@ export class Cart2Service {
   // Product Add to Cart
   addToCart(product, qty = 1) {
 
-    console.log(product);
-    
     if (this.canAddToCart(product, qty)) {
       const addToCartUrl = `${this._baseURL}/add`;
       const requestBody = {
@@ -93,7 +105,7 @@ export class Cart2Service {
       this.httpClient.post(addToCartUrl, requestBody).subscribe(
         () => {
           this.store.dispatch(new AddToCartAction({ product, qty }));
-          this.toastrService.success('Product added to Cart.');
+          this.toastrService.success('Success');
         },
         (error) => {
           console.error('Error while adding product to Cart:', error);
@@ -138,11 +150,7 @@ export class Cart2Service {
   }
 
   
-  // Cart update
-  updateCart(cartItems: CartItem[]) {
-    this.store.dispatch(new UpdateCartAction({ cartItems }));
-    this.toastrService.success('Cart Updated.');
-  }
+  
 
   // Check whether product is in Cart or not
   isInCart(product: Product): boolean {
@@ -155,16 +163,9 @@ export class Cart2Service {
     var find = this.cartItems.find((item) => item.id == product.id);
 
     if (find) {
-      if (
-        product.stock == 0 ||
-        (product.stock && product.stock < find.qty + qty)
-      )
-        return false;
-      else return true;
+        return true;
     } else {
-      if (product.stock == 0 || (product.stock && product.stock < qty))
         return false;
-      else return true;
     }
   }
 
