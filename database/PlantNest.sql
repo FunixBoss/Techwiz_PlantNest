@@ -302,21 +302,19 @@ CREATE TABLE [Wishlist] (
 -- CART
 DROP TABLE IF EXISTS [Cart];
 CREATE TABLE [Cart] (
-	[cart_id] INT PRIMARY KEY  IDENTITY,
-	[account_id] INT NOT NULL,
+	[cart_id] INT PRIMARY KEY,
 	[created_at] DATETIME DEFAULT CURRENT_TIMESTAMP,
 	[updated_at] DATETIME DEFAULT CURRENT_TIMESTAMP,
-	CONSTRAINT [cart_ibfk_1] FOREIGN KEY ([account_id]) REFERENCES [Account] ([id])
+	CONSTRAINT [cart_ibfk_1] FOREIGN KEY ([cart_id]) REFERENCES [Account] ([id])
 ) 
 
 DROP TABLE IF EXISTS [CartDetail];
 CREATE TABLE [CartDetail] (
 	[cart_detail_id] INT PRIMARY KEY IDENTITY,
-	[product_id] INT NOT NULL,
-	[quantity] INT NOT NULL,
-	[price] decimal(18,2) NOT NULL,
 	[cart_id] INT NOT NULL,
+	[product_id] INT NOT NULL,
 	[product_variant_id] INT,
+	[quantity] INT NOT NULL,
 	CONSTRAINT [cart_detail_ibfk_1] FOREIGN KEY ([product_variant_id]) REFERENCES [ProductVariant] ([product_variant_id]),
 	CONSTRAINT [cart_detail_ibfk_2] FOREIGN KEY ([cart_id]) REFERENCES [Cart] ([cart_id]),
 	CONSTRAINT [cart_detail_ibfk_3] FOREIGN KEY ([product_id]) REFERENCES [Product] ([product_id])
