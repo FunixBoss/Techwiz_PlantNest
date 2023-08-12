@@ -12,7 +12,7 @@ import { Component, Input } from '@angular/core';
 
     <div class="details">
       <div class="title h5">{{ title }}</div>
-      <div class="status paragraph-2">{{ on ? 'ON' : 'OFF' }}</div>
+      <div class="status paragraph-2">{{ value }}</div>
     </div>
   </nb-card>
 `,  styleUrls: ['./status-card.component.scss']
@@ -20,6 +20,7 @@ import { Component, Input } from '@angular/core';
 export class StatusCardComponent {
 
   @Input() title: string;
+  @Input() value: number;
   @Input() type: string;
   @Input() on = true;
   

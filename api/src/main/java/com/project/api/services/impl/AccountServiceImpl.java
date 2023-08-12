@@ -223,5 +223,10 @@ public class AccountServiceImpl implements AccountService {
         }
     }
 
+    @Override
+    public Long count() {
+        return accountRepository.count();
+    }
+
 
 }

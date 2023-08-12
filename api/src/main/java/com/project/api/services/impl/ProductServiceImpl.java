@@ -327,7 +327,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductFindAllDTO> findByNameKeyword(String keyword) {
         try {
-            return  productRepository.findByProductNameStartingWith(keyword).stream()
+            return productRepository.findByProductNameStartingWith(keyword.toLowerCase()).stream()
                     .map(ProductFindAllDTO::new).collect(Collectors.toList());
         } catch (Exception e) {
             e.printStackTrace();
@@ -412,6 +412,11 @@ public class ProductServiceImpl implements ProductService {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public Long count() {
+        return productRepository.count();
     }
 
     private List<BigDecimal> findMinAndMaxPrice(Integer productId) {

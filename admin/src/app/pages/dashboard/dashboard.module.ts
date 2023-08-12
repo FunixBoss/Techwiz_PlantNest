@@ -16,13 +16,11 @@ import { ThemeModule } from '../../@theme/theme.module';
 import { DashboardComponent } from './dashboard.component';
 import { ECommerceChartsPanelComponent } from './charts-panel/charts-panel.component';
 import { OrdersChartComponent } from './charts-panel/charts/orders-chart.component';
-import { ProfitChartComponent } from './charts-panel/charts/profit-chart.component';
 import { ChartPanelHeaderComponent } from './charts-panel/chart-panel-header/chart-panel-header.component';
 import { ChartPanelSummaryComponent } from './charts-panel/chart-panel-summary/chart-panel-summary.component';
 import { ChartModule } from 'angular2-chartjs';
 
 import { ECommerceLegendChartComponent } from './charts-panel/legend-chart/legend-chart.component';
-import { ECommerceProgressSectionComponent } from './progress-section/progress-section.component';
 import { SlideOutComponent } from './slide-out/slide-out.component';
 
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
@@ -50,10 +48,8 @@ import { StatusCardComponent } from './status-card/status-card.component';
     ChartPanelHeaderComponent,
     ChartPanelSummaryComponent,
     OrdersChartComponent,
-    ProfitChartComponent,
     ECommerceLegendChartComponent,
     ECommerceChartsPanelComponent,
-    ECommerceProgressSectionComponent,
     SlideOutComponent,
     StatusCardComponent,
   ],

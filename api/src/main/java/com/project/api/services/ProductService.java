@@ -31,5 +31,6 @@ public interface ProductService {
     Integer findMaxQuantity(Integer productId, ProductSize productSize, BigDecimal price);
     List<ProductReviewDTO> findProductReviews(Integer productId);
     Integer countTotalComments(Integer productId);
+    Long count();
 
 }

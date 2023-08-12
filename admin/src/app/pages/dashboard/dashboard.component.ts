@@ -1,49 +1,59 @@
-import { Component } from '@angular/core';
+import { OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
 import { takeWhile } from 'rxjs/operators';
+import { AccountService } from '../../@core/services/account/account.service';
+import { ProductService } from '../../@core/services/product/product.service';
+import { OrderService } from '../../@core/services/order/order.service';
+import { forkJoin } from 'rxjs';
 
 
 interface CardSettings {
   title: string;
   iconClass: string;
   type: string;
+  value: number;
 }
 
 @Component({
   selector: 'ngx-dashboad',
   templateUrl: './dashboard.component.html',
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit, OnDestroy{
   private alive = true;
 
-  lightCard: CardSettings = {
+  accountCard: CardSettings = {
     title: 'Registered Users',
     iconClass: 'person-add-outline',
     type: 'primary',
+    value: 0
   };
-  rollerShadesCard: CardSettings = {
+  productCard: CardSettings = {
     title: 'Total Products',
-    iconClass: 'nb-roller-shades',
+    iconClass: 'archive-outline',
     type: 'success',
+    value: 0
   };
-  wirelessAudioCard: CardSettings = {
-    title: 'Total Orders',
+  orderCard: CardSettings = {
+    title: 'Completed Orders',
     iconClass: 'file-text-outline',
     type: 'info',
+    value: 0
   };
-  coffeeMakerCard: CardSettings = {
+  soldCard: CardSettings = {
     title: 'Total Sold',
     iconClass: 'car',
     type: 'warning',
+    value: 0
   };
 
   statusCards: string;
 
   commonStatusCardsSet: CardSettings[] = [
-    this.lightCard,
-    this.rollerShadesCard,
-    this.wirelessAudioCard,
-    this.coffeeMakerCard,
+    this.accountCard,
+    this.productCard,
+    this.orderCard,
+    this.soldCard,
   ];
 
   statusCardsByThemes: {
@@ -56,26 +66,31 @@ export class DashboardComponent {
     cosmic: this.commonStatusCardsSet,
     corporate: [
       {
-        ...this.lightCard,
+        ...this.accountCard,
         type: 'warning',
       },
       {
-        ...this.rollerShadesCard,
+        ...this.productCard,
         type: 'primary',
       },
       {
-        ...this.wirelessAudioCard,
+        ...this.orderCard,
         type: 'danger',
       },
       {
-        ...this.coffeeMakerCard,
+        ...this.soldCard,
         type: 'info',
       },
     ],
     dark: this.commonStatusCardsSet,
   };
 
-  constructor(private themeService: NbThemeService) {
+  constructor(
+    private themeService: NbThemeService,
+    private accountService: AccountService,
+    private productService: ProductService,
+    private orderService: OrderService
+    ) {
     this.themeService.getJsTheme()
       .pipe(takeWhile(() => this.alive))
       .subscribe(theme => {
@@ -83,6 +98,19 @@ export class DashboardComponent {
     });
   }
 
+  ngOnInit() {
+    const account$ = this.accountService.count()
+    const product$ = this.productService.count()
+    const order$ = this.orderService.count()
+    const sold$ = this.orderService.countSold()
+
+    forkJoin([account$, product$, order$, sold$]).subscribe(([accountData, productData, orderData, soldData]) => {
+      this.accountCard.value = accountData
+      this.productCard.value = productData
+      this.orderCard.value = orderData
+      this.soldCard.value = soldData
+    })
+  }
   ngOnDestroy() {
     this.alive = false;
   }

@@ -2,7 +2,6 @@ import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { takeWhile } from 'rxjs/operators';
 
 import { OrdersChartComponent } from './charts/orders-chart.component';
-import { ProfitChartComponent } from './charts/profit-chart.component';
 import { OrdersChart } from '../../../@core/models/chart/orders-chart';
 import { ProfitChart } from '../../../@core/models/chart/profit-chart';
 import { OrderProfitChart } from '../../../@core/models/chart/orders-profit-chart';
@@ -20,10 +19,8 @@ export class ECommerceChartsPanelComponent implements OnDestroy {
   chartPanelSummary: OrderProfitChart[];
   period: string = 'week';
   ordersChartData: OrdersChart;
-  profitChartData: ProfitChart;
 
   @ViewChild('ordersChart', { static: true }) ordersChart: OrdersChartComponent;
-  @ViewChild('profitChart', { static: true }) profitChart: ProfitChartComponent;
 
   constructor(private ordersProfitChartService: OrdersProfitChartService) {
     this.ordersProfitChartService.getOrderProfitChart()
@@ -33,7 +30,6 @@ export class ECommerceChartsPanelComponent implements OnDestroy {
       });
 
     this.getOrdersChartData(this.period);
-    this.getProfitChartData(this.period);
   }
 
   setPeriodAndGetChartData(value: string): void {
@@ -42,15 +38,6 @@ export class ECommerceChartsPanelComponent implements OnDestroy {
     }
 
     this.getOrdersChartData(value);
-    this.getProfitChartData(value);
-  }
-
-  changeTab(selectedTab) {
-    if (selectedTab.tabTitle === 'Profit') {
-      this.profitChart.resizeChart();
-    } else {
-      this.ordersChart.resizeChart();
-    }
   }
 
   getOrdersChartData(period: string) {
@@ -58,14 +45,6 @@ export class ECommerceChartsPanelComponent implements OnDestroy {
       .pipe(takeWhile(() => this.alive))
       .subscribe(ordersChartData => {
         this.ordersChartData = ordersChartData;
-      });
-  }
-
-  getProfitChartData(period: string) {
-    this.ordersProfitChartService.getProfitChartData(period)
-      .pipe(takeWhile(() => this.alive))
-      .subscribe(profitChartData => {
-        this.profitChartData = profitChartData;
       });
   }
 

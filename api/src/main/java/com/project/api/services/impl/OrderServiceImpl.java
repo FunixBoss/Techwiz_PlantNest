@@ -147,4 +147,72 @@ public class OrderServiceImpl implements OrderService {
             return false;
         }
     }
+
+    @Override
+    public Long countCompleted() {
+        try {
+            return (long) orderRepository.findAll()
+                    .stream()
+                    .filter(order -> order.getOrderStatus().getStatusName().equals("Completed"))
+                    .collect(Collectors.toList())
+                    .size();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0L;
+        }
+    }
+
+    @Override
+    public Long countProductSold() {
+        try {
+            return (long) orderRepository.findAll()
+                    .stream()
+                    .filter(order -> order.getOrderStatus().getStatusName().equals("Completed"))
+                    .mapToInt(order -> {
+                        return order.getOrderDetails().stream()
+                                .mapToInt(OrderDetail::getQuantity)
+                                .sum();
+                    })
+                    .sum();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0L;
+        }
+    }
+
+    @Override
+    public Long countOrdersLastMonth() {
+        Date currentDate = new Date();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currentDate);
+        calendar.add(Calendar.MONTH, -1);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        Date startOfMonth = calendar.getTime();
+
+        calendar.add(Calendar.MONTH, 1);
+        Date startOfNextMonth = calendar.getTime();
+
+        return orderRepository.countByCreatedAtGreaterThanEqualAndCreatedAtLessThan(startOfMonth, startOfNextMonth);
+    }
+
+    @Override
+    public Long countOrdersThisWeek() {
+        Date currentDate = new Date();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currentDate);
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        Date startOfWeek = calendar.getTime();
+
+        calendar.add(Calendar.DAY_OF_WEEK, 6);
+        Date endOfWeek = calendar.getTime();
+
+        return orderRepository.countByCreatedAtGreaterThanEqualAndCreatedAtLessThan(startOfWeek, endOfWeek);
+    }
+
+    @Override
+    public Long countOrdersToday() {
+        return orderRepository.countByCreatedAt(new Date());
+    }
 }

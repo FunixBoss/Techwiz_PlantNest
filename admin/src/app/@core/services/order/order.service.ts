@@ -93,4 +93,29 @@ export class OrderService {
       })
     );
   }
+
+  count(): Observable<number> {
+    const url: string = `${this.baseUrlService.baseURL}/orders/count`
+    return this.httpClient.get<number>(url)
+  }
+
+  countOrdersLastMonth(): Observable<number> {
+    const url: string = `${this.baseUrlService.baseURL}/orders/countOrdersLastMonth`
+    return this.httpClient.get<number>(url)
+  }
+
+  countOrdersThisWeek(): Observable<number> {
+    const url: string = `${this.baseUrlService.baseURL}/orders/countOrdersThisWeek`
+    return this.httpClient.get<number>(url)
+  }
+
+  countOrdersToday(): Observable<number> {
+    const url: string = `${this.baseUrlService.baseURL}/orders/countOrdersToday`
+    return this.httpClient.get<number>(url)
+  }
+
+  countSold(): Observable<number> {
+    const url: string = `${this.baseUrlService.baseURL}/orders/countProductSold`
+    return this.httpClient.get<number>(url)
+  }
 }

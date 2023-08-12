@@ -182,4 +182,9 @@ export class ProductService {
     const url: string = `${this.baseUrlService.baseURL}/products/findPrice`
     return this.httpClient.post<number>(url, formData); 
   }
+
+  count(): Observable<number> {
+    const url: string = `${this.baseUrlService.baseURL}/products/count`
+    return this.httpClient.get<number>(url)
+  }
 }

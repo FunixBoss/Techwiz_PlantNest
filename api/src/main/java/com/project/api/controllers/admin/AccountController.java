@@ -140,4 +140,12 @@ public class AccountController {
         }
     }
 
+    @GetMapping("count")
+    public ResponseEntity<Long> countAccounts() {
+        try {
+            return new ResponseEntity<>(this.accountService.count(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }

@@ -24,8 +24,7 @@ export class AccountService {
   constructor(
     private baseUrlService: BaseURLService,
     private httpClient: HttpClient,
-  ) {
-  }
+  ) { }
 
   findAll(): Observable<Account[]> {
     const url: string = `${this.baseUrlService.baseURL}/accounts/findAll`
@@ -90,6 +89,11 @@ export class AccountService {
   findAllAddress(): Observable<Address[]> {
     const url: string = `${this.baseUrlService.baseURL}/address`
     return this.httpClient.get<Address[]>(url)
+  }
+
+  count(): Observable<number> {
+    const url: string = `${this.baseUrlService.baseURL}/accounts/count`
+    return this.httpClient.get<number>(url)
   }
 
 }

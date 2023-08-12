@@ -17,4 +17,11 @@ public interface OrderService {
     Boolean insert(OrderRequestDTO order);
     Boolean updateStatus(Order order, OrderStatus orderStatus);
     Boolean updateStatus(List<Order> orders, OrderStatus orderStatus);
+    Long countCompleted();
+    Long countProductSold();
+    Long countOrdersLastMonth();
+    Long countOrdersThisWeek();
+
+    Long countOrdersToday();
+
 }

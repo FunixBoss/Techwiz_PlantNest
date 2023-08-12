@@ -9,8 +9,12 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import java.util.Date;
+
 @RepositoryRestResource(collectionResourceRel = "orders", path="orders")
 @CrossOrigin("http://localhost:4200")
 public interface OrderRepository extends JpaRepository<Order, Integer> {
+    Long countByCreatedAtGreaterThanEqualAndCreatedAtLessThan(Date start, Date end);
 
+    Long countByCreatedAt(Date today);
 }

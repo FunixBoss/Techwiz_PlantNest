@@ -81,5 +81,52 @@ public class OrderController {
         }
     }
 
+    @GetMapping("count")
+    public ResponseEntity<Long> count() {
+        try {
+            return new ResponseEntity<>(orderService.countCompleted(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("countProductSold")
+    public ResponseEntity<Long> countProductSold() {
+        try {
+            return new ResponseEntity<>(orderService.countProductSold(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+    @GetMapping("countOrdersLastMonth")
+    public ResponseEntity<Long> countOrdersLastMonth() {
+        try {
+            return new ResponseEntity<>(orderService.countOrdersLastMonth(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("countOrdersThisWeek")
+    public ResponseEntity<Long> countOrdersThisWeek() {
+        try {
+            return new ResponseEntity<>(orderService.countOrdersThisWeek(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("countOrdersToday")
+    public ResponseEntity<Long> countOrdersToday() {
+        try {
+            return new ResponseEntity<>(orderService.countOrdersThisWeek(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
 
 }

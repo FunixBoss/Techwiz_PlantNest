@@ -21,6 +21,6 @@ public interface AccountService {
     Account save(Account account);
     AccountDetailDTO findById(Integer accountId);
     Account register(String email, String password, String fullName, String phoneNumber);
-
     List<ProductFindAllDTO> findAllWishlists(Integer accountId);
+    Long count();
 }
