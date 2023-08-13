@@ -95,43 +95,24 @@ export const brands = [
 
 export const members = [
     {
-        img: "assets/images/team/about-2/member-1.jpg",
-        name: "Samanta Grey",
+        img: "assets/images/members/hung.png",
+        name: "Phi Hùng",
         title: "Founder & CEO"
     },
     {
-        img: "assets/images/team/about-2/member-2.jpg",
-        name: "Bruce Sutton",
+        img: "assets/images/members/khanh.png",
+        name: "Mỹ Khánh",
         title: "Sales & Marketing Manager"
     },
     {
-        img: "assets/images/team/about-2/member-3.jpg",
-        name: "Janet Joy",
-        title: "Product Manager"
+        img: "assets/images/members/hanh.png",
+        name: "Ngọc Hạnh",
+        title: "Ngọc Hạnh"
     },
     {
-        img: "assets/images/team/about-2/member-4.jpg",
-        name: "Mark Pocket",
+        img: "assets/images/members/phu.png",
+        name: "Mạnh Phú",
         title: "Product Manager"
     },
-    {
-        img: "assets/images/team/about-2/member-5.jpg",
-        name: "Damion Blue",
-        title: "Sales & Marketing Manager"
-    },
-    {
-        img: "assets/images/team/about-2/member-6.jpg",
-        name: "Lenard Smith",
-        title: "Product Manager"
-    },
-    {
-        img: "assets/images/team/about-2/member-7.jpg",
-        name: "Rachel Green",
-        title: "Product Manager"
-    },
-    {
-        img: "assets/images/team/about-2/member-8.jpg",
-        name: "David Doe",
-        title: "Product Manager"
-    }
+    
 ]
