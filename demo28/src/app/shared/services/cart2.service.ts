@@ -93,28 +93,24 @@ export class Cart2Service {
   // Product Add to Cart
   addToCart(product, qty = 1) {
 
-    if (this.canAddToCart(product, qty)) {
       const addToCartUrl = `${this._baseURL}/add`;
       const requestBody = {
         accountId: this.accountId,
         productId: product.productId,
-        productVariantId: product.productVariantId,
+        productVariantId: product.productVariants[0].productVariantId,
         quantity: qty,
       };
-
+      console.log(requestBody);
+      
       this.httpClient.post(addToCartUrl, requestBody).subscribe(
         () => {
-          this.store.dispatch(new AddToCartAction({ product, qty }));
           this.toastrService.success('Success');
         },
         (error) => {
-          console.error('Error while adding product to Cart:', error);
           this.toastrService.error("Failed to add product to Cart. Please try again later.");
         }
       );
-    } else {
-      this.toastrService.error("Sorry, you can't add that amount to the cart.");
-    }
+    
   }
 
 

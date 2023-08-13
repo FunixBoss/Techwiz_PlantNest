@@ -93,6 +93,9 @@ export class ProductDetailComponent implements OnInit {
       return;
 
     let newProduct = { ...this.product };
+    console.log(this.product);
+    
+    this.cart2Service.addToCart(this.product);
     // if (this.product.variants.length > 0) {
     //   newProduct = {
     //     ...this.product,
