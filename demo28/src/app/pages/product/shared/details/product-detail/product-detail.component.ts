@@ -12,6 +12,7 @@ import { WishlistService } from 'src/app/shared/services/wishlist.service';
 import { CompareService } from 'src/app/shared/services/compare.service';
 import { environment } from 'src/environments/environment';
 import { Product } from 'src/app/shared/models/product/product.model';
+import { Cart2Service } from 'src/app/shared/services/cart2.service';
 
 declare var $: any;
 @Component({
@@ -42,6 +43,7 @@ export class ProductDetailComponent implements OnInit {
 
   constructor(
     public cartService: CartService,
+    public cart2Service: Cart2Service,
     public wishlistService: WishlistService,
     public compareService: CompareService,
     public router: Router,
