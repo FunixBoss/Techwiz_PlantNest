@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { LayoutComponent } from './shared/layout/layout.component';
 import { IndexComponent } from './pages/home/index/index.component';
+import { InfoComponent } from './pages/others/info/info.component';
 
 const routes: Routes = [
 	{
@@ -13,6 +14,10 @@ const routes: Routes = [
 				path: '',
 				pathMatch: 'full',
 				component: IndexComponent
+			},
+			{
+				path: 'info',
+				component: InfoComponent
 			},
 			{
 				path: 'elements',
