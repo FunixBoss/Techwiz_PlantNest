@@ -100,8 +100,7 @@ export class Cart2Service {
         productVariantId: product.productVariants[0].productVariantId,
         quantity: qty,
       };
-      console.log(requestBody);
-      
+            
       this.httpClient.post(addToCartUrl, requestBody).subscribe(
         () => {
           this.toastrService.success('Success');
