@@ -13,12 +13,14 @@ import { SharedModule } from '../../shared/shared.module';
 import { AboutTwoPageComponent } from './about-two/about-two.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ContactOnePageComponent } from './contact-one/contact-one.component';
+import { InfoComponent } from './info/info.component';
 
 @NgModule( {
 	declarations: [
 		AboutTwoPageComponent,
 		PageNotFoundComponent,
 		ContactOnePageComponent,
+  InfoComponent,
 	],
 
 	imports: [

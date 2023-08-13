@@ -4,7 +4,7 @@
   "homepage": "https://d-themes.com/angular/molla/demo28",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve -o --configuration=production --port=4300",
+    "start": "set NODE_OPTIONS=--openssl-legacy-provider && ng serve -o --configuration=production ",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
