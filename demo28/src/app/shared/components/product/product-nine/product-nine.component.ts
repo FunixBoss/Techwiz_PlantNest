@@ -19,6 +19,9 @@ export class ProductNineComponent implements OnInit {
 
   maxPrice = 0;
   minPrice = 99999;
+  hasOnlyOnePrice: boolean = true;
+
+
   PRODUCT_IMAGE_DIRECTORY: string =
     'http://localhost:9090/assets/upload/product/';
   SERVER_URL = environment.SERVER_URL;
@@ -34,11 +37,8 @@ export class ProductNineComponent implements OnInit {
   ngOnInit(): void {
     this.minPrice = this.product.minPrice;
     this.maxPrice = this.product.maxPrice;
-  }
+    this.hasOnlyOnePrice = (this.minPrice == this.maxPrice)
 
-  addToCart(event: Event) {
-    event.preventDefault();
-    // this.cartService.addToCart(this.product);
   }
 
   addToWishlist(event: Event) {
@@ -49,21 +49,6 @@ export class ProductNineComponent implements OnInit {
     } else {
       this.wishlistService.addToWishList(this.product);
     }
-  }
-
-  addToCompare(event: Event) {
-    event.preventDefault();
-    // if (this.isInCompare()) return;
-    // this.compareService.addToCompare(this.product);
-  }
-
-  quickView(event: Event) {
-    event.preventDefault();
-    // this.modalService.showQuickView(this.product);
-  }
-
-  isInCompare() {
-    // return this.compareService.isInCompare(this.product);
   }
 
   isInWishlist() {

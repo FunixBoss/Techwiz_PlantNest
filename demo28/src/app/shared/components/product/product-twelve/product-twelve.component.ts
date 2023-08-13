@@ -44,10 +44,6 @@ export class ProductTwelveComponent implements OnInit {
     }
   }
 
-  addToCompare(event: Event) {
-    event.preventDefault();
-  }
-
   isInWishlist() {
     return this.wishlistService.isInWishlist(this.product);
   }

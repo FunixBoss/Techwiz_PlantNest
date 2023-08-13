@@ -2,17 +2,21 @@
   <div class="row pr-2">
     <div class="col-lg-3 col-md-3 col-6">
       <figure class="product-media">
+        <span class="product-label label-sale" *ngIf="product.sale">
+          Sale
+          {{
+            (product.productSale.productSaleType.typeName == 'Fixed' ?
+            "$" + product.productSale.discount :
+            product.productSale.discount + "%") }}
+          </span>
         <span class="product-label label-new" *ngIf="product.new_">New</span>
-        <span class="product-label label-sale" *ngIf="product.sale">Sale</span>
-        <span class="product-label label-top" *ngIf="product.top">Top</span>
+        <span class="product-label label-top" style="margin-top: 30px" *ngIf="product.top">Top</span>
 
 
         <a [routerLink]="['/product/default/']">
           <molla-image [src]="PRODUCT_IMAGE_DIRECTORY + product.imageUrl" alt="Product" [width]="" [height]=""
             class="product-image" fixedPt="100%">
           </molla-image>
-          <!-- <molla-image [src]="SERVER_URL + product.imageUrl" alt="Product" class="product-image-hover"
-            *ngIf="product.sm_pictures[1]" fixedPt="100%"></molla-image> -->
         </a>
       </figure>
     </div>
@@ -32,9 +36,7 @@
         </h3>
 
         <div class="product-content">
-          <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias nesciunt minus, non porro consequatur
-            architecto enim repellat commodi itaque est magnam mollitia eos quam, soluta doloremque perspiciatis
-            eligendi dolores nulla?</p>
+          <p [innerHTML]="product.description"></p>
         </div>
 
 
@@ -44,23 +46,32 @@
     <div class="col-lg-3 col-md-3 col-6 order-md-last order-lg-last">
       <div class="product-list-action">
         <div class="product-price">
-          <span class="product-price">${{minPrice}}&ndash;${{maxPrice}}</span>
-        </div>
-
-        <!-- <ng-template #elseBlock>
-          <div class="product-price" *ngIf="minPrice == maxPrice else elseBlock">${{ minPrice.toFixed(2) }}
-          </div>
-          <ng-template #elseBlock>
-            <div class="product-price" *ngIf="product.variants.length == 0 else elseBlock">
-              <span class="new-price">${{ minPrice.toFixed(2) }}</span>
-              <span class="old-price">${{ maxPrice.toFixed(2) }}</span>
-            </div>
+          <span class="product-price">
+            <ng-container *ngIf="hasOnlyOnePrice; else elseBlock">
+              <ng-container *ngIf="product.productSale === null; else discountBlock">
+                {{ maxPrice | currency: 'USD'}}
+              </ng-container>
+              <ng-template #discountBlock>
+                <span style="text-decoration: line-through; font-weight: bold; color: grey">
+                  {{ maxPrice | currency: 'USD' }}
+                </span>
+                <span>
+                  {{ " - "}}
+                </span>
+                <span style="font-weight: bold">
+                  {{
+                    (product.productSale.productSaleType.typeName == 'Fixed' ?
+                    product.minPrice - product.productSale.discount :
+                    product.minPrice * (1 - product.productSale.discount/100)) | currency: 'USD'
+                  }}
+                </span>
+              </ng-template>
+            </ng-container>
             <ng-template #elseBlock>
-              <div class="product-price">${{minPrice.toFixed(2)}}&ndash;${{maxPrice.toFixed(2)}}</div>
+              {{minPrice | currency: 'USD'}}&ndash;{{maxPrice | currency: 'USD'}}
             </ng-template>
-          </ng-template>
-        </ng-template> -->
-
+          </span>
+        </div>
         <div class="ratings-container">
           <div class="ratings">
             <div class="ratings-val" [style.width]="product.avgRating * 20 + '%'"></div>
@@ -70,14 +81,9 @@
         </div>
 
         <div class="product-action">
-          <a href="javascript:;" class="btn-product btn-quickview" title="Quick view"
-            (click)="quickView($event)"><span>Quick view</span></a>
-          <a href="javascript:;"  class="btn-product btn-wishlist" [class.added-to-wishlist]="isInWishlist()"
+          <a href="javascript:;" class="btn-product btn-wishlist" [class.added-to-wishlist]="isInWishlist()"
             (click)="addToWishlist($event)"><span>Wishlist</span></a>
         </div>
-        <button class="btn-product btn-cart" (click)="addToCart($event)">
-          <span>add to cart</span>
-        </button>
 
       </div>
     </div>

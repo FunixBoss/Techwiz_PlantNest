@@ -35,12 +35,12 @@ export class Cart2Service {
   ) {
     this.getCartItems(this.accountId).subscribe((result) => {
       this.cartItems = result.cartDetails;
-  
+
       // this.cartItems2.next(result.cartDetails);
 
       // this.cartItems = result.cartDetails;
-  
-      
+
+
       this.cartItems = this.cartItems.reduce((acc, cur) => {
         acc.push({
           ...cur,
@@ -50,7 +50,7 @@ export class Cart2Service {
       }, [])
       this.cartItems2.next(this.cartItems);
       console.log(this.cartItems);
-      
+
 
 
 
@@ -60,7 +60,7 @@ export class Cart2Service {
           return acc + cur.quantity;
         }, 0)
       );
-  
+
       this.priceTotal.next(
         this.cartItems.reduce((acc, cur) => {
           return acc + cur.productVariant.price * cur.quantity;
@@ -68,30 +68,30 @@ export class Cart2Service {
       );
     });
   }
-  
+
   updateCart(product, qty = 1) {
       const addToCartUrl = `${this._baseURL}/add`;
-      
+
       const requestBody = {
         accountId: this.accountId,
         productId: product.product.productId,
         productVariantId: product.productVariant.productVariantId,
-        quantity: qty,  
+        quantity: qty,
       };
-      
+
       this.httpClient.post(addToCartUrl, requestBody).subscribe(
         () => {}
       );
-    
+
   }
- 
-  
+
+
   getCartItems(accountId: number): Observable<any> {
     const url = `${this._baseURL}/findAll?accountId=${accountId}`;
     return this.httpClient.get<any>(url);
   }
   // Product Add to Cart
-  addToCart(product, qty = 1) {
+  addToCart(product, qty) {
 
     if (this.canAddToCart(product, qty)) {
       const addToCartUrl = `${this._baseURL}/add`;
@@ -101,6 +101,9 @@ export class Cart2Service {
         productVariantId: product.productVariantId,
         quantity: qty,
       };
+
+      console.log(requestBody);
+
 
       this.httpClient.post(addToCartUrl, requestBody).subscribe(
         () => {
@@ -149,8 +152,8 @@ export class Cart2Service {
     }
   }
 
-  
-  
+
+
 
   // Check whether product is in Cart or not
   isInCart(product: Product): boolean {
@@ -170,5 +173,5 @@ export class Cart2Service {
   }
 
 
-  
+
 }

@@ -18,6 +18,8 @@ public class ProductFindAllDTO {
     private ProductSaleDTO productSale;
     private PlantingDifficultyLevelDTO plantingDifficultyLevel;
 
+
+    private String description;
     private String imageUrl;
     private Boolean active;
     private Boolean sale;
@@ -35,6 +37,7 @@ public class ProductFindAllDTO {
     public ProductFindAllDTO(Product product) {
         this.productId = product.getProductId();
         this.productName = product.getProductName();
+        this.description = product.getDescription();
         if(product.getCatalog() != null ) {
             this.catalog = new CatalogDTO(product.getCatalog());
         }

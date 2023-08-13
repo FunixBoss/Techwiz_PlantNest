@@ -1,25 +1,18 @@
 <div [class]="'product-gallery ' + adClass">
   <div class="row m-0">
     <figure class="product-main-image">
+      <span class="product-label label-sale" *ngIf="product.sale">
+        Sale {{
+          (product.productSale.productSaleType.typeName == 'Fixed' ?
+          "$" + product.productSale.discount :
+          product.productSale.discount + "%") }}
+      </span>
       <span class="product-label label-new" *ngIf="product.new_">New</span>
-      <span class="product-label label-sale" *ngIf="product.sale">Sale</span>
-      <span class="product-label label-top" *ngIf="product.top">Top</span>
+      <span class="product-label label-top" style="margin-top: 30px" *ngIf="product.top">Top</span>
 
 
       <molla-image class="d-block position-relative"
         [src]="PRODUCT_IMAGE_DIRECTORY + product.imageUrls[currentIndex]"></molla-image>
-
-      <!-- <a href="javascript:;" class="btn-product-gallery" (click)="openLightBox()">
-        <i class="icon-arrows"></i>
-      </a> -->
     </figure>
-
-    <!-- <div id="product-zoom-gallery" class="product-image-gallery">
-      <a [ngClass]="'product-gallery-item' + ( i === currentIndex ? ' active' : '' )" href="#"
-        (click)="changeImage( $event, i )" *ngFor="let item of product.imageUrl; let i = index;">
-        <molla-image [src]="PRODUCT_IMAGE_DIRECTORY + product.imageUrl[i]" alt="Product side" class="product-image">
-        </molla-image>
-      </a>
-    </div> -->
   </div>
 </div>

@@ -2,6 +2,10 @@ import { Component, OnInit, Input, ViewChild } from '@angular/core';
 
 import { shopData } from '../../data';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CatalogService } from 'src/app/shared/services/services/product/product-catalog.service';
+import { Catalog } from 'src/app/shared/models/product/catalog.model';
+import { PlantingDifficultyLevel } from 'src/app/shared/models/product/planting-difficulty-level.model';
+import { PlantingDifficultyLevelService } from 'src/app/shared/services/services/product/planting-difficulty-level.service';
 
 @Component({
 	selector: 'molla-shop-sidebar-one',
@@ -14,29 +18,20 @@ export class ShopSidebarOneComponent implements OnInit {
 	@Input() toggle = false;
 	shopData = shopData;
 	params = {};
-	priceRange: any = [0, 100];
+  catalogs: Catalog[]
+  levels: PlantingDifficultyLevel[]
 
-	@ViewChild('priceSlider') priceSlider: any;
-
-	constructor(public activeRoute: ActivatedRoute, public router: Router) {
-		activeRoute.queryParams.subscribe(params => {
-			this.params = params;
-			if (params['minPrice'] && params['maxPrice']) {
-				this.priceRange = [
-					params['minPrice'] / 10,
-					params['maxPrice'] / 10
-				]
-			} else {
-				this.priceRange = [0, 100];
-				
-				if(this.priceSlider) {
-					this.priceSlider.slider.reset({min: 0, max: 100});
-				}
-			}
-		})
+	constructor(
+    public activeRoute: ActivatedRoute,
+    public router: Router,
+    private catalogService: CatalogService,
+    private levelService: PlantingDifficultyLevelService
+  ) {
 	}
 
 	ngOnInit(): void {
+    this.catalogService.findAll().subscribe(data => this.catalogs = this.catalogService.flattenCatalogs(data))
+    this.levelService.findAll().subscribe(data => this.levels = data._embedded.plantingDifficultyLevels)
 	}
 
 	containsAttrInUrl(type: string, value: string) {
@@ -55,11 +50,4 @@ export class ShopSidebarOneComponent implements OnInit {
 		this.router.navigate([], { queryParams: { [attr]: this.getUrlForAttrs(attr, value), page: 1 }, queryParamsHandling: 'merge' });
 	}
 
-	filterPrice() {
-		this.router.navigate([], { queryParams: { minPrice: this.priceRange[0] * 10, maxPrice: this.priceRange[1] * 10, page: 1 }, queryParamsHandling: 'merge' });
-	}
-
-	changeFilterPrice(value: any) {
-		this.priceRange = [value[0], value[1]];
-	}
 }

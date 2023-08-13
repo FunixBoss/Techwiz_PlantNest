@@ -52,7 +52,34 @@
         </ng-template>
       </ng-container>
       <ng-template #elseBlock>
-        {{minPrice | currency: 'USD'}}&ndash;{{maxPrice | currency: 'USD'}}
+        <ng-container *ngIf="product.productSale === null; else discountBlock2">
+          <span style="font-weight: bold">
+            {{minPrice | currency: 'USD'}}&ndash;{{maxPrice | currency: 'USD'}}
+          </span>
+        </ng-container>
+        <ng-template #discountBlock2>
+          <span style="text-decoration: line-through; font-weight: bold; color: grey">
+            {{minPrice | currency: 'USD'}}&ndash;{{maxPrice | currency: 'USD'}}
+          </span>
+          <div class=""></div>
+          <span style="font-weight: bold">
+            {{
+              (product.productSale.productSaleType.typeName == 'Fixed' ?
+                (product.minPrice - product.productSale.discount < 0 ? 0 : product.minPrice - product.productSale.discount)  :
+                product.minPrice * (1 - product.productSale.discount/100)) | currency: 'USD'
+            }}
+          </span>
+          <span>
+            {{ " - "}}
+          </span>
+          <span style="font-weight: bold">
+            {{
+              (product.productSale.productSaleType.typeName == 'Fixed' ?
+                (product.maxPrice - product.productSale.discount < 0 ? 0 : product.maxPrice - product.productSale.discount)  :
+                product.maxPrice * (1 - product.productSale.discount/100)) | currency: 'USD'
+            }}
+          </span>
+        </ng-template>
       </ng-template>
     </div>
   </div>

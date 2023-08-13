@@ -8,7 +8,6 @@
         <div class="row skel-pro-single" [class.loaded]="loaded">
           <div class="col-md-6">
             <div class="skel-product-gallery"></div>
-
             <molla-gallery2 [product]="product" *ngIf="loaded"></molla-gallery2>
           </div>
 
@@ -21,7 +20,6 @@
                 <div class="entry-summary2"></div>
               </div>
             </div>
-            <!-- <product-detail-one [product]="product" *ngIf="loaded"></product-detail-one> -->
             <molla-product-detail [product]="product" *ngIf="loaded"></molla-product-detail>
           </div>
         </div>
@@ -29,13 +27,8 @@
 
       <div class="skel-pro-tabs" *ngIf="!loaded else infoBlock"></div>
       <ng-template #infoBlock>
-        <!-- <product-info-one [product]="product"></product-info-one> -->
         <molla-info-new [product]="product"></molla-info-new>
       </ng-template>
-
-
-
-      <!-- <molla-related-new [products]="related" [loaded]="loaded"></molla-related-new> -->
     </div>
   </div>
 </main>

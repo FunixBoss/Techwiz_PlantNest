@@ -57,21 +57,6 @@ export class SidebarPageComponent implements OnInit {
       } else {
         this.orderBy = 'default';
       }
-
-      // this.apiService
-      //   .fetchShopData(params, this.perPage)
-      //   .subscribe((result) => {
-      //     this.products = result.products;
-      //     this.totalCount = result.totalCount;
-
-      //     this.loaded = true;
-      //     if (!this.firstLoad) {
-      //       this.firstLoad = true;
-      //     }
-
-      //     this.utilsService.scrollToPageContent();
-      //   });
-
       this.productService.findAll().subscribe((result) => {
         this.products = result;
         this.totalCount = result.length;

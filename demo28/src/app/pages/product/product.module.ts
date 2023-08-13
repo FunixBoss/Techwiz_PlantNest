@@ -9,13 +9,6 @@ import { ProductRoutingModule } from './product-routing.module';
 import { SharedModule } from '../../shared/shared.module';
 
 import { DefaultPageComponent } from './default/default.component';
-import { CenteredPageComponent } from './centered/centered.component';
-import { ExtendedPageComponent } from './extended/extended.component';
-import { GalleryPageComponent } from './gallery/gallery.component';
-import { StickyInfoPageComponent } from './sticky-info/sticky-info.component';
-import { SidebarPageComponent } from './sidebar/sidebar.component';
-import { FullWidthPageComponent } from './fullwidth/fullwidth.component';
-import { MasonryPageComponent } from './masonry/masonry.component';
 
 import { GalleryDefaultComponent } from './shared/gallery/gallery-default/gallery-default.component';
 import { GalleryStickyComponent } from './shared/gallery/gallery-sticky/gallery-sticky.component';
@@ -37,17 +30,11 @@ import { Gallery2Component } from './shared/gallery/gallery2/gallery2.component'
 import { ProductDetailComponent } from './shared/details/product-detail/product-detail.component';
 import { InfoNewComponent } from './shared/info-tabs/info-new/info-new.component';
 import { RelatedNewComponent } from './shared/related-products/related-new/related-new.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     DefaultPageComponent,
-    CenteredPageComponent,
-    ExtendedPageComponent,
-    GalleryPageComponent,
-    StickyInfoPageComponent,
-    SidebarPageComponent,
-    FullWidthPageComponent,
-    MasonryPageComponent,
 
     GalleryDefaultComponent,
     GalleryExtendComponent,
@@ -79,6 +66,7 @@ import { RelatedNewComponent } from './shared/related-products/related-new/relat
     NgbModule,
     OwlModule,
     LightboxModule,
+    FormsModule
   ],
 
   exports: [],
