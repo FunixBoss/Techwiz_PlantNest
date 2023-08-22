@@ -4,7 +4,6 @@ import { ToastState, UtilsService } from '../../../@core/services/utils.service'
 import { DatePipe } from '@angular/common';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { NbWindowRef, NbWindowService } from '@nebular/theme';
 import { CustomSaleFilterActionsComponent } from './custom/custom-sale-filter-actions.component';
 import { ProductSale } from "../../../@core/models/sale/product-sale.model";
 import { ProductSaleService } from "../../../@core/services/product/product-sale.service";
@@ -128,11 +127,6 @@ export class ProductSaleComponent implements OnInit {
     this.saleService.state$.subscribe((state) => {
       this.state = state;
     });
-  }
-
-  numberOfItemsChange() {
-    localStorage.setItem('itemPerPage', this.numberOfItem.toString())
-    this.source.setPaging(1, this.numberOfItem)
   }
 
   onRowSelect(event: any): void {

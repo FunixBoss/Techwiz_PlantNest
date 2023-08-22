@@ -193,11 +193,6 @@ export class OrderListComponent implements OnInit, AfterViewInit {
     pager.classList.add('d-block')
   }
 
-  numberOfItemsChange() {
-    localStorage.setItem('itemPerPage', this.numberOfItem.toString())
-    this.source.setPaging(1, this.numberOfItem)
-  }
-
   onEdit() {
     this.editStatusFormGroup = this.formBuilder.group({
       orderStatus: [null, Validators.required],

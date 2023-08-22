@@ -12,7 +12,9 @@ import { Component, ElementRef, Renderer2 } from '@angular/core';
         <div class="carousel-inner">
             <div class="carousel-item" *ngFor="let url of urls; let i = index"
                 [class.active]="i === activeSlideIndex">
-                <img [src]="url" class="d-block w-100" alt="Slide Image" style="max-height: 300px">
+                <div style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
+                    <img [src]="url" class="d-block w-100" alt="Slide Image" style="max-height: 300px; object-fit: contain">
+                </div>
             </div>
         </div>
         <a class="carousel-control-prev" (click)="prevSlide(carousel)" role="button" data-slide="prev">

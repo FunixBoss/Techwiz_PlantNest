@@ -3,19 +3,7 @@
         <h6>
             Product List
         </h6>
-        <nb-select 
-                [placeholder]="'Items Per Page'"
-                [selected]="numberOfItem"
-                (selectedChange)="numberOfItemsChange()"
-                >
-            <nb-select-label>
-                Number Of Item: {{ numberOfItem }}
-            </nb-select-label>
-            <nb-option value="5">5</nb-option>
-            <nb-option value="10">10</nb-option>
-            <nb-option value="20">20</nb-option>
-            <nb-option value="50">50</nb-option>
-        </nb-select>
+        <ngx-item-of-list (selectNumberOfItem)="source.setPaging(1, $event)"></ngx-item-of-list>
     </nb-card-header>
     <nb-card-body>
         <ng2-smart-table id="product-table" [settings]="settings"

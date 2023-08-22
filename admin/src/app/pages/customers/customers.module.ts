@@ -17,6 +17,7 @@ import { CustomerListMultiComponent } from './customer-list/customer-list-multi/
 import { CustomerDetailBasicComponent } from './customer-detail/customer-detail-basic/customer-detail-basic.component';
 import { CustomerDetailOrdersComponent } from './customer-detail/customer-detail-orders/customer-detail-orders.component';
 import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
+import { SharedModule } from '../shared/shared.module';
 
 
 
@@ -54,7 +55,8 @@ import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
     ReactiveFormsModule,
     NbTabsetModule,
     NbFormFieldModule,
-    NgbRatingModule
+    NgbRatingModule,
+    SharedModule
   ]
 })
 export class CustomersModule { }

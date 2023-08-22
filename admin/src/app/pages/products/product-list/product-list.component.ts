@@ -24,7 +24,7 @@ import { PlantingDifficultyLevelService } from '../../../@core/services/product/
 })
 export class ProductListComponent implements OnInit, AfterViewInit {
   private unsubscribe = new Subject<void>();
-  numberOfItem: number = localStorage.getItem('itemPerPage') != null ? +localStorage.getItem('itemPerPage') : 10; // default
+  numberOfItem: number = localStorage.getItem('itemPerPage') != null ? +localStorage.getItem('itemPerPage') : 5; 
   source: LocalDataSource = new LocalDataSource();
   
   // Setting for List layout
@@ -234,11 +234,6 @@ export class ProductListComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     const pager = document.querySelector('ng2-smart-table-pager');
     pager.classList.add('d-block')
-  }
-
-  numberOfItemsChange() {
-    localStorage.setItem('itemPerPage', this.numberOfItem.toString())
-    this.source.setPaging(1, this.numberOfItem)
   }
 
   onRowSelect(event: any): void {

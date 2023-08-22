@@ -115,11 +115,6 @@ export class ProductCouponComponent implements OnInit {
     });
   }
 
-  numberOfItemsChange() {
-    localStorage.setItem('itemPerPage', this.numberOfItem.toString())
-    this.source.setPaging(1, this.numberOfItem)
-  }
-
   onRowSelect(event: any): void {
     this.selectedCoupons = (event.selected) as Coupon[]
   }

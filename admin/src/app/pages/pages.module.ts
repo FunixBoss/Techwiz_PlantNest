@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { NbMenuModule, NbSearchModule } from '@nebular/theme';
+import { NbMenuModule, NbSearchModule, NbSelectModule } from '@nebular/theme';
 
 import { ThemeModule } from '../@theme/theme.module';
 import { PagesComponent } from './pages.component';
@@ -8,6 +8,7 @@ import { PagesRoutingModule } from './pages-routing.module';
 import { ProductsModule } from './products/products.module';
 import { OrdersModule } from './orders/orders.module';
 import { CustomersModule } from './customers/customers.module';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   imports: [
@@ -19,7 +20,9 @@ import { CustomersModule } from './customers/customers.module';
     ProductsModule,
     OrdersModule,
     CustomersModule,
-    NbSearchModule
+    SharedModule,
+
+    NbSearchModule,
   ],
   declarations: [
     PagesComponent,

@@ -33,6 +33,7 @@ export class ProductDetailComponent implements OnInit, OnChanges {
   SERVER_URL = environment.SERVER_URL;
 
   constructor(
+    public cartService: CartService,
     public cart2Service: Cart2Service,
     public wishlistService: WishlistService,
     public compareService: CompareService,
@@ -59,12 +60,24 @@ export class ProductDetailComponent implements OnInit, OnChanges {
   addCart(event: Event) {
     event.preventDefault();
 
-    this.cart2Service.addToCart(
-      {
-        productId: this.product.productId,
-        productVariantId: this.selectedVariant.productVariantId,
-      }, this.qty
-    )
+    let newProduct = { ...this.product };
+    console.log(this.product);
+
+    this.cart2Service.addToCart(this.product);
+    // if (this.product.variants.length > 0) {
+    //   newProduct = {
+    //     ...this.product,
+    //     name:
+    //       this.product.name +
+    //       ' - ' +
+    //       this.selectedVariant.colorName +
+    //       ', ' +
+    //       this.selectedVariant.size,
+    //     price: this.selectedVariant.price,
+    //   };
+    // }
+
+    // this.cartService.addToCart(newProduct, index == 0 ? this.qty : this.qty2);
   }
 
   addToWishlist(event: Event) {

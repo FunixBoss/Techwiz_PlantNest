@@ -194,9 +194,6 @@ export class ProductEditComponent implements OnInit {
   }
 
   
-
-  
-
   selectProductSale() {
     if (this.product.get('productSale').value != null) {
       this.product.get('sale').setValue(true);

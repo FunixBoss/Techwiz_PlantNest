@@ -14,6 +14,7 @@ import { CustomOrderActionComponent } from './order-list/custom/custom-order-act
 import { CustomOrderFilterActionsComponent } from './order-list/custom/custom-order-filter-actions.component';
 import { CustomOrderStatusActionComponent } from './order-list/custom/custom-order-status-action.component';
 import { ThemeModule } from '../../@theme/theme.module';
+import { SharedModule } from '../shared/shared.module';
 
 
 
@@ -46,7 +47,8 @@ import { ThemeModule } from '../../@theme/theme.module';
     NbAutocompleteModule,
     ReactiveFormsModule,
     NbIconModule,
-    ThemeModule
+    ThemeModule,
+    SharedModule
   ]
 })
 export class OrdersModule { }

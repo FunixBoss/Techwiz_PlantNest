@@ -28,9 +28,13 @@ import { NgbModule, NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
 import { CustomCatalogActionComponent } from './product-catalog/custom/custom-catalog-action.component';
 import { CustomCatalogFilterActionsComponent } from './product-catalog/custom/custom-catalog-filter-actions.component';
 import { CustomCatalogImageComponent } from './product-catalog/custom/custom-catalog-image.component';
-import { ProductCatalogAddComponent } from './product-catalog/product-category-add/product-catalog-add.component';
-import { ProductCatalogEditComponent } from './product-catalog/product-category-edit/product-catalog-edit.component';
+import { ProductCatalogAddComponent } from './product-catalog/product-catalog-add/product-catalog-add.component';
+import { ProductCatalogEditComponent } from './product-catalog/product-catalog-edit/product-catalog-edit.component';
 import { ProductDetailCareGuideComponent } from './product-detail/product-detail-care-guide/product-detail-care-guide.component';
+import { SharedModule } from '../shared/shared.module';
+import { FormBasicInformationComponent } from './shared/form-basic-information/form-basic-information.component';
+import { FormVariantsComponent } from './shared/form-variants/form-variants.component';
+import { FormCareGuideComponent } from './shared/form-care-guide/form-care-guide.component';
 
 @NgModule({
   imports: [
@@ -59,7 +63,8 @@ import { ProductDetailCareGuideComponent } from './product-detail/product-detail
     NgbRatingModule,
     NbFormFieldModule,
     NbTreeGridModule,
-    NbStepperModule
+    NbStepperModule,
+    SharedModule
   ],
   declarations: [
     ...routedComponents,
@@ -90,7 +95,11 @@ import { ProductDetailCareGuideComponent } from './product-detail/product-detail
 
     ProductDetailBasicComponent,
     ProductDetailCommentsComponent,
-    ProductDetailCareGuideComponent
+    ProductDetailCareGuideComponent,
+    
+    FormBasicInformationComponent,
+    FormVariantsComponent,
+    FormCareGuideComponent
   ],
 })
 export class ProductsModule { }

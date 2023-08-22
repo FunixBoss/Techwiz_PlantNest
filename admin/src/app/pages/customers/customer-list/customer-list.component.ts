@@ -148,11 +148,6 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
     this.selectedCustomers = (event.selected) as Account[]
   }
 
-  numberOfItemsChange() {
-    localStorage.setItem('itemPerPage', this.numberOfItem.toString())
-    this.source.setPaging(1, this.numberOfItem)
-  }
-
   onUpdateStatus(isUpdated: boolean) {
     if(isUpdated) {
       this.loadCustomers();

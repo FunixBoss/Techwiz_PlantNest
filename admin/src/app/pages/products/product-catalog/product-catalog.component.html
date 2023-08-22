@@ -5,19 +5,8 @@
                 <h6>
                     Catalog List
                 </h6>
-                <nb-select [placeholder]="'Items Per Page'" [(selected)]="numberOfItem"
-                    (selectedChange)="numberOfItemsChange()">
-                    <nb-select-label>
-                        Number Of Item: {{ numberOfItem }}
-                    </nb-select-label>
-                    <nb-option value="10">10</nb-option>
-                    <nb-option value="20">20</nb-option>
-                    <nb-option value="50">50</nb-option>
-                </nb-select>
             </nb-card-header>
             <nb-card-body class="mt-3">
-
-
                 <table [nbTreeGrid]="dataSource" [nbSort]="dataSource" (sort)="updateSort($event)">
                     <tr nbTreeGridHeaderRow *nbTreeGridHeaderRowDef="allColumns"></tr>
                     <tr nbTreeGridRow *nbTreeGridRowDef="let row; columns: allColumns"></tr>

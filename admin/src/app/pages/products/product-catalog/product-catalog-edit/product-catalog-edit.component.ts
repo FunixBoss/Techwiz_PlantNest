@@ -1,4 +1,4 @@
-import { CATALOG_IMAGE_DIRECTORY } from './../../../../@core/utils/image-storing-directory';
+import { CATALOG_IMAGE_DIRECTORY } from '../../../../@core/utils/image-storing-directory';
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ToastState, UtilsService } from "../../../../@core/services/utils.service";
