@@ -13,7 +13,7 @@ import { Component, ElementRef, Renderer2 } from '@angular/core';
             <div class="carousel-item" *ngFor="let url of urls; let i = index"
                 [class.active]="i === activeSlideIndex">
                 <div style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
-                    <img [src]="url" class="d-block w-100" alt="Slide Image" style="max-height: 300px; object-fit: contain">
+                    <img [src]="url" class="d-block w-100" alt="Slide Image" style="max-height: 290px; object-fit: contain">
                 </div>
             </div>
         </div>

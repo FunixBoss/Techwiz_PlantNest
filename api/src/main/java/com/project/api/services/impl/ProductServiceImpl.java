@@ -110,8 +110,22 @@ public class ProductServiceImpl implements ProductService {
         try {
             Product oldProduct = productRepository.findById(product.getProductId()).get();
 
+            Image imgSizeGuide = product.getImageSizeGuide();
+            if(imgSizeGuide != null) {
+                if(!imgSizeGuide.getImageUrl().startsWith("http")) {
+                    imageUploadUtils.delete("size_guide", oldProduct.getImageSizeGuide().getImageUrl());
+
+                    String imgFileName = imageUploadUtils.uploadImgBase64("size_guide", imgSizeGuide);
+                    imgSizeGuide.setImageUrl(imgFileName);
+                } else {
+                    if(oldProduct.getImageSizeGuide() != null) {
+                        product.setImageSizeGuide(oldProduct.getImageSizeGuide());
+                    }
+                }
+            }
+
 //          when upload new images
-            if(product.getImages().size() > 0) {
+            if(product.getImages().size() > 0 && !product.getImages().iterator().next().getImageUrl().startsWith("http")) {
 //                delete old images
                 oldProduct.getImages().forEach(img -> {
                     imageUploadUtils.delete("product", img.getImageUrl());
@@ -145,6 +159,9 @@ public class ProductServiceImpl implements ProductService {
             }
 
             for (ProductVariant variant : variantsToRemove) {
+                if(variant.getImage() != null) {
+                    imageUploadUtils.delete("variant", variant.getImage().getImageUrl());
+                }
                 productVariantService.deleteById(variant.getProductVariantId());
             }
 
@@ -154,6 +171,9 @@ public class ProductServiceImpl implements ProductService {
                 updatedVariant.setProduct(product);
                 updatedVariants.add(updatedVariant);
             }
+            if(product.getSlug() == null) {
+                product.setSlug(createSlug(product.getProductName()));
+            }
             product.setProductVariants(new HashSet<>());
             product.getProductVariants().addAll(updatedVariants);
             productRepository.save(product);
@@ -162,6 +182,14 @@ public class ProductServiceImpl implements ProductService {
             e.printStackTrace();
             return false;
         }
+    }
+
+    private String createSlug(String productName) {
+        String slugPart1 = productName.trim().replaceAll("\\s+", "-");
+        String uuidPart = UUID.randomUUID().toString().substring(0, 6);
+        String finalSlug = slugPart1 + "-" + uuidPart;
+
+        return finalSlug;
     }
 
     private ProductVariant updateProductVariant(ProductVariant variant) {
@@ -177,7 +205,7 @@ public class ProductServiceImpl implements ProductService {
             ProductVariant oldVariant = productVariantService.findById(variant.getProductVariantId());
             if(variant.getImage() != null) {
 //               upload new img
-                if(!variant.getImage().getImageUrl().startsWith("http://")) {
+                if(!variant.getImage().getImageUrl().startsWith("http")) {
                     if(oldVariant.getImage() != null) {
                         imageUploadUtils.delete("variant", oldVariant.getImage().getImageUrl());
                     }

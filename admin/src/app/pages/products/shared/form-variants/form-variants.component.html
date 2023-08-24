@@ -93,7 +93,9 @@
                                         Size: {{ variantForm.get('size').value !== null ?
                                         variantForm.get('size').value['sizeName'] : null}}
                                     </nb-select-label>
-                                    <nb-option>Reset</nb-option>
+                                    <ng-container *ngIf="mode !== 'edit'">
+                                        <nb-option>Reset</nb-option>
+                                    </ng-container>
                                     <nb-option *ngFor="let size of sizes" [value]="size">{{size.sizeName}}</nb-option>
                                 </nb-select>
                                 <div class="alert alert-danger mt-1"

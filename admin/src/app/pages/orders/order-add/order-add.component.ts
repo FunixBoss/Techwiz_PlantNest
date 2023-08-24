@@ -112,7 +112,9 @@ export class OrderAddComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.accordions.first.toggle()
+    setTimeout(() => {
+      this.accordions.first.toggle()
+    }, 1000);
   }
 
   accountCompleter$: Observable<Account[]>;

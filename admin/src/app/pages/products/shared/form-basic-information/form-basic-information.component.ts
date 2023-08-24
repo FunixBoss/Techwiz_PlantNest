@@ -1,4 +1,6 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { PRODUCT_IMAGE_DIRECTORY } from './../../../../@core/utils/image-storing-directory';
+import { forkJoin } from 'rxjs';
+import { Component, OnInit, ViewChild, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomValidator } from '../../../../@core/validators/custom-validator';
 import { Catalog } from '../../../../@core/models/product/catalog.model';
@@ -21,7 +23,9 @@ export class FormBasicInformationComponent implements OnInit {
   @ViewChild(ImagesCarouselComponent) carousel: ImagesCarouselComponent;
   Editor = ClassicEditor;
   editorConfig: any = { placeholder: 'Description' };
+
   @Input() mode: string;
+  @Input() product: Product
 
   productForm: FormGroup
   images: string[] = []
@@ -38,6 +42,11 @@ export class FormBasicInformationComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.settingFormGroup()
+    this.loadData()
+  }
+  
+  settingFormGroup() {
     this.productForm = this.formBuilder.group({
       id: [],
       name: ['', [CustomValidator.notBlank, Validators.maxLength(200)]],
@@ -50,28 +59,68 @@ export class FormBasicInformationComponent implements OnInit {
       sale: [false],
       description: ['', [CustomValidator.notBlank, Validators.maxLength(1000)]],
       images: [this.images, [Validators.required]]
-    })  
-    this.loadData()
+    }) 
   }
 
   loadData() {
-    this.catalogService.findAll().subscribe(data => {
-      this.catalogs = this.catalogService.flattenCatalogs(data).map(cata => {
-        return {
-          catalogId: cata.catalogId,
-          catalogName: cata.catalogName,
-          image: {
-            imageId: cata.image.imageId,
-            imageUrl: CATALOG_IMAGE_DIRECTORY + cata.image.imageUrl
+    const catalog$ = this.catalogService.findAll();
+    const sale$ = this.saleService.findAll();
+    const level$ = this.levelService.findAll()
+
+    forkJoin([catalog$, sale$, level$]).subscribe(
+      ([catalogData, saleData, levelData]) => {
+        this.catalogs = this.catalogService.flattenCatalogs(catalogData).map(cata => {
+          return {
+            catalogId: cata.catalogId,
+            catalogName: cata.catalogName,
+            image: {
+              imageId: cata.image.imageId,
+              imageUrl: CATALOG_IMAGE_DIRECTORY + cata.image.imageUrl
+            }
           }
+        })
+        this.sales = saleData._embedded.productSales.filter(sale => sale.active != false)
+        this.levels = levelData._embedded.plantingDifficultyLevels
+
+        if (this.mode === 'edit' && this.product != null) {
+          this.fillFormValue();
         }
-      })
-    })
-    this.saleService.findAll().subscribe(data => {
-      this.sales = data._embedded.productSales.filter(sale => sale.active != false)
-    })
-    this.levelService.findAll().subscribe(data => this.levels = data._embedded.plantingDifficultyLevels)
+      },
+      error => {
+        console.error(error);
+      }
+    );
   }
+
+  fillFormValue() {
+    this.productForm.get('id').setValue(this.product.productId);
+    this.productForm.get('name').setValue(this.product.productName);
+    this.productForm.get('description').setValue(this.product.description)
+    this.productForm.get('new').setValue(this.product.new_)
+    this.productForm.get('active').setValue(this.product.active)
+    this.productForm.get('top').setValue(this.product.top)
+    this.productForm.get('images').setValue(this.product.imageUrls)
+    if(this.product.catalog != null) {
+      const CATALOG = this.catalogs.find(cata => cata.catalogId == this.product.catalog.catalogId);
+      this.productForm.get('catalog').setValue(CATALOG)
+    }
+
+    if(this.product.productSale != null) {
+      const SALE = this.sales.find(s => s.productSaleId == this.product.productSale.productSaleId);
+      this.productForm.get('productSale').setValue(SALE)
+      this.productForm.get('sale').setValue(true)
+    } else {
+      this.productForm.get('sale').setValue(false)
+    }
+
+    if(this.product.plantingDifficultyLevel != null) {
+      const level = this.levels.find(l => l.plantingDifficultyLevelId == this.product.plantingDifficultyLevel.plantingDifficultyLevelId);
+      this.productForm.get('level').setValue(level)
+    }
+    this.carousel.show(this.product.imageUrls);
+  }
+
+
 
   selectProductSale() {
     if (this.productForm.get('productSale').value != null) {
@@ -99,6 +148,7 @@ export class FormBasicInformationComponent implements OnInit {
 
   getFormValue(): Product {
     let product: Product = new Product();
+    product.productId = this.productForm.get('id').value ?? null
     product.productName = this.productForm.get('name').value;
     product.description = this.productForm.get('description').value;
     product.catalog = this.productForm.get('catalog').value;

@@ -24,7 +24,9 @@
                         Catalog: {{ productForm.get('catalog').value !== null ?
                         productForm.get('catalog').value['catalogName'] : null}}
                     </nb-select-label>
-                    <nb-option>Reset</nb-option>
+                    <ng-container *ngIf="mode !== 'edit'">
+                        <nb-option>Reset</nb-option>
+                    </ng-container>
                     <nb-option *ngFor="let cata of catalogs" [value]="cata">
                         <div class="row no-gutter px-0">
                             <div class="col-5">
@@ -44,7 +46,9 @@
                         Sale: {{ productForm.get('productSale').value !== null ?
                         productForm.get('productSale').value['saleName'] : null}}
                     </nb-select-label>
-                    <nb-option>Reset</nb-option>
+                    <ng-container *ngIf="mode !== 'edit'">
+                        <nb-option>Reset</nb-option>
+                    </ng-container>
                     <nb-option *ngFor="let sale of sales" [value]="sale">
                         <div class="sale-item">
                             <div class="sale-info">
@@ -68,7 +72,9 @@
                         Difficulty: {{ productForm.get('level').value !== null ?
                         productForm.get('level').value['level'] : null}}
                     </nb-select-label>
-                    <nb-option>Reset</nb-option>
+                    <ng-container *ngIf="mode !== 'edit'">
+                        <nb-option>Reset</nb-option>
+                    </ng-container>
                     <nb-option *ngFor="let level of levels"
                         [value]="level">{{level.level}}</nb-option>
                 </nb-select>

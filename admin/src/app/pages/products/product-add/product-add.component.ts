@@ -71,8 +71,6 @@ export class ProductAddComponent {
   }
 
   stepChange(event: NbStepChangeEvent) {
-    console.log(event);
-    
     if(event.index == 1 && event.previouslySelectedIndex == 0) {
       if (this.basicInformationCpn.productForm.invalid) {
         this.basicInformationCpn.productForm.markAllAsTouched()
@@ -86,7 +84,6 @@ export class ProductAddComponent {
         return;
       }
     }
-
   }
 }
 

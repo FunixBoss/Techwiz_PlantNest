@@ -56,11 +56,7 @@ public class ProductController {
     @PostMapping("update")
     public ResponseEntity<Boolean> update(@RequestBody Product product) {
         try {
-            if(this.productService.update(product) != null) {
-                return new ResponseEntity<>(true, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
-            }
+            return new ResponseEntity<>(this.productService.update(product), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
         }
