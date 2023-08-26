@@ -2,7 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { ApiService } from 'src/app/shared/services/api.service';
-import { ProductService } from 'src/app/shared/services/services/product/product.service';
+import { ProductService } from 'src/app/shared/services/product/product.service';
 import { UtilsService } from 'src/app/shared/services/utils.service';
 
 @Component({

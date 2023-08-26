@@ -236,8 +236,8 @@
       </div>
     </div>
   </div>
-  <molla-trendy-collection [products]="featuredProducts" [loaded]="loaded"></molla-trendy-collection>
 
+  <molla-trendy-collection [products]="saleProducts" [loaded]="loadedSaleProduct"></molla-trendy-collection>
 
   <div class="banner-group-2 mb-4">
     <div class="container">
@@ -274,7 +274,10 @@
       </div>
     </div>
   </div>
-  <molla-recommend-collection [products]="topProducts" [loaded]="loaded"></molla-recommend-collection>
+
+  <molla-recommend-collection [products]="topProducts" [loaded]="loadedTopProduct">
+  </molla-recommend-collection>
+
   <div class="container">
     <div class="service-section py-3 pb-0 mt-3">
       <owl-carousel carouselClasses="carousel-simple" [options]="serviceSlider">

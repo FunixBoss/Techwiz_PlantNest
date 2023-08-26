@@ -51,7 +51,7 @@ import { AuthenticationService } from './@core/services/account/authentication.s
   bootstrap: [AppComponent],
   providers: [
     AuthenticationGuard,
-    AuthenticationService,
+    AuthenticationService,  
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

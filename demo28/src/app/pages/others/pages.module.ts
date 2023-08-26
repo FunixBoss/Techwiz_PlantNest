@@ -10,17 +10,17 @@ import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 import { PagesRoutingModule } from './pages-routing.module';
 import { SharedModule } from '../../shared/shared.module';
 
-import { AboutTwoPageComponent } from './about-two/about-two.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { ContactOnePageComponent } from './contact-one/contact-one.component';
+import { ContactPageComponent } from './contact-one/contact.component';
 import { InfoComponent } from './info/info.component';
+import { AboutPageComponent } from './about/about.component';
 
 @NgModule( {
 	declarations: [
-		AboutTwoPageComponent,
+		AboutPageComponent,
 		PageNotFoundComponent,
-		ContactOnePageComponent,
-  InfoComponent,
+		ContactPageComponent,
+    InfoComponent,
 	],
 
 	imports: [

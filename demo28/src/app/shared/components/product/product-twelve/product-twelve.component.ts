@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 
 import { environment } from 'src/environments/environment';
 import { Product } from 'src/app/shared/models/product/product.model';
-import { Wishlist2Service } from 'src/app/shared/services/wishlist2.service';
+import { Wishlist2Service } from 'src/app/shared/services/account/wishlist2.service';
 
 @Component({
   selector: 'molla-product-twelve',
@@ -13,7 +13,7 @@ import { Wishlist2Service } from 'src/app/shared/services/wishlist2.service';
 export class ProductTwelveComponent implements OnInit {
   @Input() product: Product;
   @Input() addClass = '';
-  @Input() isShownSold = false;
+  @Input() isShownSold = true;
 
   maxPrice = 0;
   minPrice = 0;

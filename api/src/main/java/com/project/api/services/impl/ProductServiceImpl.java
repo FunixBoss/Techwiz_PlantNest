@@ -59,19 +59,40 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductFindAllDTO> findAllDTO() {
-        List<ProductFindAllDTO> products = productRepository.findAll().stream()
+        List<ProductFindAllDTO> products = productRepository.findAll()
+                .stream()
                 .map(ProductFindAllDTO::new)
                 .collect(Collectors.toList());
+        return mapToFindAll(products);
+    }
+
+    private List<ProductFindAllDTO> mapToFindAll(List<ProductFindAllDTO> products) {
         products.forEach(pro -> {
             pro.setImageUrl(productRepository.getImageUrls(pro.getProductId()).get(0));
             pro.setTotalLikes(productRepository.countTotalLikes(pro.getProductId()));
             pro.setTotalSold(productRepository.countTotalSold(pro.getProductId()));
             pro.setTotalRating(productRepository.countTotalRating(pro.getProductId()));
             pro.setAvgRating(productRepository.countAvgRating(pro.getProductId()));
-
-
         });
         return products;
+    }
+
+    @Override
+    public List<ProductFindAllDTO> findTop10SaleProducts() {
+        List<ProductFindAllDTO> products = productRepository.findTop10BySaleOrderByCreatedAtDesc(true)
+                .stream()
+                .map(ProductFindAllDTO::new)
+                .collect(Collectors.toList());
+        return mapToFindAll(products);
+    }
+
+    @Override
+    public List<ProductFindAllDTO> findTop10Products() {
+        List<ProductFindAllDTO> products = productRepository.findTop10ByTopOrderByCreatedAtDesc(true)
+                .stream()
+                .map(ProductFindAllDTO::new)
+                .collect(Collectors.toList());
+        return mapToFindAll(products);
     }
 
     @Override

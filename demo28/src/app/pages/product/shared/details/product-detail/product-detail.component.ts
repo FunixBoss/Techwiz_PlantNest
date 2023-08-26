@@ -15,7 +15,7 @@ import { CompareService } from 'src/app/shared/services/compare.service';
 import { environment } from 'src/environments/environment';
 import { Product } from 'src/app/shared/models/product/product.model';
 import { ProductVariant } from 'src/app/shared/models/product/product-variant.model';
-import { Cart2Service } from 'src/app/shared/services/cart2.service';
+import { Cart2Service } from 'src/app/shared/services/account/cart2.service';
 
 declare var $: any;
 @Component({

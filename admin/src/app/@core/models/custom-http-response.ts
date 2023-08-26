@@ -1,4 +1,4 @@
-export class CustomHttpResponse {
+    export class CustomHttpResponse {
     httpStatusCode: number;
     httpStatus: string;
     reason: string;

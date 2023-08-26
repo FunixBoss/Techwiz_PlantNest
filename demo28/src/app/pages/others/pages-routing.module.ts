@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AboutTwoPageComponent } from './about-two/about-two.component';
+import { AboutPageComponent } from './about/about.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { ContactOnePageComponent } from './contact-one/contact-one.component';
+import { ContactPageComponent } from './contact-one/contact.component';
 
 const routes: Routes = [
     {
@@ -13,7 +13,7 @@ const routes: Routes = [
     },
     {
         path: 'about',
-        component: AboutTwoPageComponent
+        component: AboutPageComponent
     },
     {
         path: '404',
@@ -21,7 +21,7 @@ const routes: Routes = [
     },
     {
         path: 'contact',
-        component: ContactOnePageComponent
+        component: ContactPageComponent
     },
 ];
 

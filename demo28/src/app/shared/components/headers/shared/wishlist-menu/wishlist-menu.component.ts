@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { WishlistService } from 'src/app/shared/services/wishlist.service';
-import { Wishlist2Service } from 'src/app/shared/services/wishlist2.service';
+import { Wishlist2Service } from 'src/app/shared/services/account/wishlist2.service';
 
 @Component({
 	selector: 'molla-wishlist-menu',

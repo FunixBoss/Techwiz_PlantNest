@@ -6,7 +6,7 @@ import { ApiService } from 'src/app/shared/services/api.service';
 import { UtilsService } from 'src/app/shared/services/utils.service';
 
 import { introSlider, brandSlider, serviceSlider, bannerSlider } from '../data';
-import { ProductService } from 'src/app/shared/services/services/product/product.service';
+import { ProductService } from 'src/app/shared/services/product/product.service';
 
 @Component({
   selector: 'molla-index',
@@ -14,11 +14,12 @@ import { ProductService } from 'src/app/shared/services/services/product/product
   styleUrls: ['./index.component.scss'],
 })
 export class IndexComponent implements OnInit {
-  products = [];
-  posts = [];
   topProducts = [];
-  featuredProducts = [];
-  loaded = false;
+  loadedTopProduct = false;
+
+  saleProducts = [];
+  loadedSaleProduct = false;
+
   introSlider = introSlider;
   brandSlider = brandSlider;
   serviceSlider = serviceSlider;
@@ -28,20 +29,17 @@ export class IndexComponent implements OnInit {
     public apiService: ApiService,
     public utilsService: UtilsService,
     private productService: ProductService
-  ) {
-    this.productService.findAll().subscribe((result) => {
-      this.products = result;
-      this.topProducts = result.filter((item) => {
-        return item.top == true;
-      });
-      this.featuredProducts = result.filter((item) => {
-        return item.sale == true;
-      });
-      this.loaded = true;
-    });
-    console.log();
+  ) { }
 
+  ngOnInit(): void {
+    this.productService.find10SaleProduct().subscribe((result) => {
+      this.saleProducts = result
+      this.loadedSaleProduct = true
+    })
+
+    this.productService.findTop10Products().subscribe((result) => {
+      this.topProducts = result
+      this.loadedTopProduct = true
+    })
   }
-
-  ngOnInit(): void {}
 }

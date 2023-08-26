@@ -13,15 +13,17 @@ export class AuthInterceptor implements HttpInterceptor {
     ) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        if(request.url.includes(`${this.baseUrlService.baseURL}/login`)) {
+        if(request.url.includes(`${this.baseUrlService.baseURL}/admin/auth/login`)) {
             return next.handle(request);
         } 
-        if(request.url.includes(`${this.baseUrlService.baseURL}/register`)) {
-            return next.handle(request);
-        }
         this.authenticationService.loadToken()
         const token = this.authenticationService.getToken();
-        const requestClone = request.clone({setHeaders: { Authorization: `Bearer ${token}`}})
-        return next.handle(requestClone);
+
+        if(token != null) {
+            const requestClone = request.clone({setHeaders: { Authorization: `Bearer ${token}`}})
+            return next.handle(requestClone);
+        }
+        
+        return next.handle(request);
     }
 }

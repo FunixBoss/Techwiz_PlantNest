@@ -16,7 +16,8 @@ export class HeaderComponent implements OnInit {
 
 	wishCount = 0;
 
-	constructor(public activeRoute: ActivatedRoute, public utilsService: UtilsService, public modalService: ModalService) {
+	constructor(
+    public activeRoute: ActivatedRoute, public utilsService: UtilsService, public modalService: ModalService) {
 	}
 
 	ngOnInit(): void {

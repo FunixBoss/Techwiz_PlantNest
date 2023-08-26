@@ -3,7 +3,6 @@ import { Observable, Subject } from 'rxjs';
 import { BaseURLService } from '../base-url.service';
 import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Account } from '../../models/account/account.model';
-import { Address } from '../../models/address/address.model';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
@@ -11,17 +10,27 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 })
 export class AuthenticationService {
   private token: string;
-  private loggedInEmail: string;
+  private loggedInUsername: string;
   private jwtHelper = new JwtHelperService();
+
+  private authChangeSubject = new Subject<void>();
+
+  get authChange$(): Observable<void> {
+    return this.authChangeSubject.asObservable();
+  }
+
+  authChange(): void {
+    this.authChangeSubject.next();
+  }
 
   constructor(
     private baseUrlService: BaseURLService,
     private httpClient: HttpClient,
   ) { }
 
-  login(account: Account): Observable<HttpResponse<any> | HttpErrorResponse> {
+  login(account: Account): Observable<HttpResponse<Account> | HttpErrorResponse> {
     const url = `${this.baseUrlService.baseURL}/login`;
-    return this.httpClient.post<HttpResponse<any> | HttpErrorResponse>(url, account, {observe: 'response'}) 
+    return this.httpClient.post<Account>(url, account, {observe: 'response'}) 
   }
 
   register(account: Account): Observable<HttpResponse<any> | HttpErrorResponse> {
@@ -31,7 +40,7 @@ export class AuthenticationService {
 
   logout(): void {
     this.token = null;
-    this.loggedInEmail = null;
+    this.loggedInUsername = null;
     localStorage.removeItem('account')
     localStorage.removeItem('token')
     localStorage.removeItem('accounts')
@@ -63,7 +72,7 @@ export class AuthenticationService {
     if(this.token != null && this.token !== '') {
       if(this.jwtHelper.decodeToken(this.token).sub != null || '') {
         if(!this.jwtHelper.isTokenExpired(this.token)) {
-          this.loggedInEmail = this.jwtHelper.decodeToken(this.token).sub;
+          this.loggedInUsername = this.jwtHelper.decodeToken(this.token).sub;
           return true;
         }
       }

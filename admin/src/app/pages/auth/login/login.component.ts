@@ -1,31 +1,42 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../../../@core/services/account/auth.service';
+import { Subscription } from 'rxjs';
+import { AuthenticationService } from '../../../@core/services/account/authentication.service';
+import { Account } from '../../../@core/models/account/account.model';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { ToastState, UtilsService } from '../../../@core/services/utils.service';
+import { HeaderType } from '../../../@core/enum/header-type.enum';
 
 @Component({
   selector: 'ngx-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
   loginFormGroup: FormGroup
   errorMessage: string;
+  
+  private subscriptions: Subscription[] = []
+
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
-    private authService: AuthService,
+    private authService: AuthenticationService,
+    private utilsService: UtilsService
   ) {
     this.loginFormGroup = this.formBuilder.group({
-      email: ['', [Validators.required]],
+      username: ['', [Validators.required]],
       password: ['', [Validators.required]]
     })
   }
 
 
   ngOnInit(): void {
-    1
+    if(this.authService.isLoggedIn()) {
+      this.router.navigateByUrl('/admin/dashboard')
+    }
   }
 
   login() {
@@ -34,26 +45,32 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    this.authService.login(this.loginFormGroup.get('email').value, this.loginFormGroup.get('password').value)
-      .subscribe(data => {
-        console.log(data);
-        
-        if("result" in data) {
-          this.showError()
-        } else {
-          this.saveToken(data.token)
-          this.authService.authChange()
-          this.router.navigate(['/admin/dashboard'])
-        }
-      }) 
-  }
+    console.log(this.loginFormGroup.value);
+    
 
-  showError() {
-    this.errorMessage = 'Invalid email or password'
+    this.subscriptions.push(
+      this.authService.login(this.loginFormGroup.value).subscribe(
+        (response: HttpResponse<Account>) => {
+          const token = response.headers.get(HeaderType.JWT_TOKEN)
+          this.authService.saveToken(token)
+          this.authService.addAccountToLocalCache(response.body)
+          this.router.navigateByUrl("/admin/dashboard")
+          this.authService.authChange()
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error);
+          this.utilsService.updateToastState(new ToastState(error.error.message, "danger"))
+        }
+      )
+    )
   }
 
   saveToken(token: string) {
     localStorage.setItem('token', token)
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe())
   }
 
 }

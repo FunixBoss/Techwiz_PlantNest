@@ -13,6 +13,8 @@ public interface ProductService {
 
     ProductDetailDTO findById(Integer productId);
     List<ProductFindAllDTO> findAllDTO();
+    List<ProductFindAllDTO> findTop10SaleProducts();
+    List<ProductFindAllDTO> findTop10Products();
     Product save(Product product);
     Boolean update(Product product);
     Boolean updateNewStatus(List<Product> products, boolean new_);

@@ -22,6 +22,8 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
 
     Account findByEmail(String email);
 
+    Account findAccountByUsername(String username);
+
 //    @Modifying(clearAutomatically = true)
 //    @Transactional
 //    @Query(value = "INSERT INTO Wishlist (account_id, product_id) VALUES (:accountId, :productId)", nativeQuery = true)

@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from 'src/app/shared/models/product/product.model';
 
 import { ApiService } from 'src/app/shared/services/api.service';
-import { ProductService } from 'src/app/shared/services/services/product/product.service';
+import { ProductService } from 'src/app/shared/services/product/product.service';
 
 @Component({
   selector: 'product-default-page',

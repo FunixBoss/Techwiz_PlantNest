@@ -74,7 +74,7 @@ export class ThemeModule {
       providers: [
         ...NbThemeModule.forRoot(
           {
-            name: 'dark',
+            name: localStorage.getItem("theme") != null ? localStorage.getItem("theme") : "default",
           },
           [ DEFAULT_THEME, DARK_THEME ],
         ).providers,

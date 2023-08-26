@@ -2,10 +2,10 @@ import { Component, OnInit, Input, ViewChild } from '@angular/core';
 
 import { shopData } from '../../data';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CatalogService } from 'src/app/shared/services/services/product/product-catalog.service';
+import { CatalogService } from 'src/app/shared/services/product/product-catalog.service';
 import { Catalog } from 'src/app/shared/models/product/catalog.model';
 import { PlantingDifficultyLevel } from 'src/app/shared/models/product/planting-difficulty-level.model';
-import { PlantingDifficultyLevelService } from 'src/app/shared/services/services/product/planting-difficulty-level.service';
+import { PlantingDifficultyLevelService } from 'src/app/shared/services/product/planting-difficulty-level.service';
 
 @Component({
 	selector: 'molla-shop-sidebar-one',

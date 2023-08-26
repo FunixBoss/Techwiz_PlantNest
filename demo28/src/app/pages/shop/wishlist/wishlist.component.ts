@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { WishlistService } from 'src/app/shared/services/wishlist.service';
-import { Wishlist2Service } from 'src/app/shared/services/wishlist2.service';
+import { Wishlist2Service } from 'src/app/shared/services/account/wishlist2.service';
 
 import { environment } from 'src/environments/environment';
 
@@ -16,7 +16,7 @@ export class WishlistComponent implements OnInit, OnDestroy {
 
 	wishItems = [];
 	SERVER_URL = environment.SERVER_URL;
-	  PRODUCT_IMAGE_DIRECTORY: string = 'http://localhost:9090/assets/upload/product/' 
+	  PRODUCT_IMAGE_DIRECTORY: string = 'http://localhost:9090/assets/upload/product/'
 	private subscr: Subscription;
 
 	constructor(public wishlistService: Wishlist2Service) {
@@ -28,12 +28,12 @@ export class WishlistComponent implements OnInit, OnDestroy {
 			this.wishItems = items;
 		  });
 		  console.log(this.wishItems);
-		  
+
 		// this.subscr = this.wishlistService.wishlistStream.subscribe(items => {
 		// 	this.wishItems = items.reduce((acc, product) => {
 		// 		let max = 0;
 		// 		let min = 999999;
-				
+
 		// 		// product.variants.map(item => {
 		// 		// 	if (min > item.price) min = item.price;
 		// 		// 	if (max < item.price) max = item.price;
@@ -56,11 +56,11 @@ export class WishlistComponent implements OnInit, OnDestroy {
 		// 		];
 		// 	}, []);
 		// });
-		
-	
+
+
 	}
 
-	ngOnDestroy(): void {	
+	ngOnDestroy(): void {
 		this.subscr.unsubscribe();
 	}
 }

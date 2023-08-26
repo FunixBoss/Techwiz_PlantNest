@@ -31,4 +31,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     @Query("SELECT COUNT(pr) FROM Product p JOIN p.productReviews pr WHERE p.productId = :productId")
     Integer countProductReviewsByProductId(Integer productId);
 
+    List<Product> findTop10BySaleOrderByCreatedAtDesc(Boolean sale);
+    List<Product> findTop10ByTopOrderByCreatedAtDesc(Boolean top);
+
 }

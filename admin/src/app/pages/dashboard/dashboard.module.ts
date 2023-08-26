@@ -25,6 +25,8 @@ import { SlideOutComponent } from './slide-out/slide-out.component';
 
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { StatusCardComponent } from './status-card/status-card.component';
+import { ChangeProfileComponent } from './change-profile/change-profile.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -41,6 +43,8 @@ import { StatusCardComponent } from './status-card/status-card.component';
     NgxEchartsModule,
     NgxChartsModule,
     LeafletModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   declarations: [
     DashboardComponent,
@@ -52,6 +56,7 @@ import { StatusCardComponent } from './status-card/status-card.component';
     ECommerceChartsPanelComponent,
     SlideOutComponent,
     StatusCardComponent,
+    ChangeProfileComponent,
   ],
   providers: [
   ],

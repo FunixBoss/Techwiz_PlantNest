@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { CartService } from 'src/app/shared/services/cart.service';
 
 import { environment } from 'src/environments/environment';
-import { Cart2Service } from 'src/app/shared/services/cart2.service';
+import { Cart2Service } from 'src/app/shared/services/account/cart2.service';
 
 @Component({
 	selector: 'shop-cart-page',
@@ -18,7 +18,7 @@ export class CartComponent implements OnInit, OnDestroy {
 	cartItems = [];
 	SERVER_URL = environment.SERVER_URL;
 	shippingCost = 0;
-	PRODUCT_IMAGE_DIRECTORY: string = 'http://localhost:9090/assets/upload/product/' 
+	PRODUCT_IMAGE_DIRECTORY: string = 'http://localhost:9090/assets/upload/product/'
 	total =0 ;
 	private subscr: Subscription;
 
@@ -26,7 +26,7 @@ export class CartComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit() {
-		
+
 		this.subscr = this.cartService.cartItems2.subscribe(items => {
 			this.cartItems = items;
 		  });
@@ -34,7 +34,7 @@ export class CartComponent implements OnInit, OnDestroy {
 		  this.cartService.priceTotal.subscribe(items => {
 			this.total = items
 		  });
-		  
+
 	}
 
 	ngOnDestroy() {
@@ -67,7 +67,7 @@ export class CartComponent implements OnInit, OnDestroy {
 		}
 
 	onChangeQty(event: number, product: any) {
-		
+
 		document.querySelector('.btn-cart-update.disabled') && document.querySelector('.btn-cart-update.disabled').classList.remove('disabled');
 
 		this.cartItems = this.cartService.cartItems.reduce((acc, cur) => {
@@ -82,14 +82,14 @@ export class CartComponent implements OnInit, OnDestroy {
 				this.cartService.updateCart(product,event)
 			}
 			else acc.push(cur);
-			
+
 			return acc;
 		}, [])
 		this.cartService.cartItems2.next(this.cartItems);
 		this.updatePriceCart(this.cartItems);
 
 	}
-	
+
 	updatePriceCart(cartItems){
 		const newTotalQuantity = this.cartItems.reduce(
 			(acc, cur) => acc + cur.qty,

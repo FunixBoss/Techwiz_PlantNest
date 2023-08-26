@@ -3,17 +3,17 @@
         <nb-card [formGroup]="loginFormGroup">
             <nb-card-header>Admin Login</nb-card-header>
             <nb-card-body>
-                <ng-container *ngIf="errorMessage !== undefined">
+                <!-- <ng-container *ngIf="errorMessage !== undefined">
                     <div class="alert alert-danger mb-3">
                         {{errorMessage}}
                     </div>
-                </ng-container>
+                </ng-container> -->
 
-                <input type="email" nbInput fullWidth status="basic" placeholder="Email" formControlName="email">
+                <input type="text" nbInput fullWidth status="basic" placeholder="Username" formControlName="username">
                 <div class="alert alert-danger mt-1"
-                    *ngIf="loginFormGroup.get('email').invalid && (loginFormGroup.get('email').dirty || loginFormGroup.get('email').touched)">
-                    <div *ngIf="loginFormGroup.get('email').errors['required']">
-                        Email is required
+                    *ngIf="loginFormGroup.get('username').invalid && (loginFormGroup.get('username').dirty || loginFormGroup.get('username').touched)">
+                    <div *ngIf="loginFormGroup.get('username').errors['required']">
+                        Username is required
                     </div>
                 </div>
                 

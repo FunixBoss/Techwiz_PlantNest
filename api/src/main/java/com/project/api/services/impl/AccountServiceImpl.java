@@ -1,41 +1,67 @@
 package com.project.api.services.impl;
 
+import com.project.api.domain.UserPrincipal;
 import com.project.api.dtos.*;
 import com.project.api.entities.Account;
+import com.project.api.entities.Image;
+import com.project.api.enumerations.Role;
+import com.project.api.exceptions.domain.EmailExistException;
+import com.project.api.exceptions.domain.NotAnImageFileException;
+import com.project.api.exceptions.domain.UserNotFoundException;
+import com.project.api.exceptions.domain.UsernameExistException;
 import com.project.api.repositories.AccountRepository;
 import com.project.api.repositories.RoleRepository;
 import com.project.api.services.AccountService;
 import com.project.api.services.ProductService;
 import com.project.api.utilities.ImageUploadUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Date;
-import java.util.List;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.project.api.constants.FileConstant.*;
+import static com.project.api.constants.FileConstant.NOT_AN_IMAGE_FILE;
+import static com.project.api.constants.UserImplConstant.*;
+import static com.project.api.enumerations.Role.*;
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.springframework.http.MediaType.*;
 
 @Service
 @Transactional
 @Qualifier("userDetailsService")
-public class AccountServiceImpl implements AccountService {
+public class AccountServiceImpl implements AccountService, UserDetailsService {
 
-
-    @Autowired
     private AccountRepository accountRepository;
-
-    @Autowired
     private RoleRepository roleRepository;
+    private ImageUploadUtils imageUploadUtils;
+    private BCryptPasswordEncoder passwordEncoder;
+    private LoginAttemptService loginAttemptService;
+    private Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private ImageUploadUtils imageUploadUtils;
+    public AccountServiceImpl(AccountRepository accountRepository, RoleRepository roleRepository, ImageUploadUtils imageUploadUtils, BCryptPasswordEncoder passwordEncoder, LoginAttemptService loginAttemptService) {
+        this.accountRepository = accountRepository;
+        this.roleRepository = roleRepository;
+        this.imageUploadUtils = imageUploadUtils;
+        this.passwordEncoder = passwordEncoder;
+        this.loginAttemptService = loginAttemptService;
+    }
 
-    private Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     @Override
     public List<AccountDTO> findAll() {
@@ -52,6 +78,16 @@ public class AccountServiceImpl implements AccountService {
     public Account findByEmail(String email) {
         try {
             return accountRepository.findByEmail(email);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public Account findByUsername(String username) {
+        try {
+            return accountRepository.findAccountByUsername(username);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -196,18 +232,22 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Account register(String email, String password, String fullName, String phoneNumber) {
+    public AccountDTO register(String username, String email, String password, String fullName, String phoneNumber) throws UserNotFoundException, EmailExistException, UsernameExistException {
+        validateNewUsernameAndEmail(EMPTY, username, email);
+
+
         Account account = new Account();
+        account.setUsername(username);
         account.setEmail(email);
-//        account.setPassword(encodePassword(password));
+        account.setPassword(encodePassword(password));
         account.setFullName(fullName);
         account.setPhoneNumber(phoneNumber);
         account.setActive(true);
         account.setCreatedAt(new Date());
         account.setImage(null);
-        account.setRole(roleRepository.findById(2).get());
-//        account.setAuthorities(Role.ROLE_USER.getAuthorities());
-        return accountRepository.save(account);
+
+        account.setRole(roleRepository.findById(1).get());
+        return new AccountDTO(accountRepository.save(account));
     }
 
     @Override
@@ -228,5 +268,96 @@ public class AccountServiceImpl implements AccountService {
         return accountRepository.count();
     }
 
+    @Override
+    public Boolean updateProfileImage(String username, MultipartFile image) throws IOException, NotAnImageFileException {
+        Account account = accountRepository.findAccountByUsername(username);
+        saveProfileImage(account, image);
+        return true;
+    }
 
+    @Override
+    public Boolean updateFullName(String username, String fullName) {
+        Account account = accountRepository.findAccountByUsername(username);
+        account.setFullName(fullName);
+        accountRepository.save(account);
+        return true;
+    }
+
+    private void saveProfileImage(Account account, MultipartFile profileImage) throws IOException, NotAnImageFileException {
+        if (profileImage != null) {
+            if(!Arrays.asList(IMAGE_JPEG_VALUE, IMAGE_PNG_VALUE, IMAGE_GIF_VALUE).contains(profileImage.getContentType())) {
+                throw new NotAnImageFileException(profileImage.getOriginalFilename() + NOT_AN_IMAGE_FILE);
+            }
+
+            String imgFileName = imageUploadUtils.upload("account", profileImage);
+            if(account.getImage() != null) {
+                imageUploadUtils.delete("account", account.getImage().getImageUrl());
+                account.getImage().setImageUrl(imgFileName);
+            }
+
+            account.setImage(new Image(imgFileName));
+            accountRepository.save(account);
+            LOGGER.info(FILE_SAVED_IN_FILE_SYSTEM + profileImage.getOriginalFilename());
+        }
+    }
+
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Account account = accountRepository.findAccountByUsername(username);
+        if (account == null) {
+            LOGGER.error(NO_USER_FOUND_BY_USERNAME + username);
+            throw new UsernameNotFoundException(NO_USER_FOUND_BY_USERNAME + username);
+        } else {
+            validateLoginAttempt(account);
+//            user.setLastLoginDateDisplay(user.getLastLoginDate());
+//            user.setLastLoginDate(new Date());
+            accountRepository.save(account);
+            UserPrincipal userPrincipal = new UserPrincipal(account);
+            LOGGER.info(FOUND_USER_BY_USERNAME + username);
+            return userPrincipal;
+        }
+    }
+
+    private void validateLoginAttempt(Account account) {
+        if(account.getActive()) {
+            if(loginAttemptService.hasExceededMaxAttempts(account.getUsername())) {
+                account.setActive(false);
+            } else {
+                account.setActive(true);
+            }
+        } else {
+            loginAttemptService.evictUserFromLoginAttemptCache(account.getUsername());
+        }
+    }
+
+    private String encodePassword(String password) {
+        return passwordEncoder.encode(password);
+    }
+
+    private Account validateNewUsernameAndEmail(String currentUsername, String newUsername, String newEmail) throws UserNotFoundException, UsernameExistException, EmailExistException {
+        Account userByNewUsername = findByUsername(newUsername);
+        Account userByNewEmail = findByEmail(newEmail);
+        if(StringUtils.isNotBlank(currentUsername)) {
+            Account currentUser = findByUsername(currentUsername);
+            if(currentUser == null) {
+                throw new UserNotFoundException(NO_USER_FOUND_BY_USERNAME + currentUsername);
+            }
+            if(userByNewUsername != null && !currentUser.getId().equals(userByNewUsername.getId())) {
+                throw new UsernameExistException(USERNAME_ALREADY_EXISTS);
+            }
+            if(userByNewEmail != null && !currentUser.getId().equals(userByNewEmail.getId())) {
+                throw new EmailExistException(EMAIL_ALREADY_EXISTS);
+            }
+            return currentUser;
+        } else {
+            if(userByNewUsername != null) {
+                throw new UsernameExistException(USERNAME_ALREADY_EXISTS);
+            }
+            if(userByNewEmail != null) {
+                throw new EmailExistException(EMAIL_ALREADY_EXISTS);
+            }
+            return null;
+        }
+    }
 }

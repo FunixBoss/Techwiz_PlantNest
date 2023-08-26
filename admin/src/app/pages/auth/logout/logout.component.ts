@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../../@core/services/account/auth.service';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '../../../@core/services/account/authentication.service';
 
 @Component({
   selector: 'ngx-logout',
@@ -9,18 +9,12 @@ import { Router } from '@angular/router';
 })
 export class LogoutComponent  {
   constructor(
-    private authService: AuthService,
+    private authService: AuthenticationService,
     private router: Router
   ) {
-    this.authService.logout().subscribe(
-      data => {
-        if(data) {
-          localStorage.removeItem("token")
-          authService.authChange()
-          router.navigate(['/admin/auth/login'])
-        }
-      }
-    )
+    this.authService.logout()
+    this.authService.authChange()
+    this.router.navigateByUrl('/admin/auth/login')
   }
 
   

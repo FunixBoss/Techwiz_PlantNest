@@ -76,7 +76,7 @@ export class UtilsService {
 
 	/**
 	 * Scroll Top Button
-	 * @param e 
+	 * @param e
 	 */
 	scrollTop(e: Event) {
 		if (this.isSafariBrowser() || this.isEdgeBrowser()) {

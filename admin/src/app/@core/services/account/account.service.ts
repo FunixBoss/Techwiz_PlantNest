@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { BaseURLService } from '../base-url.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpEvent } from '@angular/common/http';
 import { Account } from '../../models/account/account.model';
 import { Address } from '../../models/address/address.model';
 
@@ -51,6 +51,8 @@ export class AccountService {
     return this.httpClient.post<boolean>(url, account);
   }
 
+  
+
   updateStatus(accounts: Account[], active: boolean) {
     const mappedAccounts = accounts.map(acc => {
       return { 
@@ -94,6 +96,21 @@ export class AccountService {
   count(): Observable<number> {
     const url: string = `${this.baseUrlService.baseURL}/accounts/count`
     return this.httpClient.get<number>(url)
+  }
+
+  updateFullname(username: string, fullName: string): Observable<boolean> {
+    const url: string = `${this.baseUrlService.baseURL}/updateFullName`
+    let formData = new FormData()
+    formData.append("username", username)
+    formData.append("fullName", fullName)
+    return this.httpClient.post<boolean>(url, formData) 
+  }
+
+  updateProfileImage(formData: FormData): Observable<HttpEvent<Account>> {
+    return this.httpClient.post<Account>(`${this.baseUrlService.baseURL}/updateProfileImage`, formData,
+    {reportProgress: true,
+      observe: 'events'
+    });
   }
 
 }

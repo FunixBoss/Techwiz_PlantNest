@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 import { productSlider } from '../data';
 
@@ -7,7 +7,7 @@ import { productSlider } from '../data';
   templateUrl: './recommend-collection.component.html',
   styleUrls: ['./recommend-collection.component.scss']
 })
-export class RecommendCollectionComponent implements OnInit {
+export class RecommendCollectionComponent implements OnInit, OnChanges {
 
   @Input() products = [];
   @Input() loaded = false;
@@ -15,9 +15,10 @@ export class RecommendCollectionComponent implements OnInit {
 	sliderOption = productSlider;
 
   constructor() { }
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(this.products);
+  }
 
   ngOnInit(): void {
-    console.log(this.products);
-    
   }
 }
