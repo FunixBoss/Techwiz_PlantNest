@@ -9,23 +9,13 @@ import { CheckoutComponent } from './checkout/checkout.component';
 
 const routes: Routes = [
 	{
-		path: 'sidebar/:type',
+		path: 'list',
 		component: SidebarPageComponent
 	},
 	{
-		path: 'sidebar',
+		path: 'list',
 		pathMatch: 'full',
-		redirectTo: 'sidebar/list'
-	},
-	{
-		path: '',
-		pathMatch: 'full',
-		redirectTo: 'sidebar/list'
-	},
-	{
-		path: 'nosidebar',
-		pathMatch: 'full',
-		redirectTo: 'nosidebar/boxed'
+		redirectTo: 'list'
 	},
 	{
 		path: 'wishlist',
@@ -38,7 +28,7 @@ const routes: Routes = [
 		path: 'checkout',
 		component: CheckoutComponent
 	},
-	
+
 ];
 
 @NgModule( {

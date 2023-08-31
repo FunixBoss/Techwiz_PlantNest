@@ -2,6 +2,7 @@ package com.project.api.repositories;
 
 import com.project.api.entities.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
@@ -11,7 +12,7 @@ import java.util.List;
 
 @RepositoryRestResource(collectionResourceRel = "products", path="products")
 @CrossOrigin({"http://localhost:4200", "http://localhost:4300"})
-public interface ProductRepository extends JpaRepository<Product, Integer> {
+public interface ProductRepository extends JpaRepository<Product, Integer>, JpaSpecificationExecutor<Product> {
 
     @Query("SELECT img.imageUrl FROM Product p JOIN p.images img WHERE p.productId = :productId")
     List<String> getImageUrls(@Param("productId") Integer productId);

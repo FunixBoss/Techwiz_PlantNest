@@ -1,4 +1,4 @@
-import { sliderOpt } from 'src/app/shared/data';
+import { sliderOpt } from "src/app/@theme/data"
 
 interface Testmonial {
     photo?: string,

@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { CartService } from 'src/app/@core/services/cart.service';
 
-import { CartService } from 'src/app/shared/services/cart.service';
 
 declare var $: any;
 

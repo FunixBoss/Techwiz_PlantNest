@@ -7,9 +7,14 @@ import com.project.api.services.OrderDetailService;
 import com.project.api.services.ProductReviewService;
 import com.project.api.services.ProductService;
 import com.project.api.services.ProductVariantService;
+import com.project.api.specifications.ProductSpecification;
 import com.project.api.utilities.ImageUploadUtils;
 import com.project.api.utilities.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -464,6 +469,27 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Long count() {
         return productRepository.count();
+    }
+
+    @Override
+    public List<ProductSizeDTO> findAllSizes() {
+        return productSizeRepository.findAll()
+                .stream()
+                .map(ProductSizeDTO::new)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<ProductFindAllDTO> findByPages(Pageable pageable, String catalog, String size, String level, String orderBy, String searchTerm) {
+        Page<Product> productPage = productRepository
+                .findAll(ProductSpecification.withFilters(catalog, size, level, orderBy, searchTerm), pageable);
+
+        List<ProductFindAllDTO> dtoList = productPage
+                .stream()
+                .map(ProductFindAllDTO::new)
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(mapToFindAll(dtoList), pageable, productPage.getTotalElements());
     }
 
     private List<BigDecimal> findMinAndMaxPrice(Integer productId) {

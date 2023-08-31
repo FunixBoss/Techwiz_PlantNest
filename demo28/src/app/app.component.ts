@@ -6,18 +6,16 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Store } from '@ngrx/store';
 
-import { StoreService } from './core/store/store.service';
-import { UtilsService } from './shared/services/utils.service';
-
-import { RefreshStoreAction } from 'src/app/core/actions/actions';
 import { environment } from 'src/environments/environment';
+import { StoreService } from './@core/store/store.service';
+import { UtilsService } from './@core/services/utils.service';
+import { RefreshStoreAction } from './@core/actions/actions';
 
 declare var $: any;
 
 @Component({
 	selector: 'molla-root',
 	templateUrl: './app.component.html',
-	styleUrls: ['./app.component.scss']
 })
 
 export class AppComponent {

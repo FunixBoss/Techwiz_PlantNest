@@ -24,9 +24,22 @@ public class CatalogDTO {
         this.description = catalog.getDescription();
         this.image = new ImageDTO(catalog.getImage());
         this.hasParent = catalog.getParentCatalog() != null;
-        this.childCatalogs = catalog.getChildCatalogs().stream()
-                .map(CatalogDTO::new)
-                .toList();
+            this.childCatalogs = catalog.getChildCatalogs().stream()
+                    .map(CatalogDTO::new)
+                    .toList();
+    }
+
+    public CatalogDTO(Catalog catalog, Boolean getChildCatalogs) {
+        this.catalogId = catalog.getCatalogId();
+        this.catalogName = catalog.getCatalogName();
+        this.description = catalog.getDescription();
+        this.image = new ImageDTO(catalog.getImage());
+        this.hasParent = catalog.getParentCatalog() != null;
+        if(getChildCatalogs) {
+            this.childCatalogs = catalog.getChildCatalogs().stream()
+                    .map(ca -> new CatalogDTO(ca, true))
+                    .toList();
+        }
     }
 
 

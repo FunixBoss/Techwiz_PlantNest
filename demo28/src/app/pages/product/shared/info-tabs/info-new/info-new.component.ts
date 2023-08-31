@@ -1,7 +1,7 @@
 import { map } from 'rxjs/operators';
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Accordion } from 'src/app/pages/elements/accordions/accordion-data';
-import { Product } from 'src/app/shared/models/product/product.model';
+import { Product } from 'src/app/@core/models/product/product.model';
 
 @Component({
   selector: 'molla-info-new',

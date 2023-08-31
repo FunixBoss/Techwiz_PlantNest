@@ -6,7 +6,6 @@ import { LightboxModule } from 'ngx-lightbox';
 import { OwlModule } from 'angular-owl-carousel';
 
 import { ProductRoutingModule } from './product-routing.module';
-import { SharedModule } from '../../shared/shared.module';
 
 import { DefaultPageComponent } from './default/default.component';
 
@@ -31,6 +30,7 @@ import { ProductDetailComponent } from './shared/details/product-detail/product-
 import { InfoNewComponent } from './shared/info-tabs/info-new/info-new.component';
 import { RelatedNewComponent } from './shared/related-products/related-new/related-new.component';
 import { FormsModule } from '@angular/forms';
+import { ThemeModule } from 'src/app/@theme/theme.module';
 
 @NgModule({
   declarations: [
@@ -61,7 +61,7 @@ import { FormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     ProductRoutingModule,
-    SharedModule,
+    ThemeModule,
     RouterModule,
     NgbModule,
     OwlModule,

@@ -1,11 +1,9 @@
 import { Component, OnInit, Input, HostListener, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
+import { Product } from 'src/app/@core/classes/product';
+import { CartService } from 'src/app/@core/services/cart.service';
+import { WishlistService } from 'src/app/@core/services/wishlist.service';
 
-import { Product } from 'src/app/shared/classes/product';
-
-import { CartService } from 'src/app/shared/services/cart.service';
-import { WishlistService } from 'src/app/shared/services/wishlist.service';
-import { CompareService } from 'src/app/shared/services/compare.service';
 import { environment } from 'src/environments/environment';
 
 declare var $: any;
@@ -40,7 +38,6 @@ export class DetailOneComponent implements OnInit {
 	constructor(
 		public cartService: CartService,
 		public wishlistService: WishlistService,
-		public compareService: CompareService,
 		public router: Router,
 		public el: ElementRef) {
 	}
@@ -113,16 +110,6 @@ export class DetailOneComponent implements OnInit {
 		} else {
 			this.wishlistService.addToWishList(this.product);
 		}
-	}
-
-	addToCompare(event: Event) {
-		event.preventDefault();
-		if (this.isInCompare()) return;
-		this.compareService.addToCompare(this.product);
-	}
-
-	isInCompare() {
-		return this.compareService.isInCompare(this.product);
 	}
 
 	isInWishlist() {

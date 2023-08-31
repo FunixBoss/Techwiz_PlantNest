@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { Lightbox } from 'ngx-lightbox';
 
-import { Product } from 'src/app/shared/classes/product';
+import { Product } from 'src/app/@core/classes/product';
 import { environment } from 'src/environments/environment';
 
 declare var $: any;

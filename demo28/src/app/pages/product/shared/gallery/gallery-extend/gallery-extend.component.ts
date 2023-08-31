@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Lightbox } from 'ngx-lightbox';
 
-import { Product } from 'src/app/shared/classes/product';
+import { Product } from 'src/app/@core/classes/product';
+import { sliderOpt } from 'src/app/@theme/data';
 import { environment } from 'src/environments/environment';
-import { sliderOpt } from 'src/app/shared/data';
 
 
 @Component( {

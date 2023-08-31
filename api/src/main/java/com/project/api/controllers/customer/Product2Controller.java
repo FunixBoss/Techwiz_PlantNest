@@ -1,10 +1,17 @@
 package com.project.api.controllers.customer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.api.constants.PaginationConstant;
 import com.project.api.dtos.*;
 import com.project.api.entities.ProductSize;
+import com.project.api.services.CatalogService;
+import com.project.api.services.PlantingDifficultyLevelService;
 import com.project.api.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,8 +23,16 @@ import java.util.List;
 @RequestMapping("api/products")
 public class Product2Controller {
 
-    @Autowired
     private ProductService productService;
+    private CatalogService catalogService;
+    private PlantingDifficultyLevelService levelService;
+
+    @Autowired
+    public Product2Controller(ProductService productService, CatalogService catalogService, PlantingDifficultyLevelService levelService) {
+        this.productService = productService;
+        this.catalogService = catalogService;
+        this.levelService = levelService;
+    }
 
     @GetMapping("{productId}")
     public ResponseEntity<ProductDetailDTO> findById(@PathVariable Integer productId) {
@@ -55,10 +70,54 @@ public class Product2Controller {
         }
     }
 
+    @GetMapping("findByPages")
+    public ResponseEntity<Page<ProductFindAllDTO>> findByPages(
+            @RequestParam(name = "page", required = false) String page,
+            @RequestParam(name = "pageSize", required = false) String pageSize,
+            @RequestParam(name = "searchTerm", required = false) String searchTerm,
+            @RequestParam(name = "catalog", required = false) String catalog,
+            @RequestParam(name = "size", required = false) String size,
+            @RequestParam(name = "level", required = false) String level,
+            @RequestParam(name = "orderBy", required = false) String orderBy) {
+            page = page == "" || page == null ? PaginationConstant.PAGE_DEFAULT : page;
+            pageSize = pageSize == "" || pageSize == null ? PaginationConstant.PAGE_SIZE_DEFAULT : pageSize;
+
+            Pageable pageable = PageRequest.of(Integer.parseInt(page), Integer.parseInt(pageSize));
+        return new ResponseEntity<>(
+                productService.findByPages(pageable, catalog, size, level, orderBy, searchTerm), HttpStatus.OK);
+    }
+
     @GetMapping("findAll")
     public ResponseEntity<List<ProductFindAllDTO>> findAll() {
         try {
             return new ResponseEntity<>(productService.findAllDTO(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("findAllCatalogs")
+    public ResponseEntity<List<CatalogDTO>> findAllCatalogs() {
+        try {
+            return new ResponseEntity<>(this.catalogService.findAll(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("findAllLevels")
+    public ResponseEntity<List<PlantingDifficultyLevelDTO>> findAllLevels() {
+        try {
+            return new ResponseEntity<>(this.levelService.findAll(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("findAllSizes")
+    public ResponseEntity<List<ProductSizeDTO>> findAllSizes() {
+        try {
+            return new ResponseEntity<>(this.productService.findAllSizes(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

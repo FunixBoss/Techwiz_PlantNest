@@ -1,12 +1,12 @@
 import { filter } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 
-import { ModalService } from 'src/app/shared/services/modal.service';
-import { ApiService } from 'src/app/shared/services/api.service';
-import { UtilsService } from 'src/app/shared/services/utils.service';
+import { ModalService } from 'src/app/@core/services/modal.service';
+import { ApiService } from 'src/app/@core/services/api.service';
+import { UtilsService } from 'src/app/@core/services/utils.service';
 
 import { introSlider, brandSlider, serviceSlider, bannerSlider } from '../data';
-import { ProductService } from 'src/app/shared/services/product/product.service';
+import { ProductService } from 'src/app/@core/services/product/product.service';
 
 @Component({
   selector: 'molla-index',

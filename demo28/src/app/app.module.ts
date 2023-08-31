@@ -13,20 +13,19 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { AppRoutingModule } from './app-routing.module';
-import { SharedModule } from './shared/shared.module';
 import { ElementsModule } from './pages/elements/elements.module';
 import { PagesModule } from './pages/others/pages.module';
 import { HomeModule } from './pages/home/home.module';
 
 // reducers
-import { appReducers, metaReducers } from './core/reducers/app.reducer';
-import { wishlistReducer } from './core/reducers/wishlist.reducer';
-import { compareReducer } from './core/reducers/compare.reducer';
-import { cartReducer } from './core/reducers/cart.reducer';
+import { appReducers, metaReducers } from './@core/reducers/app.reducer';
+import { cartReducer } from './@core/reducers/cart.reducer';
 
 import { AppComponent } from './app.component';
-import { LayoutComponent } from './shared/layout/layout.component';
 import { HttpClientModule } from '@angular/common/http';
+import { wishlistReducer } from './@core/reducers/wishlist.reducer';
+import { LayoutComponent } from './@theme/layout/layout.component';
+import { ThemeModule } from './@theme/theme.module';
 
 @NgModule({
   declarations: [
@@ -42,7 +41,7 @@ import { HttpClientModule } from '@angular/common/http';
     OwlModule,
     ElementsModule,
     PagesModule,
-    SharedModule,
+    ThemeModule,
     HomeModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({
@@ -53,7 +52,6 @@ import { HttpClientModule } from '@angular/common/http';
     StoreModule.forRoot(appReducers, { metaReducers }),
     StoreModule.forFeature('cart', cartReducer),
     StoreModule.forFeature('wishlist', wishlistReducer),
-    StoreModule.forFeature('compare', compareReducer),
     EffectsModule.forRoot([]),
     StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
     StoreDevtoolsModule.instrument(),

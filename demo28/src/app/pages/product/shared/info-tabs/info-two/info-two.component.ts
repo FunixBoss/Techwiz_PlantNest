@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Product } from 'src/app/shared/classes/product';
+import { Product } from 'src/app/@core/classes/product';
 
 @Component({
 	selector: 'product-info-two',

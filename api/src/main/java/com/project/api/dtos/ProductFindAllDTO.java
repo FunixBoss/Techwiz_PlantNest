@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Data
 public class ProductFindAllDTO {
@@ -17,7 +18,6 @@ public class ProductFindAllDTO {
     private CatalogDTO catalog;
     private ProductSaleDTO productSale;
     private PlantingDifficultyLevelDTO plantingDifficultyLevel;
-
 
     private String description;
     private String imageUrl;
@@ -33,13 +33,14 @@ public class ProductFindAllDTO {
     private Double avgRating;
     private BigDecimal minPrice;
     private BigDecimal maxPrice;
+    private List<ProductSizeDTO> sizes;
 
     public ProductFindAllDTO(Product product) {
         this.productId = product.getProductId();
         this.productName = product.getProductName();
         this.description = product.getDescription();
         if(product.getCatalog() != null ) {
-            this.catalog = new CatalogDTO(product.getCatalog());
+            this.catalog = new CatalogDTO(product.getCatalog(), false);
         }
         if(product.getProductSale() != null) {
             this.productSale = new ProductSaleDTO(product.getProductSale());
@@ -47,6 +48,10 @@ public class ProductFindAllDTO {
         if(product.getPlantingDifficultyLevel() != null) {
             this.plantingDifficultyLevel = new PlantingDifficultyLevelDTO(product.getPlantingDifficultyLevel());
         }
+        this.sizes = product.getProductVariants().stream()
+                .map(variant -> variant.getProductSize())
+                .map(ProductSizeDTO::new)
+                .collect(Collectors.toList());
         this.imageUrl = product.getImages().iterator().next().getImageUrl();
         this.active = product.getActive();
         this.sale = product.getSale();

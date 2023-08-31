@@ -1,3 +1,4 @@
+import { PRODUCT_IMAGE_DIRECTORY } from './utils/image-storing-directory';
 import { ModuleWithProviders, NgModule, Optional, Provider, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NbAuthModule, NbDummyAuthStrategy } from '@nebular/auth';
@@ -103,4 +104,5 @@ export class CoreModule {
       ],
     };
   }
+  PRODUCT_IMAGE_DIRECTORY
 }

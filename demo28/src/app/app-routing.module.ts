@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { LayoutComponent } from './shared/layout/layout.component';
 import { IndexComponent } from './pages/home/index/index.component';
 import { InfoComponent } from './pages/others/info/info.component';
+import { LayoutComponent } from './@theme/layout/layout.component';
 
 const routes: Routes = [
 	{

@@ -9,13 +9,12 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { CartService } from 'src/app/shared/services/cart.service';
-import { WishlistService } from 'src/app/shared/services/wishlist.service';
-import { CompareService } from 'src/app/shared/services/compare.service';
+import { CartService } from 'src/app/@core/services/cart.service';
+import { WishlistService } from 'src/app/@core/services/wishlist.service';
 import { environment } from 'src/environments/environment';
-import { Product } from 'src/app/shared/models/product/product.model';
-import { ProductVariant } from 'src/app/shared/models/product/product-variant.model';
-import { Cart2Service } from 'src/app/shared/services/account/cart2.service';
+import { Product } from 'src/app/@core/models/product/product.model';
+import { ProductVariant } from 'src/app/@core/models/product/product-variant.model';
+import { Cart2Service } from 'src/app/@core/services/account/cart2.service';
 
 declare var $: any;
 @Component({
@@ -36,7 +35,6 @@ export class ProductDetailComponent implements OnInit, OnChanges {
     public cartService: CartService,
     public cart2Service: Cart2Service,
     public wishlistService: WishlistService,
-    public compareService: CompareService,
     public router: Router,
     public el: ElementRef
   ) {}

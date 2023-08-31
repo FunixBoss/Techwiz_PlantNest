@@ -4,11 +4,11 @@ import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { OwlModule } from 'angular-owl-carousel';
 
-import { SharedModule } from '../../shared/shared.module';
 
 import { IndexComponent } from './index/index.component';
 import { TrendyCollectionComponent } from './trendy-collection/trendy-collection.component';
 import { RecommendCollectionComponent } from './recommend-collection/recommend-collection.component';
+import { ThemeModule } from 'src/app/@theme/theme.module';
 
 @NgModule({
 	declarations: [
@@ -22,7 +22,7 @@ import { RecommendCollectionComponent } from './recommend-collection/recommend-c
 		RouterModule,
 		NgbModule,
 		OwlModule,
-		SharedModule
+    ThemeModule
 	]
 })
 

@@ -1,9 +1,9 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-
-import { ApiService } from 'src/app/shared/services/api.service';
-import { ProductService } from 'src/app/shared/services/product/product.service';
-import { UtilsService } from 'src/app/shared/services/utils.service';
+import { FilterCriteria } from 'src/app/@core/models/filter-criteria';
+import { ApiService } from 'src/app/@core/services/api.service';
+import { ProductService } from 'src/app/@core/services/product/product.service';
+import { UtilsService } from 'src/app/@core/services/utils.service';
 
 @Component({
   selector: 'shop-sidebar-page',
@@ -12,13 +12,19 @@ import { UtilsService } from 'src/app/shared/services/utils.service';
 })
 export class SidebarPageComponent implements OnInit {
   products = [];
-  perPage = 12;
-  type = 'list';
-  totalCount = 0;
-  orderBy = 'default';
   pageTitle = 'List';
+
+  filters: FilterCriteria = {
+    page: 1,
+    pageSize: 10,
+    totalElements: 0,
+    searchTerm: null,
+    catalog: null,
+    size: null,
+    level: null,
+    orderBy: 'default'
+  }
   toggle = false;
-  searchTerm = '';
   loaded = false;
   firstLoad = false;
 
@@ -29,37 +35,20 @@ export class SidebarPageComponent implements OnInit {
     public apiService: ApiService,
     public productService: ProductService
   ) {
-    this.activeRoute.params.subscribe((params) => {
-      this.type = params['type'];
-
-      if (this.type == 'list') {
-        this.pageTitle = 'List';
-      } else if (this.type == '2cols') {
-        this.pageTitle = 'Grid 2 Columns';
-      } else if (this.type == '3cols') {
-        this.pageTitle = 'Grid 3 Columns';
-      } else if (this.type == '4cols') {
-        this.pageTitle = 'Grid 4 Columns';
-      }
-    });
-
     this.activeRoute.queryParams.subscribe((params) => {
       this.loaded = false;
 
-      if (params['searchTerm']) {
-        this.searchTerm = params['searchTerm'];
-      } else {
-        this.searchTerm = '';
-      }
+      this.filters.page = params['page'] ?? 1;
+      this.filters.pageSize = params['pageSize'] ?? 10;
+      this.filters.searchTerm = params['searchTerm'] ?? null;
+      this.filters.catalog = params['catalog'] ?? null;
+      this.filters.size = params['size'] ?? null;
+      this.filters.level = params['level'] ?? null;
+      this.filters.orderBy = params['orderBy'] ?? 'default' ;
 
-      if (params['orderBy']) {
-        this.orderBy = params['orderBy'];
-      } else {
-        this.orderBy = 'default';
-      }
-      this.productService.findAll().subscribe((result) => {
-        this.products = result;
-        this.totalCount = result.length;
+      this.productService.findByPages(this.filters).subscribe((result) => {
+        this.products = result.content;
+        this.filters.totalElements = result.totalElements;
         this.loaded = true;
         if (!this.firstLoad) {
           this.firstLoad = true;
@@ -72,6 +61,10 @@ export class SidebarPageComponent implements OnInit {
   ngOnInit(): void {
     if (window.innerWidth > 991) this.toggle = false;
     else this.toggle = true;
+  }
+
+  resetFilter() {
+
   }
 
   @HostListener('window: resize', ['$event'])
@@ -88,9 +81,7 @@ export class SidebarPageComponent implements OnInit {
   }
 
   toggleSidebar() {
-    if (
-      document.querySelector('body').classList.contains('sidebar-filter-active')
-    )
+    if ( document.querySelector('body').classList.contains('sidebar-filter-active'))
       document.querySelector('body').classList.remove('sidebar-filter-active');
     else document.querySelector('body').classList.add('sidebar-filter-active');
   }

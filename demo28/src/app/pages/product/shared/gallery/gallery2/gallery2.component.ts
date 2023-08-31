@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { Lightbox } from 'ngx-lightbox';
-import { Product } from 'src/app/shared/models/product/product.model';
+import { Product } from 'src/app/@core/models/product/product.model';
 
 import { environment } from 'src/environments/environment';
 @Component({

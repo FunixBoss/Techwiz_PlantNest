@@ -2,10 +2,8 @@ import { Store } from '@ngrx/store';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { CartService } from 'src/app/shared/services/cart.service';
-
 import { environment } from 'src/environments/environment';
-import { Cart2Service } from 'src/app/shared/services/account/cart2.service';
+import { Cart2Service } from 'src/app/@core/services/account/cart2.service';
 
 @Component({
 	selector: 'shop-cart-page',

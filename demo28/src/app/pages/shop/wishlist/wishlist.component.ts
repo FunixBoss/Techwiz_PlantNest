@@ -1,8 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-
-import { WishlistService } from 'src/app/shared/services/wishlist.service';
-import { Wishlist2Service } from 'src/app/shared/services/account/wishlist2.service';
+import { Wishlist2Service } from 'src/app/@core/services/account/wishlist2.service';
 
 import { environment } from 'src/environments/environment';
 

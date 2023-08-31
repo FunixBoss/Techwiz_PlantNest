@@ -5,6 +5,8 @@ import com.project.api.dtos.*;
 import com.project.api.entities.Product;
 import com.project.api.entities.ProductSale;
 import com.project.api.entities.ProductSize;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -34,5 +36,8 @@ public interface ProductService {
     List<ProductReviewDTO> findProductReviews(Integer productId);
     Integer countTotalComments(Integer productId);
     Long count();
+    List<ProductSizeDTO> findAllSizes();
+
+    Page<ProductFindAllDTO> findByPages(Pageable pageable, String catalog, String size, String level, String orderBy, String searchTerm);
 
 }

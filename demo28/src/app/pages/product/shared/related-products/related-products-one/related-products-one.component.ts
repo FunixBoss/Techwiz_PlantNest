@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { sliderOpt } from 'src/app/@theme/data';
 
-import { sliderOpt } from 'src/app/shared/data';
 
 @Component( {
 	selector: 'related-products-one',
