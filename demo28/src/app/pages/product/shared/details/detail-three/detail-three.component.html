@@ -2,48 +2,36 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <h1 class="product-title">{{ product.name }}</h1>
+                <h1 class="product-title">{{ product.productName }}</h1>
 
                 <div class="ratings-container">
                     <div class="ratings">
-                        <div class="ratings-val" [style.width]="product.ratings * 20 + '%'"></div>
-                        <span class="tooltip-text">{{ product.ratings.toFixed(2) }}</span>
+                        <div class="ratings-val" [style.width]="product.avgRating * 20 + '%'"></div>
+                        <span class="tooltip-text">{{ product.avgRating.toFixed(2) }}</span>
                     </div>
-                    <span class="ratings-text">( {{ product.review }} Reviews )</span>
-                </div>
-
-                <div class="product-price" *ngIf="!product.stock || product.stock == 0 else elseBlock">
-                    <span class="out-price">${{ product.price.toFixed(2) }}</span>
+                    <span class="ratings-text">( {{ product.totalRating }} Reviews )</span>
                 </div>
 
                 <ng-template #elseBlock>
-                    <div class="product-price" *ngIf="minPrice == maxPrice else elseBlock">${{ minPrice.toFixed(2) }}
+                    <div class="product-price" *ngIf="product.minPrice == product.maxPrice else elseBlock">
+                      ${{ product.minPrice.toFixed(2) }}
                     </div>
                     <ng-template #elseBlock>
-                        <div class="product-price" *ngIf="product.variants.length == 0 else elseBlock">
-                            <span class="new-price">${{ minPrice.toFixed(2) }}</span>
-                            <span class="old-price">${{ maxPrice.toFixed(2) }}</span>
+                        <div class="product-price" *ngIf="product.productVariants.length == 0 else elseBlock">
+                            <span class="new-price">${{ product.minPrice.toFixed(2) }}</span>
+                            <span class="old-price">${{ product.maxPrice.toFixed(2) }}</span>
                         </div>
                         <ng-template #elseBlock>
-                            <div class="product-price">${{minPrice.toFixed(2)}}&ndash;${{maxPrice.toFixed(2)}}</div>
+                            <div class="product-price">${{product.minPrice.toFixed(2)}}&ndash;${{product.maxPrice.toFixed(2)}}</div>
                         </ng-template>
                     </ng-template>
                 </ng-template>
 
                 <div class="product-content">
-                    <p>{{ product.short_desc }}</p>
+                    <p [innerHTML]="product.description"></p>
                 </div>
 
-                <div *ngIf="product.variants.length > 1">
-                    <div class="details-filter-row details-row-size">
-                        <label>Color:</label>
-                        <div class="product-nav product-nav-dots">
-                            <a href="javascript:;" [class.active]="item.color == selectedVariant.color"
-                                [class.disabled]="item.disabled" [style.background-color]="item.color"
-                                *ngFor="let item of colorArray" (click)="selectColor($event, item)"></a>
-                        </div>
-                    </div>
-
+                <div *ngIf="product.productVariants.length > 1">
                     <div class="details-filter-row details-row-size">
                         <label for="size">Size:</label>
                         <div class="select-custom">
@@ -56,8 +44,6 @@
                         </div>
 
                         <a href="javascript:;" class="size-guide mr-4"><i class="icon-th-list"></i>size guide</a>
-                        <a href="javascript:;" (click)="clearSelection()"
-                            *ngIf="selectedVariant.color || selectedVariant.size != ''">clear</a>
                     </div>
                 </div>
 
@@ -71,12 +57,14 @@
             <div class="col-md-6">
                 <div class="product-details-action mb-1">
                     <div class="details-action-col">
-                        <molla-quantity-input [max]="product.stock" (changeQty)="onChangeQty( $event )" [value]="qty"
+                        <molla-quantity-input [max]="maxQuantity" [value]="qty"
+                            (changeQty)="onChangeQty( $event )"
                             adClass="mr-2 mr-sm-4">
                         </molla-quantity-input>
 
                         <a href="javascript:;" class="btn-product btn-cart"
-                            [class.btn-disabled]="!cartService.canAddToCart( product, qty ) || ( product.variants.length > 0 && !( selectedVariant.color && selectedVariant.size != '' ) )"
+                            [class.btn-disabled]="!cartService.canAddToCart( product, qty ) ||
+                              ( product.productVariants.length > 0 && !( selectedVariant.size != '' ) )"
                             (click)="addCart( $event )"><span>add to cart</span></a>
                     </div>
 
@@ -90,10 +78,12 @@
 
                 <div class="product-details-footer details-footer-col">
                     <div class="product-cat">
-                        <span>Category:</span>
-                        <span *ngFor="let cat of product.category; let i =index">
-                            <a [routerLink]="['/shop/sidebar/list']"
-                                [queryParams]="{category: cat.slug}">{{ cat.name }}</a>{{ i < product.category.length - 1 ? ',' : '' }}</span>
+                        <span>Catalog:</span>
+                        <span>
+                            <a [routerLink]="['/shop/list']" [queryParams]="{catalog: product.catalog.catalogName.toLowerCase()}">
+                              {{ product.catalog.catalogName }}
+                            </a>
+                        </span>
                     </div>
 
                     <div class="social-icons social-icons-sm">

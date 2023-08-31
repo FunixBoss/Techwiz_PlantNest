@@ -1,8 +1,8 @@
+import { VARIANT_IMAGE_DIRECTORY } from './../../../../../@core/services/image-storing-directory';
+import { PRODUCT_IMAGE_DIRECTORY } from 'src/app/@core/services/image-storing-directory';
 import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { Lightbox } from 'ngx-lightbox';
-
-import { Product } from 'src/app/@core/classes/product';
-import { environment } from 'src/environments/environment';
+import { Product } from 'src/app/@core/models/product/product.model';
 
 @Component({
   selector: 'product-gallery-default',
@@ -10,6 +10,9 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./gallery-default.component.scss'],
 })
 export class GalleryDefaultComponent implements OnInit {
+  PRODUCT_IMAGE_DIRECTORY = PRODUCT_IMAGE_DIRECTORY
+  VARIANT_IMAGE_DIRECTORY = VARIANT_IMAGE_DIRECTORY
+
   @Input() product: Product;
   @Input() adClass = 'product-gallery-vertical';
 
@@ -24,8 +27,6 @@ export class GalleryDefaultComponent implements OnInit {
     albumLabel: '%1 / %2',
   };
 
-  SERVER_URL = environment.SERVER_URL;
-
   constructor(public lightBox: Lightbox) {}
 
   @HostListener('window:resize', ['$event'])
@@ -34,27 +35,43 @@ export class GalleryDefaultComponent implements OnInit {
   }
 
   ngOnChanges() {
-    this.album = [];
-
-    for (let i = 0; i < this.product.pictures.length; i++) {
+    this.album = this.product.imageUrls.map(url => {
+      return {
+        src: this.PRODUCT_IMAGE_DIRECTORY + url,
+        thumb: this.PRODUCT_IMAGE_DIRECTORY + url,
+        caption: this.product.productName,
+      }
+    })
+    this.product.productVariants.forEach(variant => {
       this.album.push({
-        src: this.SERVER_URL + this.product.pictures[i].url,
-        thumb: this.SERVER_URL + this.product.sm_pictures[i].url,
-        caption: this.product.name,
-      });
-    }
+        src: this.VARIANT_IMAGE_DIRECTORY + variant.imageUrl,
+        thumb: this.VARIANT_IMAGE_DIRECTORY + variant.imageUrl,
+        caption: "Variant Size: " + variant.productSize.sizeName,
+      })
+      this.album.push({
+        src: this.VARIANT_IMAGE_DIRECTORY + variant.imageUrl,
+        thumb: this.VARIANT_IMAGE_DIRECTORY + variant.imageUrl,
+        caption: "Variant Size: " + variant.productSize.sizeName,
+      })
+      this.album.push({
+        src: this.VARIANT_IMAGE_DIRECTORY + variant.imageUrl,
+        thumb: this.VARIANT_IMAGE_DIRECTORY + variant.imageUrl,
+        caption: "Variant Size: " + variant.productSize.sizeName,
+      })
+    })
+
     console.log(this.album);
   }
 
   ngOnInit(): void {
-    this.paddingTop =
-      Math.floor(
-        (parseFloat(this.product.pictures[0].height.toString()) /
-          parseFloat(this.product.pictures[0].width.toString())) *
-          1000
-      ) /
-        10 +
-      '%';
+    // this.paddingTop =
+    //   Math.floor(
+    //     (parseFloat(this.product.pictures[0].height.toString()) /
+    //       parseFloat(this.product.pictures[0].width.toString())) *
+    //       1000
+    //   ) /
+    //     10 +
+    //   '%';
   }
 
   changeImage($event: Event, index = 0) {

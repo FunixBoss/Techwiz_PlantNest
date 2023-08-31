@@ -45,22 +45,40 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDetailDTO findById(Integer productId) {
         try {
-            Product product =  productRepository.findById(productId).get();
-            ProductDetailDTO productDTO = new ProductDetailDTO(product);
-            productDTO.setTotalLikes(productRepository.countTotalLikes(product.getProductId()));
-            productDTO.setTotalSold(productRepository.countTotalSold(product.getProductId()));
-            productDTO.setTotalRating(productRepository.countTotalRating(product.getProductId()));
-            productDTO.setAvgRating(productRepository.countAvgRating(product.getProductId()));
-            List<BigDecimal> minAndMaxPrice = findMinAndMaxPrice(product.getProductId());
-            productDTO.setMinPrice(minAndMaxPrice.get(0));
-            productDTO.setMaxPrice(minAndMaxPrice.get(1));
+            Optional<Product> product =  productRepository.findById(productId);
 
-            return productDTO;
+            return product.isPresent() ? mapToFindDetail(product.get()) : null;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
+
+    @Override
+    public ProductDetailDTO findBySlug(String slug) {
+        try {
+            Optional<Product> product =  productRepository.findBySlug(slug);
+
+            return product.isPresent() ? mapToFindDetail(product.get()) : null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private ProductDetailDTO mapToFindDetail(Product product) {
+        ProductDetailDTO productDTO = new ProductDetailDTO(product);
+        productDTO.setTotalLikes(productRepository.countTotalLikes(product.getProductId()));
+        productDTO.setTotalSold(productRepository.countTotalSold(product.getProductId()));
+        productDTO.setTotalRating(productRepository.countTotalRating(product.getProductId()));
+        productDTO.setAvgRating(productRepository.countAvgRating(product.getProductId()));
+        List<BigDecimal> minAndMaxPrice = findMinAndMaxPrice(product.getProductId());
+        productDTO.setMinPrice(minAndMaxPrice.get(0));
+        productDTO.setMaxPrice(minAndMaxPrice.get(1));
+        return productDTO;
+    }
+
+
 
     @Override
     public List<ProductFindAllDTO> findAllDTO() {

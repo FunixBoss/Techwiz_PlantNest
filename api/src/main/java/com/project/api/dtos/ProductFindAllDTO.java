@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class ProductFindAllDTO {
     private Integer productId;
     private String productName;
-
+    private String slug;
     private CatalogDTO catalog;
     private ProductSaleDTO productSale;
     private PlantingDifficultyLevelDTO plantingDifficultyLevel;
@@ -38,6 +38,7 @@ public class ProductFindAllDTO {
     public ProductFindAllDTO(Product product) {
         this.productId = product.getProductId();
         this.productName = product.getProductName();
+        this.slug = product.getSlug();
         this.description = product.getDescription();
         if(product.getCatalog() != null ) {
             this.catalog = new CatalogDTO(product.getCatalog(), false);

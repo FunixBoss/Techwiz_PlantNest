@@ -42,7 +42,7 @@ public class ProductDetailDTO {
         this.productName = product.getProductName();
 
         if(product.getCatalog() != null ) {
-            this.catalog = new CatalogDTO(product.getCatalog());
+            this.catalog = new CatalogDTO(product.getCatalog(), false);
         }
         if(product.getProductSale() != null) {
             this.productSale = new ProductSaleDTO(product.getProductSale());

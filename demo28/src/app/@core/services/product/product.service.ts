@@ -85,6 +85,13 @@ export class ProductService {
     return this.httpClient.get<Product>(url);
   }
 
+  findBySlug(slug: string): Observable<Product> {
+    const url: string = `${this.baseUrlService.baseURL}/products/findBySlug?slug=${slug}`;
+    console.log(url);
+
+    return this.httpClient.get<Product>(url);
+  }
+
   countTotalComments(id: number): Observable<number> {
     const url: string = `${this.baseUrlService.baseURL}/products/${id}/countComments`;
     return this.httpClient.get<number>(url);

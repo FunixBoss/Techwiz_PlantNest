@@ -7,4 +7,5 @@ export class ProductVariant {
     quantity: number;
     price: number;
     image?: Image;
+    imageUrl: string;
 }

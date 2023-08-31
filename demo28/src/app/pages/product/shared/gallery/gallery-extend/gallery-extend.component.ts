@@ -1,9 +1,10 @@
+import { VARIANT_IMAGE_DIRECTORY } from './../../../../../@core/services/image-storing-directory';
+import { PRODUCT_IMAGE_DIRECTORY } from 'src/app/@core/services/image-storing-directory';
 import { Component, OnInit, Input } from '@angular/core';
 import { Lightbox } from 'ngx-lightbox';
 
-import { Product } from 'src/app/@core/classes/product';
 import { sliderOpt } from 'src/app/@theme/data';
-import { environment } from 'src/environments/environment';
+import { Product } from 'src/app/@core/models/product/product.model';
 
 
 @Component( {
@@ -13,9 +14,12 @@ import { environment } from 'src/environments/environment';
 } )
 
 export class GalleryExtendComponent implements OnInit {
+  PRODUCT_IMAGE_DIRECTORY = PRODUCT_IMAGE_DIRECTORY;
+  VARIANT_IMAGE_DIRECTORY = VARIANT_IMAGE_DIRECTORY
 
 	@Input() product: Product;
 	@Input() loaded = false;
+  album = [];
 
 	options = {
 		...sliderOpt,
@@ -37,10 +41,26 @@ export class GalleryExtendComponent implements OnInit {
 		}
 	};
 
-	SERVER_URL = environment.SERVER_URL;
 
 	constructor( public lightBox: Lightbox ) { }
 
 	ngOnInit (): void {
 	}
+
+  ngOnChanges() {
+    this.album = this.product.imageUrls.map(url => {
+      return {
+        src: this.PRODUCT_IMAGE_DIRECTORY + url,
+        thumb: this.PRODUCT_IMAGE_DIRECTORY + url,
+        caption: this.product.productName,
+      }
+    })
+    this.product.productVariants.forEach(variant => {
+      this.album.push({
+        src: this.VARIANT_IMAGE_DIRECTORY + variant.imageUrl,
+        thumb: this.VARIANT_IMAGE_DIRECTORY + variant.imageUrl,
+        caption: "Variant Size: " + variant.productSize.sizeName,
+      })
+    })
+  }
 }

@@ -10,51 +10,26 @@ import { ProductService } from 'src/app/@core/services/product/product.service';
   templateUrl: './detail.component.html',
   styleUrls: ['./detail.component.scss'],
 })
-export class DetailPageComponent implements OnInit {
+export class DetailPageComponent {
   PRODUCT_IMAGE_DIRECTORY = PRODUCT_IMAGE_DIRECTORY;
   product: Product;
-  prev: Product;
-  next: Product;
-  related = [];
   loaded = false;
 
   constructor(
-    public apiService: ApiService,
     private activeRoute: ActivatedRoute,
     public router: Router,
     private productService: ProductService
   ) {
-    // activeRoute.params.subscribe((params) => {
-    //   this.loaded = false;
-    //   this.apiService.getSingleProduct(params['slug']).subscribe((result) => {
-    //     if (result === null) {
-    //       this.router.navigate(['/pages/404']);
-    //     }
+    activeRoute.params.subscribe((params) => {
+      this.productService.findBySlug(params['slug']).subscribe((result) => {
+        if (result === null) {
+          this.router.navigate(['/pages/404']);
+        }
 
-    //     this.product = result.product;
-    //     this.prev = result.prevProduct;
-    //     this.next = result.nextProduct;
-    //     this.related = result.relatedProducts;
-    //     this.loaded = true;
-
-    //     console.log(result);
-    //   });
-    this.productService.findById(2).subscribe((result) => {
-      this.product = result;
-      this.loaded = true;
-    });
-    // this.productService.findAll().subscribe((result) => {
-    //   if (result === null) {
-    //     this.router.navigate(['/pages/404']);
-    //   }
-
-    //   this.product = result.productName;
-    //   this.prev = result.prevProduct;
-    //   this.next = result.nextProduct;
-    //   this.related = result.relatedProducts;
-    //   this.loaded = true;
-    // });
+        this.product = result;
+        this.loaded = true;
+      });
+    })
   }
-
-  ngOnInit(): void {}
 }
+

@@ -14,6 +14,7 @@ import java.util.List;
 public interface ProductService {
 
     ProductDetailDTO findById(Integer productId);
+    ProductDetailDTO findBySlug(String slug);
     List<ProductFindAllDTO> findAllDTO();
     List<ProductFindAllDTO> findTop10SaleProducts();
     List<ProductFindAllDTO> findTop10Products();
@@ -37,7 +38,6 @@ public interface ProductService {
     Integer countTotalComments(Integer productId);
     Long count();
     List<ProductSizeDTO> findAllSizes();
-
     Page<ProductFindAllDTO> findByPages(Pageable pageable, String catalog, String size, String level, String orderBy, String searchTerm);
 
 }

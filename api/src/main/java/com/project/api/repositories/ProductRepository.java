@@ -9,6 +9,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
+import java.util.Optional;
 
 @RepositoryRestResource(collectionResourceRel = "products", path="products")
 @CrossOrigin({"http://localhost:4200", "http://localhost:4300"})
@@ -35,4 +36,5 @@ public interface ProductRepository extends JpaRepository<Product, Integer>, JpaS
     List<Product> findTop10BySaleOrderByCreatedAtDesc(Boolean sale);
     List<Product> findTop10ByTopOrderByCreatedAtDesc(Boolean top);
 
+    Optional<Product> findBySlug(String slug);
 }

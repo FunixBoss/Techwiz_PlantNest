@@ -43,6 +43,15 @@ public class Product2Controller {
         }
     }
 
+    @GetMapping("/findBySlug")
+    public ResponseEntity<ProductDetailDTO> findBySlug(@RequestParam("slug") String slug) {
+        try {
+            return new ResponseEntity<>(this.productService.findBySlug(slug), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @GetMapping("find10SaleProduct")
     public ResponseEntity<List<ProductFindAllDTO>> find10SaleProduct() {
         try {
