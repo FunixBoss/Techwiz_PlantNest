@@ -10,7 +10,7 @@
     <span class="product-label label-top" style="margin-top: 2px" *ngIf="product.top">Top</span>
 
 
-    <a [routerLink]="['/product/default/']">
+    <a [routerLink]="'/product/detail/' + product.slug">
       <molla-image [src]="PRODUCT_IMAGE_DIRECTORY + product.imageUrl" alt="Product" class="product-image">
       </molla-image>
     </a>
@@ -20,14 +20,14 @@
   <div class="product-body position-static bg-transparent">
     <div class="product-cat overflow-hidden my-2 mt-0 font-weight-normal">
       <span>
-        <a [routerLink]="['/shop/sidebar/list']" [queryParams]="{category: product.productName}">
+        <a [routerLink]="['/shop/list']" [queryParams]="{category: product.catalog.catalogName}">
           {{ product.catalog.catalogName }}
         </a>
       </span>
     </div>
 
     <h3 class="product-title overflow-hidden letter-spacing-normal">
-      <a [routerLink]="['/product/default/']">{{ product.productName }}</a>
+      <a [routerLink]="'/product/detail/' + product.slug">{{ product.productName }}</a>
     </h3>
 
     <div class="product-price font-weight-bold d-flex align-items-center mb-0">
@@ -36,18 +36,11 @@
           {{ maxPrice | currency: 'USD'}}
         </ng-container>
         <ng-template #discountBlock>
-          <span style="text-decoration: line-through; font-weight: bold; color: grey">
+          <span class="old-price mr-3">
             {{ maxPrice | currency: 'USD' }}
           </span>
           <span>
-            {{ " - "}}
-          </span>
-          <span>
-            {{
-              (product.productSale.productSaleType.typeName == 'Fixed' ?
-                product.minPrice - product.productSale.discount :
-                product.minPrice * (1 - product.productSale.discount/100)) | currency: 'USD'
-            }}
+            {{ calcPriceAfterSale(product.minPrice, product.productSale) | currency: "USD"}}
           </span>
         </ng-template>
       </ng-container>
@@ -59,21 +52,12 @@
           </span>
         </ng-container>
         <ng-template #discountBlock2>
-          <span style="text-decoration: line-through; font-weight: bold; color: grey">
+          <span class="old-price">
             {{minPrice | currency: 'USD'}}&ndash;{{maxPrice | currency: 'USD'}}
           </span>
-          <span style="font-weight: bold">
-            {{
-              (product.productSale.productSaleType.typeName == 'Fixed' ?
-                (product.minPrice - product.productSale.discount < 0 ? 0 : product.minPrice - product.productSale.discount)  :
-                product.minPrice * (1 - product.productSale.discount/100)) | currency: 'USD'
-            }}
-            {{ " - "}}
-            {{
-              (product.productSale.productSaleType.typeName == 'Fixed' ?
-                (product.maxPrice - product.productSale.discount < 0 ? 0 : product.maxPrice - product.productSale.discount)  :
-                product.maxPrice * (1 - product.productSale.discount/100)) | currency: 'USD'
-            }}
+          <span >
+            {{ calcPriceAfterSale(product.minPrice, product.productSale) | currency: "USD" }} -
+            {{ calcPriceAfterSale(product.maxPrice, product.productSale) | currency: "USD" }}
           </span>
         </ng-template>
       </ng-template>

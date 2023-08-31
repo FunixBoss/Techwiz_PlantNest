@@ -1,6 +1,6 @@
 <div class="product product-sm">
     <figure class="product-media">
-        <a [routerLink]="['/product/default/'+ product.slug]">
+        <a [routerLink]="'/product/detail/'+ product.slug">
             <molla-image [src]="SERVER_URL + product.sm_pictures[0].url" alt="Product"
                 [width]="product.sm_pictures[0].width" [height]="product.sm_pictures[0].height" fixedPt="100%"
                 class="product-image">
@@ -12,7 +12,7 @@
 
     <div class="product-body">
         <h3 class="product-title">
-            <a [routerLink]="['/product/default/'+ product.slug]">{{ product.name }}</a>
+            <a [routerLink]="'/product/detail/'+ product.slug">{{ product.name }}</a>
         </h3>
 
         <div class="product-price" *ngIf="!product.stock || product.stock == 0 else elseBlock">

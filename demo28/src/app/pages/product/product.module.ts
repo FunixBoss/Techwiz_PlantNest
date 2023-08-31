@@ -7,7 +7,7 @@ import { OwlModule } from 'angular-owl-carousel';
 
 import { ProductRoutingModule } from './product-routing.module';
 
-import { DefaultPageComponent } from './default/default.component';
+import { DetailPageComponent } from './detail/detail.component';
 
 import { GalleryDefaultComponent } from './shared/gallery/gallery-default/gallery-default.component';
 import { GalleryStickyComponent } from './shared/gallery/gallery-sticky/gallery-sticky.component';
@@ -34,7 +34,7 @@ import { ThemeModule } from 'src/app/@theme/theme.module';
 
 @NgModule({
   declarations: [
-    DefaultPageComponent,
+    DetailPageComponent,
 
     GalleryDefaultComponent,
     GalleryExtendComponent,

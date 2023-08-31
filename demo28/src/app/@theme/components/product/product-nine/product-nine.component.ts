@@ -7,6 +7,8 @@ import { CartService } from 'src/app/@core/services/cart.service';
 import { environment } from 'src/environments/environment';
 import { Product } from 'src/app/@core/models/product/product.model';
 import { Wishlist2Service } from 'src/app/@core/services/account/wishlist2.service';
+import { ProductSale } from 'src/app/@core/models/sale/product-sale.model';
+import { PRODUCT_IMAGE_DIRECTORY } from 'src/app/@core/services/image-storing-directory';
 
 @Component({
   selector: 'molla-product-nine',
@@ -16,14 +18,7 @@ import { Wishlist2Service } from 'src/app/@core/services/account/wishlist2.servi
 export class ProductNineComponent implements OnInit {
   @Input() product: Product;
 
-  maxPrice = 0;
-  minPrice = 99999;
-  hasOnlyOnePrice: boolean = true;
-
-
-  PRODUCT_IMAGE_DIRECTORY: string =
-    'http://localhost:9090/assets/upload/product/';
-  SERVER_URL = environment.SERVER_URL;
+  PRODUCT_IMAGE_DIRECTORY: string = PRODUCT_IMAGE_DIRECTORY
 
   constructor(
     private router: Router,
@@ -31,10 +26,6 @@ export class ProductNineComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.minPrice = this.product.minPrice;
-    this.maxPrice = this.product.maxPrice;
-    this.hasOnlyOnePrice = (this.minPrice == this.maxPrice)
-
   }
 
   addToWishlist(event: Event) {
@@ -49,5 +40,13 @@ export class ProductNineComponent implements OnInit {
 
   isInWishlist() {
     return this.wishlistService.isInWishlist(this.product);
+  }
+
+  calcPriceAfterSale(rootPrice, productSale: ProductSale): number {
+    if(productSale.productSaleType.typeName == "Fixed") {
+      return (rootPrice - productSale.discount > 0) ? rootPrice - productSale.discount : 0
+    } else {
+      return (rootPrice * (1 - productSale.discount/100))
+    }
   }
 }

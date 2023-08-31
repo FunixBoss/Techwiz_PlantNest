@@ -2,16 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from 'src/app/@core/models/product/product.model';
 import { ApiService } from 'src/app/@core/services/api.service';
+import { PRODUCT_IMAGE_DIRECTORY } from 'src/app/@core/services/image-storing-directory';
 import { ProductService } from 'src/app/@core/services/product/product.service';
 
 @Component({
-  selector: 'product-default-page',
-  templateUrl: './default.component.html',
-  styleUrls: ['./default.component.scss'],
+  selector: 'product-detail-page',
+  templateUrl: './detail.component.html',
+  styleUrls: ['./detail.component.scss'],
 })
-export class DefaultPageComponent implements OnInit {
-  PRODUCT_IMAGE_DIRECTORY: string =
-    'http://localhost:9090/assets/upload/product/';
+export class DetailPageComponent implements OnInit {
+  PRODUCT_IMAGE_DIRECTORY = PRODUCT_IMAGE_DIRECTORY;
   product: Product;
   prev: Product;
   next: Product;

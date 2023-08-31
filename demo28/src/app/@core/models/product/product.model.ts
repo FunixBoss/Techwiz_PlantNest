@@ -9,6 +9,7 @@ import { ProductVariant } from "./product-variant.model";
 
 export class Product {
     productId: number;
+    slug: string;
     productName: string;
     description: string;
     catalog?: Catalog;

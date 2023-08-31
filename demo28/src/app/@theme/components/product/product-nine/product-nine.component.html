@@ -13,7 +13,7 @@
         <span class="product-label label-top" style="margin-top: 30px" *ngIf="product.top">Top</span>
 
 
-        <a [routerLink]="['/product/default/']">
+        <a [routerLink]="'/product/detail/' + product.slug">
           <molla-image [src]="PRODUCT_IMAGE_DIRECTORY + product.imageUrl" alt="Product" [width]="" [height]=""
             class="product-image" fixedPt="100%">
           </molla-image>
@@ -24,7 +24,7 @@
     <div class="col-lg-6 col-md-6 order-last">
       <div class="product-body product-action-inner">
         <div class="product-cat" >
-          <span>
+          <span *ngIf="product.catalog != null">
             <a [routerLink]="['/shop/list']" [queryParams]="{catalog: product.catalog.catalogName.toLowerCase()}">
               Catalog: {{product.catalog.catalogName}}
             </a>
@@ -33,16 +33,16 @@
 
 
         <h3 class="product-title">
-          <a [routerLink]="['/product/default/'+ product.productName]">{{ product.productName }}</a>
+          <a [routerLink]="'/product/default/' + product.slug">{{ product.productName }}</a>
         </h3>
 
         <div class="product-content">
           <p [innerHTML]="product.description"></p>
         </div>
 
-        <div class="product-cat mt-3">
+        <div class="product-cat mt-3" *ngIf="product.plantingDifficultyLevel != null">
           <span>
-            <a [routerLink]="['/shop/list']" [queryParams]="{catalog: product.plantingDifficultyLevel.level.toLowerCase()}">
+            <a [routerLink]="['/shop/list']" [queryParams]="{level: product.plantingDifficultyLevel.level.toLowerCase()}">
               Planting Difficulty: {{product.plantingDifficultyLevel.level}}
             </a>
           </span>
@@ -68,28 +68,35 @@
       <div class="product-list-action">
         <div class="product-price">
           <span class="product-price">
-            <ng-container *ngIf="hasOnlyOnePrice; else elseBlock">
+            <ng-container *ngIf="product.minPrice == product.maxPrice; else elseBlock">
               <ng-container *ngIf="product.productSale === null; else discountBlock">
-                {{ maxPrice | currency: 'USD'}}
+                {{ product.maxPrice | currency: 'USD'}}
               </ng-container>
               <ng-template #discountBlock>
-                <span style="text-decoration: line-through; font-weight: bold; color: grey">
-                  {{ maxPrice | currency: 'USD' }}
-                </span>
-                <span>
-                  {{ " - "}}
+                <span class="old-price mr-3">
+                  {{ product.maxPrice | currency: 'USD' }}
                 </span>
                 <span style="font-weight: bold">
-                  {{
-                    (product.productSale.productSaleType.typeName == 'Fixed' ?
-                    product.minPrice - product.productSale.discount :
-                    product.minPrice * (1 - product.productSale.discount/100)) | currency: 'USD'
-                  }}
+                  {{ calcPriceAfterSale(product.maxPrice, product.productSale) | currency: "USD"}}
                 </span>
               </ng-template>
             </ng-container>
+
             <ng-template #elseBlock>
-              {{minPrice | currency: 'USD'}}&ndash;{{maxPrice | currency: 'USD'}}
+              <ng-container *ngIf="product.productSale === null; else discount2Block">
+                <span>
+                  {{product.minPrice | currency: 'USD'}}&ndash;{{product.maxPrice | currency: 'USD'}}
+                </span>
+              </ng-container>
+              <ng-template #discount2Block>
+                <span class="old-price" style="margin-right: 100px">
+                  {{product.minPrice | currency: 'USD'}}&ndash;{{product.maxPrice | currency: 'USD'}}
+                </span>
+                <span class="font-weight-bold">
+                  {{ calcPriceAfterSale(product.minPrice, product.productSale) | currency: "USD" }} -
+                  {{ calcPriceAfterSale(product.maxPrice, product.productSale) | currency: "USD" }}
+                </span>
+              </ng-template>
             </ng-template>
           </span>
         </div>

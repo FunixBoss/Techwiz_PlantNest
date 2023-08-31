@@ -5,7 +5,7 @@
         <span class="product-label label-top" *ngIf="product.top">Top</span>
         <span class="product-label label-out" *ngIf="!product.stock || product.stock == 0">Out Of Stock</span>
 
-        <a [routerLink]="['/product/default/'+ product.slug]">
+        <a [routerLink]="'/product/detail/'+ product.slug">
             <molla-image [src]="SERVER_URL + product.sm_pictures[0].url" alt="Product" class="product-image">
             </molla-image>
             <molla-image [src]="SERVER_URL + product.sm_pictures[1].url" alt="Product" class="product-image-hover"
@@ -19,7 +19,7 @@
             </a>
         </div>
         <div class="product-action" *ngIf="product.stock && product.stock !== 0">
-            <a [routerLink]="['/product/default/'+ product.slug]" class="btn-product btn-cart btn-select"
+            <a [routerLink]="'/product/detail/'+ product.slug" class="btn-product btn-cart btn-select"
                 *ngIf="product.variants.length > 0 else cartBlock">
                 <span>select options</span>
             </a>
@@ -39,7 +39,7 @@
         </div>
 
         <h3 class="product-title">
-            <a [routerLink]="['/product/default/'+ product.slug]">{{ product.name }}</a>
+            <a [routerLink]="'/product/detail/'+ product.slug">{{ product.name }}</a>
         </h3>
 
         <div class="product-price" *ngIf="!product.stock || product.stock == 0 else elseBlock">

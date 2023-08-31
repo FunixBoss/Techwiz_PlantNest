@@ -37,9 +37,9 @@ export class ProductService {
     private httpClient: HttpClient
   ) {}
 
-  findByNameKeyword(nameKeyword: string): Observable<Product[]> {
-    const url: string = `${this.baseUrlService.baseURL}/products/findByNameKeyword?keyword=${nameKeyword}`;
-    return this.httpClient.get<Product[]>(url);
+  findByNameKeyword(searchTerm: string): Observable<GetDTOByPages<Product>> {
+    const url = `${this.baseUrlService.baseURL}/products/findByPages?searchTerm=${searchTerm}&page=0&pageSize=5`;
+    return this.httpClient.get<GetDTOByPages<Product>>(url);
   }
 
   findAll(): Observable<Product[]> {

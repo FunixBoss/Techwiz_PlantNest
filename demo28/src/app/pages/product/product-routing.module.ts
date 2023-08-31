@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { DefaultPageComponent } from './default/default.component';
+import { DetailPageComponent } from './detail/detail.component';
 
 
 const routes: Routes = [
     {
-        path: 'default/:slug',
-        component: DefaultPageComponent
+        path: 'detail/:slug',
+        component: DetailPageComponent
     },
 
 ]
