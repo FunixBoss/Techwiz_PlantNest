@@ -1,28 +1,6 @@
 <div class="product-details-tab">
   <ul ngbNav #nav="ngbNav" class="justify-content-center nav nav-pills">
-    <li ngbNavItem>
-      <a ngbNavLink>
-        Description
-      </a>
-      <ng-template ngbNavContent>
-        <div class="product-desc-content">
-          <h3>Product Information</h3>
-          <p class="pb-1">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque
-            volutpat mattis
-            eros. Nullam malesuada erat ut turpis. Suspendisse urna viverra non, semper suscipit, posuere a,
-            pede. Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci.
-            Aenean dignissim pellentesque felis. Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec
-            consectetuer ligula vulputate sem tristique cursus. </p>
-          <ul>
-            <li>Nunc nec porttitor turpis. In eu risus enim. In vitae mollis elit. </li>
-            <li>Vivamus finibus vel mauris ut vehicula.</li>
-            <li>Nullam a magna porttitor, dictum risus nec, faucibus sapien.</li>
-          </ul>
 
-          <p>{{product.description}}</p>
-        </div>
-      </ng-template>
-    </li>
     <li ngbNavItem>
       <a ngbNavLink>
         Care Guide
@@ -36,6 +14,17 @@
             {{ card.body }}
           </molla-card>
         </molla-accordion>
+      </ng-template>
+    </li>
+    <li ngbNavItem>
+      <a ngbNavLink>
+        Description
+      </a>
+      <ng-template ngbNavContent>
+        <div class="product-desc-content">
+          <h3>Product Information</h3>
+          <p [innerHTML]="product.description"></p>
+        </div>
       </ng-template>
     </li>
     <li ngbNavItem>
@@ -69,35 +58,6 @@
 
                 <div class="review-action">
                   <a href="javascript:;"><i class="icon-thumbs-up"></i>Helpful (2)</a>
-                  <a href="javascript:;"><i class="icon-thumbs-down"></i>Unhelpful (0)</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="review">
-            <div class="row no-gutters">
-              <div class="col-auto">
-                <h4><a href="javascript:;">John Doe</a></h4>
-                <div class="ratings-container">
-                  <div class="ratings">
-                    <div class="ratings-val" [style.width]="product.avgRating * 20 + '%'"></div>
-                    <span class="tooltip-text">{{ product.avgRating.toFixed(2) }}</span>
-                  </div>
-                </div>
-                <span class="review-date">5 days ago</span>
-              </div>
-              <div class="col">
-                <h4>Very good</h4>
-
-                <div class="review-content">
-                  <p>Sed, molestias, tempore? Ex dolor esse iure hic veniam laborum blanditiis
-                    laudantium iste amet. Cum non voluptate eos enim, ab cumque nam, modi, quas iure
-                    illum repellendus, blanditiis perspiciatis beatae!</p>
-                </div>
-
-                <div class="review-action">
-                  <a href="javascript:;"><i class="icon-thumbs-up"></i>Helpful (0)</a>
                   <a href="javascript:;"><i class="icon-thumbs-down"></i>Unhelpful (0)</a>
                 </div>
               </div>

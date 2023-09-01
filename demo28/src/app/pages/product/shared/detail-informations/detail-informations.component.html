@@ -9,47 +9,33 @@
                         <div class="ratings-val" [style.width]="product.avgRating * 20 + '%'"></div>
                         <span class="tooltip-text">{{ product.avgRating.toFixed(2) }}</span>
                     </div>
-                    <span class="ratings-text">( {{ product.totalRating }} Reviews )</span>
+                    <span>( {{ product.totalRating }} Reviews )</span>
+                    <span>( {{ product.totalSold }} Sold )</span>
                 </div>
 
-                <ng-template #elseBlock>
-                    <div class="product-price" *ngIf="product.minPrice == product.maxPrice else elseBlock">
-                      ${{ product.minPrice.toFixed(2) }}
-                    </div>
-                    <ng-template #elseBlock>
-                        <div class="product-price" *ngIf="product.productVariants.length == 0 else elseBlock">
-                            <span class="new-price">${{ product.minPrice.toFixed(2) }}</span>
-                            <span class="old-price">${{ product.maxPrice.toFixed(2) }}</span>
-                        </div>
-                        <ng-template #elseBlock>
-                            <div class="product-price">${{product.minPrice.toFixed(2)}}&ndash;${{product.maxPrice.toFixed(2)}}</div>
-                        </ng-template>
-                    </ng-template>
-                </ng-template>
+                <product-price [product]="product" [selectedVariant]="selectedVariant"></product-price>
 
                 <div class="product-content">
                     <p [innerHTML]="product.description"></p>
                 </div>
 
-                <div *ngIf="product.productVariants.length > 1">
+                <div>
                     <div class="details-filter-row details-row-size">
-                        <label for="size">Size:</label>
-                        <div class="select-custom">
-                            <select name="size" id="size" class="form-control" [value]="selectedVariant.size"
-                                (change)="selectSize($event)">
-                                <option value="" [selected]="'' == selectedVariant.size">Select a size</option>
-                                <option [value]="item.size" *ngFor="let item of sizeArray"
-                                    [selected]="item.size == selectedVariant.size">{{ item.size }}</option>
-                            </select>
-                        </div>
+                      <label for="size">Size:</label>
+                      <div class="select-custom">
+                          <select name="size" id="size" class="form-control"
+                              [(ngModel)]="selectedVariant" (ngModelChange)="selectVariant(selectedVariant)">
+                              <option [ngValue]="null">Select a size</option>
+                              <option [ngValue]="variant" *ngFor="let variant of product.productVariants">
+                                  {{ variant.productSize.sizeName }}
+                              </option>
+                          </select>
+                      </div>
 
-                        <a href="javascript:;" class="size-guide mr-4"><i class="icon-th-list"></i>size guide</a>
-                    </div>
-                </div>
-
-                <div class="variation-price" style="display: none;">
-                    <div class="product-price">
-                        ${{ selectedVariant.price ? selectedVariant.price.toFixed( 2 ) : 0 }}
+                      <a href="javascript:;" class="size-guide mr-4"><i class="icon-th-list"></i>size guide</a>
+                      <ng-container *ngIf="selectedVariant != null">
+                        {{ "In stock: " + selectedVariant.quantity}}
+                      </ng-container>
                     </div>
                 </div>
             </div>
@@ -58,13 +44,14 @@
                 <div class="product-details-action mb-1">
                     <div class="details-action-col">
                         <molla-quantity-input [max]="maxQuantity" [value]="qty"
-                            (changeQty)="onChangeQty( $event )"
+                            (changeQty)="onChangeQty($event)"
+                            [disabled]="selectedVariant == null"
                             adClass="mr-2 mr-sm-4">
                         </molla-quantity-input>
 
                         <a href="javascript:;" class="btn-product btn-cart"
                             [class.btn-disabled]="!cartService.canAddToCart( product, qty ) ||
-                              ( product.productVariants.length > 0 && !( selectedVariant.size != '' ) )"
+                              ( product.productVariants.length > 0 && !( selectedVariant != null ) )"
                             (click)="addCart( $event )"><span>add to cart</span></a>
                     </div>
 
@@ -81,9 +68,17 @@
                         <span>Catalog:</span>
                         <span>
                             <a [routerLink]="['/shop/list']" [queryParams]="{catalog: product.catalog.catalogName.toLowerCase()}">
-                              {{ product.catalog.catalogName }}
+                                {{ product.catalog.catalogName }}
                             </a>
                         </span>
+                    </div>
+                    <div class="product-cat w-100 text-truncate">
+                      <span>Level of Difficulty in Growing Plants:</span>
+                      <span>
+                        <a [routerLink]="['/shop/list']" [queryParams]="{level: product.plantingDifficultyLevel.level}">
+                          {{product.plantingDifficultyLevel.level}}
+                        </a>
+                      </span>
                     </div>
 
                     <div class="social-icons social-icons-sm">

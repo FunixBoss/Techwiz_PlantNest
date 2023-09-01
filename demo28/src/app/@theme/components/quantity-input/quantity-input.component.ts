@@ -11,12 +11,13 @@ export class QuantityInputComponent implements OnInit, OnChanges {
 
 	@Input() value = 1;
 	@Input() max = 10000;
+  @Input() disabled: boolean = false;
 	@Input() adClass = "";
 	@Output() changeQty: EventEmitter<number>;
 
 	current = 1;
 
-	constructor ( private cartService: CartService) {
+	constructor () {
 		this.changeQty = new EventEmitter<number>();
 	}
 

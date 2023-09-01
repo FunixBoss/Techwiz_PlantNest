@@ -15,15 +15,17 @@ import java.util.stream.Collectors;
 public class ProductDetailDTO {
     private Integer productId;
     private String productName;
+    private String slug;
 
     private CatalogDTO catalog;
     private ProductSaleDTO productSale;
     private PlantingDifficultyLevelDTO plantingDifficultyLevel;
     private ProductCareGuideDTO productCareGuide;
+    private List<ProductVariantDTO> productVariants;
+
     private String description;
     private List<String> imageUrls;
     private String imageSizeGuideUrl;
-    private List<ProductVariantDTO> productVariants;
     private Boolean active;
     private Boolean sale;
     private Boolean top;
@@ -40,7 +42,7 @@ public class ProductDetailDTO {
     public ProductDetailDTO(Product product) {
         this.productId = product.getProductId();
         this.productName = product.getProductName();
-
+        this.slug = product.getSlug();
         if(product.getCatalog() != null ) {
             this.catalog = new CatalogDTO(product.getCatalog(), false);
         }

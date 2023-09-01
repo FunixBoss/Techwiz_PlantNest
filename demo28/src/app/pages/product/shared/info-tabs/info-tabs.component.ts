@@ -4,11 +4,11 @@ import { Accordion } from 'src/app/pages/elements/accordions/accordion-data';
 import { Product } from 'src/app/@core/models/product/product.model';
 
 @Component({
-  selector: 'molla-info-new',
-  templateUrl: './info-new.component.html',
-  styleUrls: ['./info-new.component.scss'],
+  selector: 'molla-info-tabs',
+  templateUrl: './info-tabs.component.html',
+  styleUrls: ['./info-tabs.component.scss'],
 })
-export class InfoNewComponent implements OnInit, OnChanges {
+export class InfoTabsComponent implements OnInit, OnChanges {
   @Input() product: Product;
   accordion: Accordion = {
     cards: [

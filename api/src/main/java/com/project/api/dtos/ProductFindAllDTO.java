@@ -15,6 +15,7 @@ public class ProductFindAllDTO {
     private Integer productId;
     private String productName;
     private String slug;
+    
     private CatalogDTO catalog;
     private ProductSaleDTO productSale;
     private PlantingDifficultyLevelDTO plantingDifficultyLevel;

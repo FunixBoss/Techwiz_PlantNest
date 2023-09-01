@@ -1,5 +1,4 @@
-import { VARIANT_IMAGE_DIRECTORY } from './../../../../../@core/services/image-storing-directory';
-import { PRODUCT_IMAGE_DIRECTORY } from 'src/app/@core/services/image-storing-directory';
+import { PRODUCT_IMAGE_DIRECTORY, VARIANT_IMAGE_DIRECTORY } from 'src/app/@core/services/image-storing-directory';
 import { Component, OnInit, Input } from '@angular/core';
 import { Lightbox } from 'ngx-lightbox';
 
@@ -8,12 +7,12 @@ import { Product } from 'src/app/@core/models/product/product.model';
 
 
 @Component( {
-	selector: 'product-gallery-extend',
-	templateUrl: './gallery-extend.component.html',
-	styleUrls: [ './gallery-extend.component.scss' ]
+	selector: 'product-gallery',
+	templateUrl: './gallery.component.html',
+	styleUrls: [ './gallery.component.scss' ]
 } )
 
-export class GalleryExtendComponent implements OnInit {
+export class GalleryComponent implements OnInit {
   PRODUCT_IMAGE_DIRECTORY = PRODUCT_IMAGE_DIRECTORY;
   VARIANT_IMAGE_DIRECTORY = VARIANT_IMAGE_DIRECTORY
 
