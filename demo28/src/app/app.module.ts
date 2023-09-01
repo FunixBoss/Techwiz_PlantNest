@@ -22,7 +22,7 @@ import { appReducers, metaReducers } from './@core/reducers/app.reducer';
 import { cartReducer } from './@core/reducers/cart.reducer';
 
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { wishlistReducer } from './@core/reducers/wishlist.reducer';
 import { LayoutComponent } from './@theme/layout/layout.component';
 import { ThemeModule } from './@theme/theme.module';
@@ -56,9 +56,11 @@ import { ThemeModule } from './@theme/theme.module';
     StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
     StoreDevtoolsModule.instrument(),
   ],
+  bootstrap: [AppComponent],
 
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+
+  ]
 })
 
 export class AppModule { }

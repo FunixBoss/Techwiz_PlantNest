@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { AuthenticationService } from 'src/app/@core/services/account/authentication.service';
 import { Wishlist2Service } from 'src/app/@core/services/account/wishlist2.service';
 
 
@@ -10,7 +11,10 @@ import { Wishlist2Service } from 'src/app/@core/services/account/wishlist2.servi
 
 export class WishlistMenuComponent implements OnInit, OnDestroy {
 
-	constructor(public wishlistService: Wishlist2Service) { }
+	constructor(
+    public wishlistService: Wishlist2Service,
+    public authenService: AuthenticationService
+  ) { }
 
 	ngOnInit(): void {
 	}

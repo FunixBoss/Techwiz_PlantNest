@@ -22,6 +22,10 @@ import { UtilsService } from './services/utils.service';
 import { Utils2Service } from './services/utils2.service';
 import { WishlistService } from './services/wishlist.service';
 import { StoreService } from './store/store.service';
+import { AuthenticationService } from './services/account/authentication.service';
+import { AuthenticationGuard } from './guard/authentication.guard';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './interceptors/auth-interceptor.service';
 
 const SERVICES: any[] = [
   AccountService,
@@ -48,9 +52,8 @@ const SERVICES: any[] = [
   UtilsService,
   Utils2Service,
   WishlistService,
-
-  StoreService
-
+  StoreService,
+  AuthenticationService
 ]
 
 @NgModule({
@@ -59,6 +62,14 @@ const SERVICES: any[] = [
   ],
   exports: [],
   declarations: [],
-  providers: [...SERVICES]
+  providers: [
+    ...SERVICES,
+    AuthenticationGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ]
 })
 export class CoreModule { }

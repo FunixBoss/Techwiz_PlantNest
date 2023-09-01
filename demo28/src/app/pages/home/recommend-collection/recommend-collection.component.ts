@@ -15,8 +15,8 @@ export class RecommendCollectionComponent implements OnInit, OnChanges {
 	sliderOption = productSlider;
 
   constructor() { }
+
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.products);
   }
 
   ngOnInit(): void {

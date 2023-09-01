@@ -55,53 +55,60 @@ import { CatFilterPipe } from './pipes/cat-filter.pipe';
 import { AttrFilterPipe } from './pipes/attr-filter.pipe';
 import { SafeContentPipe } from './pipes/safe-content.pipe';
 import { CoreModule } from '../@core/core.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AccountComponent } from './components/headers/shared/account/account.component';
+
+const COMPONENTS = [
+  // header
+  CartMenuComponent,
+  WishlistMenuComponent,
+  CategoryMenuComponent,
+  MainMenuComponent,
+  HeaderSearchComponent,
+  MobileButtonComponent,
+  MobileMenuComponent,
+
+  HeaderComponent,
+  FooterComponent,
+
+  // product
+  ProductSixComponent,
+  ProductEightComponent,
+  ProductNineComponent,
+  ProductElevenComponent,
+  ProductTwelveComponent,
+
+  // single-use components
+  BreadcrumbComponent,
+  PageHeaderComponent,
+  LoginModalComponent,
+  QuantityInputComponent,
+  CountDownComponent,
+  AccordionComponent,
+  CardComponent,
+  PaginationComponent,
+  IsotopeGridComponent,
+  ImageComponent,
+
+  // directives
+  BgParallaxDirective,
+  TabClickDirective,
+  ProductHoverDirective,
+  ContentAnimDirective,
+
+  // pipes
+  CatFilterPipe,
+  AttrFilterPipe,
+  SafeContentPipe,
+  CountDownComponent,
+
+  CountToComponent,
+  AccountComponent
+]
 
 @NgModule({
 	declarations: [
-		// header
-		CartMenuComponent,
-		WishlistMenuComponent,
-		CategoryMenuComponent,
-		MainMenuComponent,
-		HeaderSearchComponent,
-		MobileButtonComponent,
-		MobileMenuComponent,
-
-		HeaderComponent,
-		FooterComponent,
-
-		// product
-		ProductSixComponent,
-		ProductEightComponent,
-		ProductNineComponent,
-		ProductElevenComponent,
-		ProductTwelveComponent,
-
-		// single-use components
-		BreadcrumbComponent,
-		PageHeaderComponent,
-		LoginModalComponent,
-		QuantityInputComponent,
-		CountDownComponent,
-		AccordionComponent,
-		CardComponent,
-		PaginationComponent,
-		IsotopeGridComponent,
-		ImageComponent,
-
-		// directives
-		BgParallaxDirective,
-		TabClickDirective,
-		ProductHoverDirective,
-		ContentAnimDirective,
-
-		// pipes
-		CatFilterPipe,
-		AttrFilterPipe,
-		SafeContentPipe,
-		CountDownComponent,
-
-		CountToComponent
+		...COMPONENTS
 	],
 
 	imports: [
@@ -111,49 +118,13 @@ import { CoreModule } from '../@core/core.module';
 		TranslateModule,
 		OwlModule,
 		LazyLoadImageModule,
-    CoreModule
+    CoreModule,
+    FormsModule,
+    ReactiveFormsModule
 	],
 
 	exports: [
-		// header
-		HeaderComponent,
-
-		// mobile-menus
-		MobileMenuComponent,
-
-		// footer
-		FooterComponent,
-
-		// products
-		ProductSixComponent,
-		ProductEightComponent,
-		ProductNineComponent,
-		ProductElevenComponent,
-		ProductTwelveComponent,
-
-		// // single-use components
-		BreadcrumbComponent,
-		PageHeaderComponent,
-		CountDownComponent,
-		CountToComponent,
-		AccordionComponent,
-		CardComponent,
-		PaginationComponent,
-		QuantityInputComponent,
-		IsotopeGridComponent,
-		ImageComponent,
-
-		// directives
-		BgParallaxDirective,
-		TabClickDirective,
-		ProductHoverDirective,
-		ContentAnimDirective,
-
-		// pipes
-		CatFilterPipe,
-		AttrFilterPipe,
-		SafeContentPipe,
-
+    ...COMPONENTS
 	],
 	entryComponents: [
 		LoginModalComponent

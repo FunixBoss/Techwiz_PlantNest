@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthenticationService } from 'src/app/@core/services/account/authentication.service';
 import { ModalService } from 'src/app/@core/services/modal.service';
 import { UtilsService } from 'src/app/@core/services/utils.service';
 
@@ -19,8 +20,10 @@ export class HeaderComponent implements OnInit {
 	constructor(
     public activeRoute: ActivatedRoute,
     public utilsService: UtilsService,
-    public modalService: ModalService) {
-	}
+    public modalService: ModalService,
+    public authenService: AuthenticationService,
+    private router: Router
+  )  { }
 
 	ngOnInit(): void {
 	}
@@ -29,4 +32,10 @@ export class HeaderComponent implements OnInit {
 		event.preventDefault();
 		this.modalService.showLoginModal();
 	}
+
+  logout() {
+    this.authenService.logout()
+    this.authenService.authChange()
+    this.router.navigateByUrl("/")
+  }
 }

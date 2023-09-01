@@ -45,9 +45,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       return;
     }
 
-    console.log(this.loginFormGroup.value);
-    
-
     this.subscriptions.push(
       this.authService.login(this.loginFormGroup.value).subscribe(
         (response: HttpResponse<Account>) => {
