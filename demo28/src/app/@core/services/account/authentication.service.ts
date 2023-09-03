@@ -13,7 +13,6 @@ export class AuthenticationService {
   private loggedInEmail: string;
   private jwtHelper = new JwtHelperService();
 
-
   private authChangeSubject = new Subject<void>();
   get authChange$(): Observable<void> {
     return this.authChangeSubject.asObservable();

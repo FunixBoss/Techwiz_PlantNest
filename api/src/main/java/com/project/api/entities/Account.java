@@ -45,7 +45,6 @@ public class Account implements java.io.Serializable {
 	@Column(name = "full_name", nullable = false)
 	private String fullName;
 
-
 	@Column(name = "phone_number", nullable = false)
 	private String phoneNumber;
 

@@ -1,6 +1,7 @@
 import { AuthenticationService } from './../services/account/authentication.service';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -10,7 +11,8 @@ export class AuthenticationGuard implements CanActivate {
 
   constructor(
     private authenticationService: AuthenticationService,
-    private router: Router
+    private router: Router,
+    private toastrService: ToastrService
   ) {}
 
   canActivate(
@@ -22,8 +24,9 @@ export class AuthenticationGuard implements CanActivate {
   private isAccountLoggedIn(): boolean {
     if(this.authenticationService.isLoggedIn()) return true
 
-    this.router.navigate(['/login'])
+    this.toastrService.error("You have to log in to access this page")
+    this.router.navigate(['/'])
     return false
   }
-  
+
 }

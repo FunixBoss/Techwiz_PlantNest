@@ -27,28 +27,18 @@ export class AccountService {
   ) {
   }
 
-  findAll(): Observable<Account[]> {
-    const url: string = `${this.baseUrlService.baseURL}/accounts/findAll`
-    return this.httpClient.get<Account[]>(url)
-  }
-
-  findById(id: number): Observable<Account> {
-    const url: string = `${this.baseUrlService.baseURL}/accounts/findById/${id}`
-    return this.httpClient.get<Account>(url);
-  }
-
   countTotalComments(id: number): Observable<number> {
     const url: string = `${this.baseUrlService.baseURL}/accounts/${id}/countComments`
     return this.httpClient.get<number>(url);
   }
 
-  update(account: Account): Observable<boolean> {
-    const url: string = `${this.baseUrlService.baseURL}/accounts/update`
-    return this.httpClient.post<boolean>(url, account);
+  isUsernameExists(username: string): Observable<boolean> {
+    const url: string = `${this.baseUrlService.baseURL}/isUsernameExist?username=${username}`
+    return this.httpClient.get<boolean>(url);
   }
 
   isEmailExists(email: string): Observable<boolean> {
-    const url: string = `${this.baseUrlService.baseURL}/accounts/isEmailExist?email=${email}`
+    const url: string = `${this.baseUrlService.baseURL}/isEmailExist?email=${email}`
     return this.httpClient.get<boolean>(url);
   }
 

@@ -79,7 +79,9 @@
       <button
         class="btn btn-product font-weight-normal text-uppercase text-truncate  btn-outline-primary-2 btn-outline-primary-2"
         (click)="addToWishlist($event)">
-        <span class="border-0"><i class="icon-heart-o"></i>{{ isInWishlist() ? 'Go' : 'Add' }} to Wishlist</span>
+        <span class="border-0">
+          <i class="icon-heart-o"></i>
+          {{ inWishlist ? 'Go to Wishlist' : 'Add to Wishlist' }} </span>
       </button>
     </div>
   </div>

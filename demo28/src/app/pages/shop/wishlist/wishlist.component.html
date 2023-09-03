@@ -16,11 +16,11 @@
   </nav>
 
   <div class="page-content">
-    <div class="container" *ngIf="wishItems.length == 0 else wishlistBlock">
+    <div class="container" *ngIf="wishlist.length == 0 else wishlistBlock">
       <div class="text-center">
         <i class="icon-heart-o wishlist-empty d-block" style="font-size: 15rem; line-height: 1"></i>
         <span class="d-block mt-2">No products added to wishlist</span>
-        <a routerLink="/shop/sidebar/list" class="btn btn-primary mt-2">Go Shop</a>
+        <a routerLink="/shop/list" class="btn btn-primary mt-2">Go Shop</a>
       </div>
     </div>
     <ng-template #wishlistBlock>
@@ -38,7 +38,7 @@
           </thead>
 
           <tbody>
-            <tr *ngFor="let product of wishItems">
+            <tr *ngFor="let product of wishlist">
               <td class="product-col">
                 <div class="product">
                   <figure class="product-media">
@@ -55,7 +55,7 @@
               </td>
               <td class="price-col">
                 <div class="product-price d-inline-block mb-0"
-                  *ngIf="!product.stock || product.stock == 0 else elseBlock">
+                  *ngIf="">
                   <span>
                     ${{product.minPrice}}
                   </span>
@@ -67,7 +67,7 @@
                     ${{ product.minPrice.toFixed(2) }}
                   </div>
                   <ng-template #elseBlock>
-                    <div class="product-price d-inline-block mb-0" *ngIf="product.variants.length == 0 else elseBlock">
+                    <div class="product-price d-inline-block mb-0" *ngIf="product.productVariants.length == 0 else elseBlock">
                       <span class="new-price">${{ product.minPrice.toFixed(2) }}</span>
                       <span class="old-price">${{ product.maxPrice.toFixed(2) }}</span>
                     </div>
@@ -87,13 +87,15 @@
               </td>
               <td class="action-col">
                 <button class="btn btn-block btn-outline-primary-2">
-                  <i class="icon-cart-plus"></i>Options</button>
-                <button class="btn btn-block btn-outline-primary-2 disabled" *ngIf="product.stock < 1">Out
-                  of Stock</button>
+                  <i class="icon-cart-plus"></i>Options
+                </button>
               </td>
 
-              <td class="remove-col"><button class="btn-remove"
-                  (click)="wishlistService.removeFromWishList( product )"><i class="icon-close"></i></button></td>
+              <td class="remove-col">
+                <button class="btn-remove" (click)="remove(product)">
+                  <i class="icon-close"></i>
+                </button>
+              </td>
             </tr>
           </tbody>
         </table>

@@ -19,10 +19,7 @@ import { MobileMenuComponent } from './components/headers/shared/mobile-menu/mob
 import { HeaderComponent } from './components/headers/header/header.component';
 
 // // Product Component
-import { ProductSixComponent } from './components/product/product-six/product-six.component';
-import { ProductEightComponent } from './components/product/product-eight/product-eight.component';
 import { ProductNineComponent } from './components/product/product-nine/product-nine.component';
-import { ProductElevenComponent } from './components/product/product-eleven/product-eleven.component';
 import { ProductTwelveComponent } from './components/product/product-twelve/product-twelve.component';
 
 // Footer Component
@@ -57,6 +54,8 @@ import { SafeContentPipe } from './pipes/safe-content.pipe';
 import { CoreModule } from '../@core/core.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AccountComponent } from './components/headers/shared/account/account.component';
+import { LoginFormComponent } from './components/modals/shared/login-form/login-form.component';
+import { RegisterFormComponent } from './components/modals/shared/register-form/register-form.component';
 
 const COMPONENTS = [
   // header
@@ -72,16 +71,17 @@ const COMPONENTS = [
   FooterComponent,
 
   // product
-  ProductSixComponent,
-  ProductEightComponent,
   ProductNineComponent,
-  ProductElevenComponent,
   ProductTwelveComponent,
 
   // single-use components
   BreadcrumbComponent,
   PageHeaderComponent,
+
   LoginModalComponent,
+  LoginFormComponent,
+  RegisterFormComponent,
+
   QuantityInputComponent,
   CountDownComponent,
   AccordionComponent,

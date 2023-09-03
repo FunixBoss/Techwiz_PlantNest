@@ -244,6 +244,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         account.setPhoneNumber(phoneNumber);
         account.setActive(true);
         account.setCreatedAt(new Date());
+        account.setUpdatedAt(new Date());
         account.setImage(null);
 
         account.setRole(roleRepository.findById(1).get());
@@ -260,6 +261,16 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         } catch (Exception e) {
             e.printStackTrace();
             return new ArrayList<>();
+        }
+    }
+
+    @Override
+    public Integer countWishlist(Integer accountId) {
+        try {
+            return accountRepository.countWishlistsByAccountId(accountId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
         }
     }
 

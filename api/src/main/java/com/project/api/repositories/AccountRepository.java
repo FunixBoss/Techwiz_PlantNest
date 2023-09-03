@@ -36,4 +36,7 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
     @Query(value = "SELECT CASE WHEN COUNT(account_id) > 0 THEN 1 ELSE 0 END FROM Wishlist " +
             "WHERE account_id=:accountId AND product_id=:productId", nativeQuery = true)
     Integer isWishlistExist(@Param("accountId") String accountId, @Param("productId") String productId);
+
+    @Query("SELECT COUNT(w) FROM Account a JOIN a.wishlists w WHERE a.id = :accountId")
+    Integer countWishlistsByAccountId(@Param("accountId") Integer accountId);
 }

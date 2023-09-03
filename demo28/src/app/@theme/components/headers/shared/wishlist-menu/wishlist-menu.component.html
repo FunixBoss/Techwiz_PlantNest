@@ -1,10 +1,9 @@
-<a routerLink="/shop/wishlist" class="wishlist-link" title="Wishlist">
+<a class="wishlist-link" title="Wishlist" (click)="goToWishlist()" style="cursor: pointer;">
     <div class="icon position-relative">
         <i class="icon-heart-o"></i>
 
-
-        <ng-container *ngIf="authenService.isLoggedIn()">
-          <span class="wishlist-count">{{ wishlistService.wishlistQty | async }}</span>
+        <ng-container *ngIf="authenService.isLoggedIn() && wishlistQty != null">
+          <span class="wishlist-count">{{ wishlistQty }}</span>
         </ng-container>
     </div>
 </a>

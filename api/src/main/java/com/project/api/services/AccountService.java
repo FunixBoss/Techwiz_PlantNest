@@ -29,6 +29,7 @@ public interface AccountService {
     AccountDetailDTO findById(Integer accountId);
     AccountDTO register(String username, String email, String password, String fullName, String phoneNumber) throws UserNotFoundException, EmailExistException, UsernameExistException;
     List<ProductFindAllDTO> findAllWishlists(Integer accountId);
+    Integer countWishlist(Integer accountId);
     Long count();
     Boolean updateProfileImage(String username, MultipartFile image) throws IOException, NotAnImageFileException;
 

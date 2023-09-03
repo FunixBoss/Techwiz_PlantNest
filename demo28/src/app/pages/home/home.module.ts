@@ -7,14 +7,12 @@ import { OwlModule } from 'angular-owl-carousel';
 
 import { IndexComponent } from './index/index.component';
 import { TrendyCollectionComponent } from './trendy-collection/trendy-collection.component';
-import { RecommendCollectionComponent } from './recommend-collection/recommend-collection.component';
 import { ThemeModule } from 'src/app/@theme/theme.module';
 
 @NgModule({
 	declarations: [
 		IndexComponent,
 		TrendyCollectionComponent,
-		RecommendCollectionComponent
 	],
 
 	imports: [

@@ -15,6 +15,8 @@ public class SecurityConstant {
             "/api/admin/login",
             "/api/register",
             "/api/login",
+            "/api/isEmailExist",
+            "/api/isUsernameExist",
             "/api/user/image/**",
             "/assets/upload/**",
             "/api/products/**"

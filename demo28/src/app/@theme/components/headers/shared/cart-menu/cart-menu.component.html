@@ -1,4 +1,5 @@
-<div class="dropdown cart-dropdown">
+<ng-container *ngIf="authenService.isLoggedIn(); else notLoggedIn">
+  <div class="dropdown cart-dropdown">
     <a routerLink="/shop/cart" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true"
         aria-expanded="false" data-display="static">
         <div class="icon position-relative">
@@ -16,7 +17,7 @@
             <div class="dropdown-cart-products">
                 <div class="product justify-content-between" *ngFor="let product of cartService.cartItems2 | async">
                     <div class="product-cart-details">
-                        <h4 class="product-title">  
+                        <h4 class="product-title">
                             <a [routerLink]="['/product/default/']">{{ product.product.productName }}</a>
                         </h4>
 
@@ -51,3 +52,16 @@
         </ng-template>
     </div>
 </div>
+</ng-container>
+<ng-template #notLoggedIn>
+  <div class="dropdown cart-dropdown" style="cursor: pointer" (click)="showErrorMessage()">
+    <a class="dropdown-toggle" role="button"
+        aria-expanded="false" >
+        <div class="icon position-relative">
+            <i class="icon-shopping-cart"></i>
+        </div>
+    </a>
+  </div>
+</ng-template>
+
+

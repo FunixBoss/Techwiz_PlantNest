@@ -56,9 +56,13 @@
                     </div>
 
                     <div class="details-action-wrapper">
+                      <a href="#!" class="btn-product btn-wishlist" style="justify-content: start !important">
+                        <span>{{product.totalLikes}}</span>
+                      </a>
+
                         <a href="javascript:;" class="btn-product btn-wishlist"
-                            [class.added-to-wishlist]="isInWishlist()" (click)="addToWishlist($event)">
-                            <span>{{ isInWishlist() ? 'Go' : 'Add' }} to Wishlist</span>
+                            [class.added-to-wishlist]="inWishlist" (click)="addToWishlist($event)">
+                            <span>{{ inWishlist ? 'Go to Wishlist' : 'Add to Wishlist' }} </span>
                         </a>
                     </div>
                 </div>

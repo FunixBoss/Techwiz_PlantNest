@@ -117,9 +117,11 @@
             <span>{{product.totalLikes}}</span>
           </a>
           <a href="javascript:;" class="btn-product btn-wishlist" style="justify-content: start !important"
-              [class.added-to-wishlist]="isInWishlist()"
+              [class.added-to-wishlist]="inWishlist"
               (click)="addToWishlist($event)">
-            <span>Add To Wishlist</span>
+            <span>
+              {{inWishlist ? "Go To Wishlist" : "Add To Wishlist"}}
+            </span>
           </a>
         </div>
 

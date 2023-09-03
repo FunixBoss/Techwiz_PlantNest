@@ -1,13 +1,13 @@
 import { Component, OnInit, Input, ElementRef, OnChanges, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { ProductVariant } from 'src/app/@core/models/product/product-variant.model';
 import { Product } from 'src/app/@core/models/product/product.model';
 import { ProductSale } from 'src/app/@core/models/sale/product-sale.model';
+import { Wishlist2Service } from 'src/app/@core/services/account/wishlist2.service';
 
 
 import { CartService } from 'src/app/@core/services/cart.service';
-import { WishlistService } from 'src/app/@core/services/wishlist.service';
-import { environment } from 'src/environments/environment';
 
 declare var $: any;
 
@@ -17,19 +17,27 @@ declare var $: any;
 	styleUrls: ['./detail-informations.component.scss']
 })
 
-export class DetailInformationsComponent {
+export class DetailInformationsComponent implements OnInit {
 	@Input() product: Product;
 	selectedVariant: ProductVariant
 
+  inWishlist: boolean = false;
   maxQuantity = 1
 	qty = 1;
 
 	constructor(
 		public cartService: CartService,
-		public wishlistService: WishlistService,
+		public wishlistService: Wishlist2Service,
+    private toastrService: ToastrService,
 		public router: Router,
 		public el: ElementRef) {
 	}
+
+  ngOnInit() {
+    this.wishlistService.isInWishlist(this.product).subscribe(result => {
+      this.inWishlist = result
+    });
+  }
 
 	addCart(event: Event) {
 		event.preventDefault();
@@ -55,18 +63,25 @@ export class DetailInformationsComponent {
 	}
 
 	addToWishlist(event: Event) {
-		event.preventDefault();
-
-		if (this.isInWishlist()) {
-			this.router.navigate(['/shop/wishlist']);
-		} else {
-			this.wishlistService.addToWishList(this.product);
-		}
-	}
-
-	isInWishlist() {
-		return this.wishlistService.isInWishlist(this.product);
-	}
+    event.preventDefault();
+    if(this.inWishlist) {
+      this.router.navigateByUrl("/shop/wishlist")
+      return
+    }
+    this.wishlistService.addToWishList(this.product).subscribe(
+      (result: boolean) => {
+        if (result) {
+          this.wishlistService.notifyWishlistChange()
+          this.inWishlist = result
+          this.product.totalLikes += 1
+          this.toastrService.success('Product added to Wishlist.');
+        }
+      },
+      (error) => {
+        console.error('Error while adding product to Wishlist:', error);
+      }
+    );;
+  }
 
 	selectVariant(event) {
     if(event != null) {

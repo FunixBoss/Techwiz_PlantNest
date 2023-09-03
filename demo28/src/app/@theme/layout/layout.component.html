@@ -1,5 +1,5 @@
 <div class="page-wrapper">
-    <molla-header [containerClass]="containerClass"></molla-header>
+    <molla-header [containerClass]="containerClass" [wishCount]="wishCount"></molla-header>
 
     <div [@routeAnimations]="prepareRoute(outlet)">
         <router-outlet #outlet="outlet"></router-outlet>

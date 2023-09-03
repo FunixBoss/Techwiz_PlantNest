@@ -1,4 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { AuthenticationService } from 'src/app/@core/services/account/authentication.service';
 import { Wishlist2Service } from 'src/app/@core/services/account/wishlist2.service';
 
@@ -8,17 +10,27 @@ import { Wishlist2Service } from 'src/app/@core/services/account/wishlist2.servi
 	templateUrl: './wishlist-menu.component.html',
 	styleUrls: ['./wishlist-menu.component.scss']
 })
+export class WishlistMenuComponent implements OnInit {
 
-export class WishlistMenuComponent implements OnInit, OnDestroy {
+  @Input() wishlistQty = null
 
 	constructor(
-    public wishlistService: Wishlist2Service,
-    public authenService: AuthenticationService
+    public authenService: AuthenticationService,
+    private router: Router,
+    private toastrService: ToastrService
   ) { }
 
 	ngOnInit(): void {
 	}
 
-	ngOnDestroy(): void {
-	}
+  loadWishlist() {
+  }
+
+  goToWishlist() {
+    if(this.authenService.isLoggedIn()) {
+      this.router.navigateByUrl("/shop/wishlist")
+    } else {
+      this.toastrService.error('You have to login to access this page');
+    }
+  }
 }

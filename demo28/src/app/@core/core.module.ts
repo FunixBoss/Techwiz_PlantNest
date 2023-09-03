@@ -20,7 +20,6 @@ import { CartService } from './services/cart.service';
 import { ModalService } from './services/modal.service';
 import { UtilsService } from './services/utils.service';
 import { Utils2Service } from './services/utils2.service';
-import { WishlistService } from './services/wishlist.service';
 import { StoreService } from './store/store.service';
 import { AuthenticationService } from './services/account/authentication.service';
 import { AuthenticationGuard } from './guard/authentication.guard';
@@ -51,7 +50,6 @@ const SERVICES: any[] = [
   ModalService,
   UtilsService,
   Utils2Service,
-  WishlistService,
   StoreService,
   AuthenticationService
 ]

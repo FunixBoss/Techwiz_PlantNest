@@ -1,64 +1,56 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
+import { Product } from 'src/app/@core/models/product/product.model';
 import { Wishlist2Service } from 'src/app/@core/services/account/wishlist2.service';
+import { PRODUCT_IMAGE_DIRECTORY } from 'src/app/@core/services/image-storing-directory';
 
 import { environment } from 'src/environments/environment';
 
 @Component({
-	selector: 'shop-wishlist-page',
-	templateUrl: './wishlist.component.html',
-	styleUrls: ['./wishlist.component.scss']
+  selector: 'shop-wishlist-page',
+  templateUrl: './wishlist.component.html',
+  styleUrls: ['./wishlist.component.scss']
 })
 
 export class WishlistComponent implements OnInit, OnDestroy {
 
-	wishItems = [];
-	SERVER_URL = environment.SERVER_URL;
-	  PRODUCT_IMAGE_DIRECTORY: string = 'http://localhost:9090/assets/upload/product/'
-	private subscr: Subscription;
+  wishlist: Product[] = [];
+  SERVER_URL = environment.SERVER_URL;
+  PRODUCT_IMAGE_DIRECTORY = PRODUCT_IMAGE_DIRECTORY
+  private subscr: Subscription;
 
-	constructor(public wishlistService: Wishlist2Service) {
+  constructor(
+    public wishlistService: Wishlist2Service,
+    private toastrService: ToastrService
+  ) { }
 
-	}
+  ngOnInit(): void {
+    this.loadWishlist()
+  }
 
-	ngOnInit(): void {
-		this.subscr = this.wishlistService.wishlistStream.subscribe(items => {
-			this.wishItems = items;
-		  });
-		  console.log(this.wishItems);
+  loadWishlist() {
+    this.subscr = this.wishlistService.findAll().subscribe(items => {
+      this.wishlist = items;
+    });
+  }
 
-		// this.subscr = this.wishlistService.wishlistStream.subscribe(items => {
-		// 	this.wishItems = items.reduce((acc, product) => {
-		// 		let max = 0;
-		// 		let min = 999999;
+  ngOnDestroy(): void {
+    this.subscr.unsubscribe();
+  }
 
-		// 		// product.variants.map(item => {
-		// 		// 	if (min > item.price) min = item.price;
-		// 		// 	if (max < item.price) max = item.price;
-		// 		// }, []);
-
-		// 		// if (product.variants.length == 0) {
-		// 		// 	min = product.sale_price
-		// 		// 		? product.sale_price
-		// 		// 		: product.price;
-		// 		// 	max = product.price;
-		// 		// }
-
-		// 		return [
-		// 			...acc,
-		// 			{
-		// 				...product,
-		// 				minPrice: min,
-		// 				price:product.minPrice
-		// 			}
-		// 		];
-		// 	}, []);
-		// });
-
-
-	}
-
-	ngOnDestroy(): void {
-		this.subscr.unsubscribe();
-	}
+  remove(product) {
+    this.wishlistService.removeFromWishList(product).subscribe(
+      (result) => {
+        if(result) {
+          this.wishlistService.notifyWishlistChange()
+          this.toastrService.success('Product was removed from wishlist.');
+          this.loadWishlist()
+        }
+      },
+      (error) => {
+        console.error('Error while removing product from Wishlist:', error);
+      }
+    );
+  }
 }

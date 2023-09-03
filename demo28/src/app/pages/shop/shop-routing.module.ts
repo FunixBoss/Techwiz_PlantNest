@@ -6,6 +6,7 @@ import { WishlistComponent } from './wishlist/wishlist.component';
 import { CartComponent } from './cart/cart.component';
 import { InfoComponent } from '../others/info/info.component';
 import { CheckoutComponent } from './checkout/checkout.component';
+import { AuthenticationGuard } from 'src/app/@core/guard/authentication.guard';
 
 const routes: Routes = [
 	{
@@ -19,14 +20,17 @@ const routes: Routes = [
 	},
 	{
 		path: 'wishlist',
-		component: WishlistComponent
+		component: WishlistComponent,
+    canActivate: [AuthenticationGuard]
 	},
 	{
 		path: 'cart',
-		component: CartComponent
+		component: CartComponent,
+    canActivate: [AuthenticationGuard]
 	},{
 		path: 'checkout',
-		component: CheckoutComponent
+		component: CheckoutComponent,
+    canActivate: [AuthenticationGuard]
 	},
 
 ];

@@ -104,4 +104,22 @@ public class CustomerController extends ExceptionHandling {
     private void authenticate(String username, String password) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
     }
+
+    @GetMapping("isUsernameExist")
+    public ResponseEntity<Boolean> isUsernameExist(@RequestParam("username") String username) {
+        try {
+            return new ResponseEntity<>(this.accountService.checkUsernameExisting(username), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("isEmailExist")
+    public ResponseEntity<Boolean> isEmailExist(@RequestParam("email") String email) {
+        try {
+            return new ResponseEntity<>(this.accountService.checkEmailExisting(email), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+        }
+    }
 }

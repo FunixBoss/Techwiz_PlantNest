@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/wishlists")
-public class WishlistController {
+    public class WishlistController {
 
     @Autowired
     private WishlistService wishlistService;
@@ -27,6 +27,11 @@ public class WishlistController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping("count/{accountId}")
+    public ResponseEntity<Integer> count(@PathVariable Integer accountId) {
+        return new ResponseEntity<>(accountService.countWishlist(accountId), HttpStatus.OK);
     }
 
     @GetMapping("add")
