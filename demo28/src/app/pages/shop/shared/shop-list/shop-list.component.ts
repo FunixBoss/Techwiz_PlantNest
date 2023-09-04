@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Wishlist2Service } from 'src/app/@core/services/account/wishlist2.service';
 
 @Component({
 	selector: 'molla-shop-list',
@@ -11,9 +12,10 @@ export class ShopListComponent implements OnInit {
 	@Input() products = [];
 	@Input() loaded = false;
 
-	constructor() {
-	}
+	constructor(
+  ){ }
 
 	ngOnInit(): void {
 	}
+
 }

@@ -12,5 +12,6 @@ public interface CartService {
     Boolean remove(Integer accountId, Integer productId, Integer productVariantId);
     Boolean isExists(Integer cartId, Integer productId, Integer productVariantId);
     Boolean removeAll(Integer accountId);
+    Boolean canAddToCart(Integer accountId, Integer productId, Integer productVariantId, Integer quantity);
 
 }

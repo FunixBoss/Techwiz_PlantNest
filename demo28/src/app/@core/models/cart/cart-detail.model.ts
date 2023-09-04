@@ -3,10 +3,8 @@ import { Product } from "../product/product.model";
 import { Cart } from "./cart.model";
 
 export class CartDetail {
-    cartId: number;
+    cartDetailId: number;
     product?: Product;
     productVariant?: ProductVariant
-    cart?: Cart
     quantity: number
-    price: number;
 }

@@ -18,16 +18,16 @@ export class ProductTwelveComponent implements OnInit {
   @Input() addClass = '';
   @Input() isShownSold = true;
 
+  PRODUCT_IMAGE_DIRECTORY = PRODUCT_IMAGE_DIRECTORY
   maxPrice = 0;
   minPrice = 0;
   hasOnlyOnePrice: boolean = true;
   inWishlist: boolean = false;
-  PRODUCT_IMAGE_DIRECTORY = PRODUCT_IMAGE_DIRECTORY
 
   constructor(
     private router: Router,
     private wishlistService: Wishlist2Service,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
   ) {}
 
   ngOnInit(): void {

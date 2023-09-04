@@ -35,17 +35,8 @@ public class CartServiceImpl implements CartService {
     @Override
     public CartDTO findAll(Integer accountId) {
         Account account = accountRepository.findById(accountId).get();
-        Cart cart = account.getCart();
-
-        if(account.getCart() != null) {
-            return new CartDTO(account.getCart());
-        } else {
-            cart = new Cart();
-            cart.setCartId(account.getId());
-            cart.setUpdatedAt(new Date());
-            cart.setCreatedAt(new Date());
-            return new CartDTO(cartRepository.save(cart));
-        }
+        Cart cart = getCart(account);
+        return new CartDTO(cart);
     }
 
     @Override
@@ -54,13 +45,7 @@ public class CartServiceImpl implements CartService {
             Account account = accountRepository.findById(accountId).get();
             Product product = productRepository.findById(productId).get();
             ProductVariant variant = variantRepository.findById(productVariantId).get();
-
-            Cart cart = account.getCart();
-            if(cart == null) {
-                cart = new Cart();
-                cart.setCartId(account.getId());
-                cart.setCreatedAt(new Date());
-            }
+            Cart cart = getCart(account);
 
             if(isExists(cart.getCartId(), productId, productVariantId)) {
                 CartDetail oldDetail = findCartDetail(cart.getCartId(), productId, productVariantId);
@@ -93,13 +78,11 @@ public class CartServiceImpl implements CartService {
     public Boolean remove(Integer accountId, Integer productId, Integer productVariantId) {
         try {
             Account account = accountRepository.findById(accountId).get();
-            Cart cart = account.getCart();
-            if(cart != null) {
-                if(isExists(cart.getCartId(), productId, productVariantId)) {
-                    CartDetail oldDetail = findCartDetail(cart.getCartId(), productId, productVariantId);
-                    cart.getCartDetails().removeIf(detail -> detail.getCartDetailId().compareTo(oldDetail.getCartDetailId()) == 0);
-                    cartRepository.save(cart);
-                }
+            Cart cart = getCart(account);
+            if(isExists(cart.getCartId(), productId, productVariantId)) {
+                CartDetail oldDetail = findCartDetail(cart.getCartId(), productId, productVariantId);
+                cart.getCartDetails().removeIf(detail -> detail.getCartDetailId().compareTo(oldDetail.getCartDetailId()) == 0);
+                cartRepository.save(cart);
             }
             return true;
         } catch (Exception e) {
@@ -132,5 +115,29 @@ public class CartServiceImpl implements CartService {
             e.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public Boolean canAddToCart(Integer accountId, Integer productId, Integer productVariantId, Integer quantity) {
+        try {
+            ProductVariant variant = variantRepository.findById(productVariantId).get();
+            return variant.getQuantity() > quantity;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private Cart getCart(Account account) {
+        Cart cart;
+        if(account.getCart() == null) {
+            cart = new Cart();
+            cart.setCartId(account.getId());
+            cart.setCreatedAt(new Date());
+            cart.setUpdatedAt(new Date());
+        } else {
+            cart = account.getCart();
+        }
+        return cart;
     }
 }

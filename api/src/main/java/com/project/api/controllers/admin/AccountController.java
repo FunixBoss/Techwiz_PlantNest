@@ -21,6 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/admin/accounts")
+@PreAuthorize("hasAnyAuthority('**')")
 public class AccountController {
 
     @Autowired

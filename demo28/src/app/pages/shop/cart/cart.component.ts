@@ -2,102 +2,76 @@ import { Store } from '@ngrx/store';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { environment } from 'src/environments/environment';
-import { Cart2Service } from 'src/app/@core/services/account/cart2.service';
+import { Cart3Service } from 'src/app/@core/services/account/cart3.service';
+import { PRODUCT_IMAGE_DIRECTORY } from 'src/app/@core/services/image-storing-directory';
+import { CartDetail } from 'src/app/@core/models/cart/cart-detail.model';
+import { Cart } from 'src/app/@core/models/cart/cart.model';
+import { ProductSale } from 'src/app/@core/models/sale/product-sale.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
-	selector: 'shop-cart-page',
-	templateUrl: './cart.component.html',
-	styleUrls: ['./cart.component.scss']
+  selector: 'shop-cart-page',
+  templateUrl: './cart.component.html',
+  styleUrls: ['./cart.component.scss']
 })
 
 export class CartComponent implements OnInit, OnDestroy {
-	accountId=1;
-	cartItems = [];
-	SERVER_URL = environment.SERVER_URL;
-	shippingCost = 0;
-	PRODUCT_IMAGE_DIRECTORY: string = 'http://localhost:9090/assets/upload/product/'
-	total =0 ;
-	private subscr: Subscription;
+  PRODUCT_IMAGE_DIRECTORY = PRODUCT_IMAGE_DIRECTORY
+  private subscr: Subscription;
+  cart: Cart;
+  totalQty = 0;
+  totalPrice = 0;
+  shippingCost = 0;
 
-	constructor(private store: Store<any>, public cartService: Cart2Service) {
-	}
+  constructor(
+    private store: Store<any>,
+    public cartService: Cart3Service,
+    public toastrService: ToastrService
+  ) { }
 
-	ngOnInit() {
+  ngOnInit() {
+    this.subscr = this.cartService.findAll().subscribe(cart => {
+      this.cart = cart;
+    });
+  }
 
-		this.subscr = this.cartService.cartItems2.subscribe(items => {
-			this.cartItems = items;
-		  });
+  ngOnDestroy() {
+    this.subscr.unsubscribe();
+  }
 
-		  this.cartService.priceTotal.subscribe(items => {
-			this.total = items
-		  });
+  updateCart(event: any) {
+    event.preventDefault();
+  }
 
-	}
+  remove(cartDetail: CartDetail) {
+    this.cartService.remove(cartDetail.product, cartDetail.productVariant).subscribe(result => {
+      if(result) {
+        this.toastrService.success("Product removed successfully!")
+      } else {
+        this.toastrService.error("Product removed failed! Some error happened")
+      }
+    })
+  }
 
-	ngOnDestroy() {
-		this.subscr.unsubscribe();
-	}
+  ngOnChanges() {
 
-	trackByFn(index: number, item: any) {
-		if (!item) return null;
-		return item.slug;
-	}
+  }
 
-	updateCart(event: any) {
-		event.preventDefault();
+  onChangeQty(event: number, product: any) {
+    document.querySelector('.btn-cart-update.disabled') &&
+      document.querySelector('.btn-cart-update.disabled').classList.remove('disabled');
 
-		// event.target.parentElement.querySelector('.icon-refresh').classList.add('load-more-rotating');
+  }
 
-		// setTimeout(() => {
-		// 	this.cartService.updateCart(this.cartItems);
-		// 	event.target.parentElement.querySelector('.icon-refresh').classList.remove('load-more-rotating');
-		// 	document.querySelector('.btn-cart-update:not(.diabled)') && document.querySelector('.btn-cart-update').classList.add('disabled');
-		// }, 400);
-	}
+  calcPriceAfterSale(rootPrice, productSale: ProductSale): number {
+    if(productSale.productSaleType.typeName == "Fixed") {
+      return (rootPrice - productSale.discount > 0) ? rootPrice - productSale.discount : 0
+    } else {
+      return (rootPrice * (1 - productSale.discount/100))
+    }
+  }
 
-	changeShipping(value: number) {
-		this.shippingCost = value;
-	}
+  changeShipping(value: number) {
 
-		ngOnChanges(){
-
-		}
-
-	onChangeQty(event: number, product: any) {
-
-		document.querySelector('.btn-cart-update.disabled') && document.querySelector('.btn-cart-update.disabled').classList.remove('disabled');
-
-		this.cartItems = this.cartService.cartItems.reduce((acc, cur) => {
-
-			if (cur.product.productName === product.product.productName) {
-				acc.push({
-					...cur,
-					qty: event,
-					sum: cur.productVariant.price * event
-				});
-				//update db
-				this.cartService.updateCart(product,event)
-			}
-			else acc.push(cur);
-
-			return acc;
-		}, [])
-		this.cartService.cartItems2.next(this.cartItems);
-		this.updatePriceCart(this.cartItems);
-
-	}
-
-	updatePriceCart(cartItems){
-		const newTotalQuantity = this.cartItems.reduce(
-			(acc, cur) => acc + cur.qty,
-			0
-		  );
-		  const newTotalPrice = this.cartItems.reduce(
-			(acc, cur) => acc + cur.sum,
-			0
-		  );
-		  this.cartService.qtyTotal.next(newTotalQuantity);
-		  this.cartService.priceTotal.next(newTotalPrice);
-	  }
+  }
 }

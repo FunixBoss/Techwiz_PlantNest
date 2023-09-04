@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from 'src/app/@core/models/product/product.model';
-import { ApiService } from 'src/app/@core/services/api.service';
 import { PRODUCT_IMAGE_DIRECTORY } from 'src/app/@core/services/image-storing-directory';
 import { ProductService } from 'src/app/@core/services/product/product.service';
 
@@ -25,7 +24,6 @@ export class DetailPageComponent {
         if (result === null) {
           this.router.navigate(['/pages/404']);
         }
-
         this.product = result;
         this.loaded = true;
       });

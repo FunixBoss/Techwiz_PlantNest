@@ -22,8 +22,6 @@ export class PriceComponent implements OnInit {
 	}
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.selectedVariant);
-
     if(this.product != null) {
       this.hasOnlyOnePrice = this.product.minPrice == this.product.maxPrice
       if(this.selectedVariant != null) {

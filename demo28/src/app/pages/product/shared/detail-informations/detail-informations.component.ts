@@ -1,15 +1,11 @@
-import { Component, OnInit, Input, ElementRef, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, NgZone} from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ProductVariant } from 'src/app/@core/models/product/product-variant.model';
 import { Product } from 'src/app/@core/models/product/product.model';
 import { ProductSale } from 'src/app/@core/models/sale/product-sale.model';
+import { Cart3Service } from 'src/app/@core/services/account/cart3.service';
 import { Wishlist2Service } from 'src/app/@core/services/account/wishlist2.service';
-
-
-import { CartService } from 'src/app/@core/services/cart.service';
-
-declare var $: any;
 
 @Component({
 	selector: 'product-detail-informations',
@@ -19,19 +15,20 @@ declare var $: any;
 
 export class DetailInformationsComponent implements OnInit {
 	@Input() product: Product;
-	selectedVariant: ProductVariant
 
+	selectedVariant: ProductVariant
   inWishlist: boolean = false;
   maxQuantity = 1
 	qty = 1;
 
 	constructor(
-		public cartService: CartService,
+		public cartService: Cart3Service,
 		public wishlistService: Wishlist2Service,
     private toastrService: ToastrService,
 		public router: Router,
-		public el: ElementRef) {
-	}
+    private ngZone: NgZone
+    )
+  { }
 
   ngOnInit() {
     this.wishlistService.isInWishlist(this.product).subscribe(result => {
@@ -43,23 +40,21 @@ export class DetailInformationsComponent implements OnInit {
 		event.preventDefault();
 		if ((event.currentTarget as HTMLElement).classList.contains('btn-disabled')) return;
 
-		let newProduct = { ...this.product };
-		// if (this.product.variants.length > 0) {
-		// 	newProduct = {
-		// 		...this.product,
-		// 		name:
-		// 			this.product.name +
-		// 			' - ' +
-		// 			this.selectedVariant.colorName +
-		// 			', ' +
-		// 			this.selectedVariant.size,
-		// 		price: this.selectedVariant.price
-		// 	};
-		// }
-
-		this.cartService.addToCart(
-			newProduct, this.qty
-		);
+		this.cartService.addOrUpdateCartItem(this.product, this.selectedVariant, this.qty).subscribe(
+      result => {
+        if(result) {
+          this.toastrService.success("Add product to cart successfully!")
+          console.log("Before emitting value");
+          this.ngZone.run(() => {
+            this.cartService.cartChangeSubject.next(1);
+          });
+          console.log("After emitting value");
+        } else {
+          this.toastrService.error("Some errors happened, please try again")
+        }
+      },
+      error => console.log(error)
+    )
 	}
 
 	addToWishlist(event: Event) {

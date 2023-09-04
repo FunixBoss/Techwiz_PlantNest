@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { CartService } from 'src/app/@core/services/cart.service';
+import { Cart3Service } from 'src/app/@core/services/account/cart3.service';
 
 
 declare var $: any;
@@ -17,13 +17,13 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
 	private subscr: Subscription;
 
-	constructor(public cartService: CartService) {
+	constructor(public cartService: Cart3Service) {
 	}
 
 	ngOnInit(): void {
-		this.subscr = this.cartService.cartStream.subscribe(items => {
-			this.cartItems = items;
-		});
+		// this.subscr = this.cartService.cartStream.subscribe(items => {
+		// 	this.cartItems = items;
+		// });
 
 		document.querySelector('body').addEventListener("click", () => this.clearOpacity())
 	}

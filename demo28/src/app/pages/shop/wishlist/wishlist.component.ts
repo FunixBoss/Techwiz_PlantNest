@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { Product } from 'src/app/@core/models/product/product.model';
+import { ProductSale } from 'src/app/@core/models/sale/product-sale.model';
 import { Wishlist2Service } from 'src/app/@core/services/account/wishlist2.service';
 import { PRODUCT_IMAGE_DIRECTORY } from 'src/app/@core/services/image-storing-directory';
 
@@ -52,5 +53,13 @@ export class WishlistComponent implements OnInit, OnDestroy {
         console.error('Error while removing product from Wishlist:', error);
       }
     );
+  }
+
+  calcPriceAfterSale(rootPrice, productSale: ProductSale): number {
+    if(productSale.productSaleType.typeName == "Fixed") {
+      return (rootPrice - productSale.discount > 0) ? rootPrice - productSale.discount : 0
+    } else {
+      return (rootPrice * (1 - productSale.discount/100))
+    }
   }
 }

@@ -178,7 +178,7 @@
                                         </tr>
                                     </thead>
 
-                                    <tbody>
+                                    <!-- <tbody>
                                         <tr *ngFor="let product of cartItems">
                                             <td><a
                                                     [routerLink]="['/product/default/'+ product.slug]">{{ product.name }}</a>
@@ -197,7 +197,7 @@
                                             <td>Total:</td>
                                             <td>${{ (cartService.priceTotal | async).toFixed(2) }}</td>
                                         </tr>
-                                    </tbody>
+                                    </tbody> -->
                                 </table>
 
                                 <molla-accordion adClass="accordion-summary" id="accordion-payment">

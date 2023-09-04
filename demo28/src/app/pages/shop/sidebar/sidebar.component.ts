@@ -1,6 +1,7 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FilterCriteria } from 'src/app/@core/models/filter-criteria';
+import { Wishlist2Service } from 'src/app/@core/services/account/wishlist2.service';
 import { ApiService } from 'src/app/@core/services/api.service';
 import { ProductService } from 'src/app/@core/services/product/product.service';
 import { UtilsService } from 'src/app/@core/services/utils.service';
@@ -33,7 +34,8 @@ export class SidebarPageComponent implements OnInit {
     public router: Router,
     public utilsService: UtilsService,
     public apiService: ApiService,
-    public productService: ProductService
+    public productService: ProductService,
+
   ) {
     this.activeRoute.queryParams.subscribe((params) => {
       this.loaded = false;

@@ -1,6 +1,9 @@
 export class CartRequest {
-    accountId?: number;
-    productId?: number
-    productVariantId?: number;
-    quantity?: number
+
+    constructor(
+      public accountId: number,
+      public productId: number,
+      public productVariantId: number,
+      public quantity?: number
+    ) { }
 }

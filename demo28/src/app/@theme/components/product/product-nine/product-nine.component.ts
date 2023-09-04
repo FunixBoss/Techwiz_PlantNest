@@ -1,10 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
-
-import { ModalService } from 'src/app/@core/services/modal.service';
-import { CartService } from 'src/app/@core/services/cart.service';
-
-import { environment } from 'src/environments/environment';
 import { Product } from 'src/app/@core/models/product/product.model';
 import { Wishlist2Service } from 'src/app/@core/services/account/wishlist2.service';
 import { ProductSale } from 'src/app/@core/models/sale/product-sale.model';
@@ -25,7 +20,7 @@ export class ProductNineComponent implements OnInit {
   constructor(
     private router: Router,
     private wishlistService: Wishlist2Service,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
   ) {}
 
   ngOnInit(): void {

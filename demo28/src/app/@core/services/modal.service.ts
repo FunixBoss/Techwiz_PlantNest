@@ -14,25 +14,6 @@ export class ModalService {
 	products = [];
 	timer: any;
 
-	private modalOption1: NgbModalOptions = {
-		centered: true,
-		size: 'xl',
-		windowClass: 'newsletter-modal',
-		beforeDismiss: async () => {
-			document.querySelector('body')?.classList.remove('modal-open');
-
-			await new Promise((resolve) => {
-				setTimeout(() => {
-					resolve('success');
-				}, 250)
-			});
-
-			(document.querySelector('.logo') as HTMLElement).focus({ preventScroll: true });
-
-			return true;
-		}
-	};
-
 	private modalOption2: NgbModalOptions = {
 		centered: true,
 		size: 'lg',
@@ -51,45 +32,6 @@ export class ModalService {
 			return true;
 		}
 	}
-
-	private modalOption3: NgbModalOptions = {
-		centered: true,
-		size: 'xl',
-		scrollable: false,
-		windowClass: "vb-modal",
-		beforeDismiss: async () => {
-			document.querySelector('body')?.classList.remove('modal-open');
-
-			await new Promise((resolve) => {
-				setTimeout(() => {
-					resolve('success');
-				}, 300)
-			});
-
-			(document.querySelector('.logo') as HTMLElement).focus({ preventScroll: true });
-
-			return true;
-		}
-	};
-
-	private modalOption4: NgbModalOptions = {
-		centered: true,
-		size: 'xl',
-		beforeDismiss: async () => {
-			document.querySelector('body')?.classList.remove('modal-open');
-
-			await new Promise((resolve) => {
-				setTimeout(() => {
-					resolve('success');
-				}, 300)
-			});
-
-
-			(document.querySelector('.logo') as HTMLElement).focus({ preventScroll: true });
-
-			return true;
-		}
-	};
 
 	constructor(private modalService: NgbModal, private router: Router, private http: HttpClient) {
 	}

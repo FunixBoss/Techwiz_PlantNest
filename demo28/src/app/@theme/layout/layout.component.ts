@@ -58,7 +58,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit(): void {
-    this.wishlistService.wishlistChangeSubject.subscribe(() => {
+    this.wishlistService.wishlistQtyChangeSubject.subscribe(() => {
       this.loadWishlist()
     })
     this.loadWishlist()
@@ -66,7 +66,6 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
   loadWishlist() {
     this.wishlistService.countTotal().subscribe(qty => {
-      console.log(qty);
       this.wishCount = qty
     })
   }

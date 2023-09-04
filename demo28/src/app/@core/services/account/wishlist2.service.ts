@@ -2,7 +2,7 @@ import { Wishlist } from './../../models/account/wishlist.model';
 import { Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
-import { Subject, BehaviorSubject, Observable } from 'rxjs';
+import { Subject, BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { Product } from '../../models/product/product.model';
@@ -16,10 +16,10 @@ import { Account } from '../../models/account/account.model';
 })
 export class Wishlist2Service {
 
-  wishlistChangeSubject = new Subject<void>();
+  wishlistQtyChangeSubject: Subject<number> = new ReplaySubject(1);
 
-  notifyWishlistChange(): void {
-    this.wishlistChangeSubject.next();
+  notifyWishlistChange(value = null): void {
+    this.wishlistQtyChangeSubject.next(value);
   }
 
   constructor(

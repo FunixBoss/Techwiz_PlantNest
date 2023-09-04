@@ -57,10 +57,7 @@ import { ThemeModule } from './@theme/theme.module';
     StoreDevtoolsModule.instrument(),
   ],
   bootstrap: [AppComponent],
-
-  providers: [
-
-  ]
+  providers: []
 })
 
 export class AppModule { }

@@ -26,6 +26,17 @@ public class CartController {
         }
     }
 
+    @PostMapping("canAddToCart")
+    public ResponseEntity<Boolean> canAddToCart(@RequestBody CartRequestDTO item) {
+        try {
+            Boolean result = cartService.canAddToCart(item.getAccountId(), item.getProductId(), item.getProductVariantId(), item.getQuantity());
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @PostMapping("add")
     public ResponseEntity<Boolean> add(@RequestBody CartRequestDTO item) {
         try {
