@@ -6,7 +6,6 @@ import com.project.api.dtos.AccountDTO;
 import com.project.api.dtos.AccountDetailDTO;
 import com.project.api.dtos.AddressDTO;
 import com.project.api.entities.Account;
-import com.project.api.entities.AccountCoupon;
 import com.project.api.services.AccountService;
 import com.project.api.services.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.util.ArrayList;
 import java.util.List;
 

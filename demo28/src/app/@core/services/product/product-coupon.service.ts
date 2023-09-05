@@ -15,11 +15,6 @@ export class ProductCouponService {
   ) {
   }
 
-  findAll(): Observable<GetCouponResponse> {
-    const url: string = `${this.baseUrlService.baseURL}/coupons`
-    return this.httpClient.get<GetCouponResponse>(url)
-  }
-
   findCouponTypeById(id: number): CouponType {
     if(id == 1) {
       return { couponTypeId: 1, typeName: 'Fixed' }
@@ -41,5 +36,9 @@ export class ProductCouponService {
   findByCode(couponCode: string): Observable<Coupon> {
     const url: string = `${this.baseUrlService.baseURL}/coupons/findByCode?code=${couponCode}`
     return this.httpClient.get<Coupon>(url);
+  }
+
+  getDiscountValue(coupon: Coupon): string {
+    return (coupon.couponType.typeName == 'Fixed') ? "$" + coupon.discount :  coupon.discount + "%"
   }
 }

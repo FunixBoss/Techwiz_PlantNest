@@ -1,4 +1,3 @@
-import { Store } from '@ngrx/store';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
@@ -6,8 +5,29 @@ import { Cart3Service } from 'src/app/@core/services/account/cart3.service';
 import { PRODUCT_IMAGE_DIRECTORY } from 'src/app/@core/services/image-storing-directory';
 import { CartDetail } from 'src/app/@core/models/cart/cart-detail.model';
 import { Cart } from 'src/app/@core/models/cart/cart.model';
-import { ProductSale } from 'src/app/@core/models/sale/product-sale.model';
 import { ToastrService } from 'ngx-toastr';
+import { ProductService } from 'src/app/@core/services/product/product.service';
+import { Coupon } from 'src/app/@core/models/coupon/coupon.model';
+
+export class Shipping {
+  shippingName: string;
+  cost: number;
+}
+
+export const SHIPPING_DATA: Shipping[] =  [
+  {
+    shippingName: "Free Ship",
+    cost: 0
+  },
+  {
+    shippingName: "Standard",
+    cost: 10
+  },
+  {
+    shippingName: "Express",
+    cost: 20
+  }
+]
 
 @Component({
   selector: 'shop-cart-page',
@@ -15,63 +35,98 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./cart.component.scss']
 })
 
-export class CartComponent implements OnInit, OnDestroy {
+export class CartComponent implements OnDestroy {
   PRODUCT_IMAGE_DIRECTORY = PRODUCT_IMAGE_DIRECTORY
-  private subscr: Subscription;
+  private subscriptions: Subscription[] = [];
+  shippingData = SHIPPING_DATA
   cart: Cart;
-  totalQty = 0;
-  totalPrice = 0;
+
+  subTotalPrice = 0; // with products and coupon
   shippingCost = 0;
+  totalPrice = 0; // products, coupon & shipping cost
+  appliedCoupon: Coupon;
 
   constructor(
-    private store: Store<any>,
     public cartService: Cart3Service,
-    public toastrService: ToastrService
+    public toastrService: ToastrService,
+    public productService: ProductService
   ) { }
 
   ngOnInit() {
-    this.subscr = this.cartService.findAll().subscribe(cart => {
-      this.cart = cart;
-    });
+    this.subscriptions.push(
+      this.cartService.cartChangeSubject.subscribe(() => {
+        this.loadCartItems()
+      })
+    )
+    this.loadCartItems()
+  }
+
+  loadCartItems() {
+    this.subscriptions.push(
+      this.cartService.findAll().subscribe(cart => {
+        this.cart = cart
+        this.subTotalPrice = this.cartService.getTotalPriceAndQty(this.cart).totalPrice
+        this.calcTotalPrice()
+      })
+    );
+  }
+
+  calcTotalPrice() {
+    if(this.appliedCoupon == null) {
+      this.totalPrice = this.subTotalPrice + this.shippingCost
+      return;
+    }
+
+    this.totalPrice = this.cartService.calcPriceAfterAppliedCoupon(this.subTotalPrice, this.appliedCoupon) + this.shippingCost;
   }
 
   ngOnDestroy() {
-    this.subscr.unsubscribe();
+    this.subscriptions.forEach((subcr) => subcr.unsubscribe())
   }
 
   updateCart(event: any) {
-    event.preventDefault();
+    event.preventDefault()
+    this.loadCartItems()
   }
 
   remove(cartDetail: CartDetail) {
     this.cartService.remove(cartDetail.product, cartDetail.productVariant).subscribe(result => {
       if(result) {
         this.toastrService.success("Product removed successfully!")
+        this.cartService.cartChangeSubject.next()
+        this.loadCartItems()
       } else {
         this.toastrService.error("Product removed failed! Some error happened")
       }
     })
   }
 
-  ngOnChanges() {
-
-  }
-
-  onChangeQty(event: number, product: any) {
+  onChangeQty(newQty: number, cartDetail: CartDetail) {
     document.querySelector('.btn-cart-update.disabled') &&
       document.querySelector('.btn-cart-update.disabled').classList.remove('disabled');
 
+    this.cartService.addOrUpdateCartItem(cartDetail.product, cartDetail.productVariant, newQty).subscribe(
+      result => {
+        if(result) {
+          cartDetail.quantity = newQty
+          this.loadCartItems()
+        }
+      }
+    )
   }
 
-  calcPriceAfterSale(rootPrice, productSale: ProductSale): number {
-    if(productSale.productSaleType.typeName == "Fixed") {
-      return (rootPrice - productSale.discount > 0) ? rootPrice - productSale.discount : 0
-    } else {
-      return (rootPrice * (1 - productSale.discount/100))
-    }
+  getCartDetailTotalPrice(cartDetail: CartDetail): number {
+    return this.productService.calcPriceAfterSale(cartDetail.productVariant.price, cartDetail.product.productSale)
+            * cartDetail.quantity
   }
 
   changeShipping(value: number) {
+    this.shippingCost = value
+    this.calcTotalPrice()
+  }
 
+  applyCoupon(coupon: Coupon) {
+    this.appliedCoupon = coupon
+    this.calcTotalPrice()
   }
 }

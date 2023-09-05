@@ -50,7 +50,7 @@ export class CartMenuComponent implements OnInit {
 
     this.cartService.remove(cartDetail.product, cartDetail.productVariant).subscribe(result => {
       if(result) {
-        this.cartService.cartChangeSubject.next(1)
+        this.cartService.cartChangeSubject.next()
         this.toastrService.success("Remove product successfully!")
       }
     })

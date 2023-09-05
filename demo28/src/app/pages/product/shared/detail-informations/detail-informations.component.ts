@@ -46,7 +46,7 @@ export class DetailInformationsComponent implements OnInit {
           this.toastrService.success("Add product to cart successfully!")
           console.log("Before emitting value");
           this.ngZone.run(() => {
-            this.cartService.cartChangeSubject.next(1);
+            this.cartService.cartChangeSubject.next();
           });
           console.log("After emitting value");
         } else {

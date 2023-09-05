@@ -4,10 +4,7 @@ package com.project.api.entities;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import javax.persistence.*;
 
 import static javax.persistence.GenerationType.IDENTITY;
@@ -94,7 +91,7 @@ public class Product implements Serializable {
 	@JoinTable(name = "ProductImage", joinColumns = {
 			@JoinColumn(name = "product_id", nullable = false, updatable = false) }, inverseJoinColumns = {
 			@JoinColumn(name = "image_id", nullable = false, updatable = false) })
-	private Set<Image> images = new HashSet<Image>(0);
+	private List<Image> images = new ArrayList<>(0);
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.REMOVE)
 	private Set<ProductReview> productReviews = new HashSet<ProductReview>(0);
@@ -105,7 +102,7 @@ public class Product implements Serializable {
 	public Product(Catalog catalog, ProductSale productSale,
 			String productName, String description, Boolean active, Boolean sale, Boolean top, Boolean new_,
 			Date createdAt, Date updatedAt, Set<ProductVariant> productVariants, Set<CartDetail> cartDetails,
-			Set<OrderDetail> orderDetails, Set<Image> images, Set<ProductReview> productReviews) {
+			Set<OrderDetail> orderDetails, List<Image> images, Set<ProductReview> productReviews) {
 		this.catalog = catalog;
 		this.productSale = productSale;
 		this.productName = productName;

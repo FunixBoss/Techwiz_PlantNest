@@ -8,12 +8,13 @@ import { Account } from '../../models/account/account.model';
 import { Cart } from '../../models/cart/cart.model';
 import { Product } from '../../models/product/product.model';
 import { ProductVariant } from '../../models/product/product-variant.model';
+import { Coupon } from '../../models/coupon/coupon.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Cart3Service {
-  cartChangeSubject: BehaviorSubject<number> = new BehaviorSubject(1);
+  cartChangeSubject: Subject<void> = new Subject();
   cart: Cart
 
   constructor(
@@ -77,5 +78,14 @@ export class Cart3Service {
     }
   }
 
+  calcPriceAfterAppliedCoupon(price: number, coupon: Coupon): number {
+    if(coupon == null) return price
+
+    if(coupon.couponType.typeName == 'Fixed') {
+      return price - coupon.discount > 0 ? price - coupon.discount : 0
+    } else {
+      return price * (1 - coupon.discount / 100)
+    }
+  }
 
 }

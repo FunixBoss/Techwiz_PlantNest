@@ -1,4 +1,4 @@
-package com.project.api.controllers.admin;
+package com.project.api.controllers.customer;
 
 import com.project.api.dtos.CouponDTO;
 import com.project.api.entities.Coupon;
@@ -6,38 +6,16 @@ import com.project.api.services.CouponService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("api/admin/coupons")
-@PreAuthorize("hasAnyAuthority('**')")
-public class CouponController {
+@RequestMapping("api/coupons")
+public class Coupon2Controller {
 
     @Autowired
     private CouponService couponService;
-
-    @DeleteMapping("delete/{couponId}")
-    public ResponseEntity delete(@PathVariable("couponId") Integer couponId) {
-        try {
-            this.couponService.delete(couponId);
-            return new ResponseEntity(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
-            return new ResponseEntity(HttpStatus.BAD_GATEWAY);
-        }
-    }
-
-    @PostMapping("delete-coupons")
-    public ResponseEntity<Boolean> delete(@RequestBody List<Coupon> coupons) {
-        try {
-            this.couponService.delete(coupons);
-            return new ResponseEntity<>(true, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
-        }
-    }
 
     @GetMapping("isCouponExist")
     public ResponseEntity<Boolean> isCouponExist(@RequestParam String code) {
@@ -65,6 +43,4 @@ public class CouponController {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
-
-
 }

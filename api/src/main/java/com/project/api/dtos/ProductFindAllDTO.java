@@ -54,7 +54,7 @@ public class ProductFindAllDTO {
                 .map(variant -> variant.getProductSize())
                 .map(ProductSizeDTO::new)
                 .collect(Collectors.toList());
-        this.imageUrl = product.getImages().iterator().next().getImageUrl();
+        this.imageUrl = product.getImages().get(0).getImageUrl();
         this.active = product.getActive();
         this.sale = product.getSale();
         this.top = product.getTop();

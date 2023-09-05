@@ -10,6 +10,7 @@ import { Product } from '../../models/product/product.model';
 import { ProductSize } from '../../models/product/product-size.model';
 import { GetDTOByPages } from '../../models/product/get-dto-by-pages.model';
 import { FilterCriteria } from '../../models/filter-criteria';
+import { ProductSale } from '../../models/sale/product-sale.model';
 
 export class ToastState {
   bahavior: String;
@@ -122,6 +123,14 @@ export class ProductService {
     return this.httpClient.post<number>(url, formData);
   }
 
+
+  calcPriceAfterSale(rootPrice, productSale: ProductSale): number {
+    if(productSale.productSaleType.typeName == "Fixed") {
+      return (rootPrice - productSale.discount > 0) ? rootPrice - productSale.discount : 0
+    } else {
+      return (rootPrice * (1 - productSale.discount/100))
+    }
+  }
 }
 
 export function removeDuplicateSize(sizes: ProductSize[]): ProductSize[] {
@@ -134,4 +143,6 @@ export function removeDuplicateSize(sizes: ProductSize[]): ProductSize[] {
       })
     );
   });
+
+
 }

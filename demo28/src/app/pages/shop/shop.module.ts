@@ -14,6 +14,9 @@ import { ShopListComponent } from './shared/shop-list/shop-list.component';
 import { CartComponent } from './cart/cart.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { ThemeModule } from 'src/app/@theme/theme.module';
+import { PaginationComponent } from './shared/pagination/pagination.component';
+import { ApplyCouponComponent } from './shared/apply-coupon/apply-coupon.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule( {
 	declarations: [
@@ -21,6 +24,7 @@ import { ThemeModule } from 'src/app/@theme/theme.module';
 		WishlistComponent,
 		ShopSidebarComponent,
 		ShopListComponent,
+    ApplyCouponComponent,
     CartComponent,
 	  CheckoutComponent
 	],
@@ -31,7 +35,9 @@ import { ThemeModule } from 'src/app/@theme/theme.module';
 		RouterModule,
 		NgbModule,
 		OwlModule,
-		NouisliderModule
+		NouisliderModule,
+    FormsModule,
+    ReactiveFormsModule
 	]
 } )
 
