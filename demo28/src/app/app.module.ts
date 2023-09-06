@@ -13,7 +13,6 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { AppRoutingModule } from './app-routing.module';
-import { ElementsModule } from './pages/elements/elements.module';
 import { PagesModule } from './pages/others/pages.module';
 import { HomeModule } from './pages/home/home.module';
 
@@ -26,6 +25,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { wishlistReducer } from './@core/reducers/wishlist.reducer';
 import { LayoutComponent } from './@theme/layout/layout.component';
 import { ThemeModule } from './@theme/theme.module';
+import { DashboardModule } from './pages/dashboard/dashboard.module';
 
 @NgModule({
   declarations: [
@@ -39,7 +39,6 @@ import { ThemeModule } from './@theme/theme.module';
     NgbModule,
     HttpClientModule,
     OwlModule,
-    ElementsModule,
     PagesModule,
     ThemeModule,
     HomeModule,
@@ -55,6 +54,7 @@ import { ThemeModule } from './@theme/theme.module';
     EffectsModule.forRoot([]),
     StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
     StoreDevtoolsModule.instrument(),
+    DashboardModule
   ],
   bootstrap: [AppComponent],
   providers: []

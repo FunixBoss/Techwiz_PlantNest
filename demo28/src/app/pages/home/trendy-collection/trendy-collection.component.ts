@@ -11,13 +11,13 @@ export class TrendyCollectionComponent implements OnInit {
 
   @Input() products = [];
   @Input() loaded = false;
-
+  @Input() title: string;
 	sliderOption = productSlider;
 
   constructor() { }
 
   ngOnInit(): void {
-    
+
   }
 
 }

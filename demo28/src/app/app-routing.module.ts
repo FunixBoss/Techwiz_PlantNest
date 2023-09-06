@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { IndexComponent } from './pages/home/index/index.component';
-import { InfoComponent } from './pages/others/info/info.component';
 import { LayoutComponent } from './@theme/layout/layout.component';
+import { HomeComponent } from './pages/dashboard/home/home.component';
 
 const routes: Routes = [
 	{
@@ -16,12 +16,8 @@ const routes: Routes = [
 				component: IndexComponent
 			},
 			{
-				path: 'info',
-				component: InfoComponent
-			},
-			{
-				path: 'elements',
-				loadChildren: () => import( './pages/elements/elements.module' ).then( m => m.ElementsModule )
+				path: 'dashboard',
+				component: HomeComponent
 			},
 			{
 				path: 'pages',

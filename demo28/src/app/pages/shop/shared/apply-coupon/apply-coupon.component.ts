@@ -1,8 +1,9 @@
-import { Component, OnInit, Input, OnChanges, Output, EventEmitter } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { Component, OnInit, Input, OnChanges, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Coupon } from 'src/app/@core/models/coupon/coupon.model';
-import { Cart3Service } from 'src/app/@core/services/account/cart3.service';
+import { CartService } from 'src/app/@core/services/account/cart.service';
 import { ProductCouponService } from 'src/app/@core/services/product/product-coupon.service';
 import { CustomValidator } from 'src/app/@core/validators/custom-validator';
 import { isCouponCantBeUsed } from 'src/app/@core/validators/is-coupon-can-be-used';
@@ -14,8 +15,9 @@ import { isCouponNotExisting } from 'src/app/@core/validators/is-coupon-not-exis
 	styleUrls: ['./apply-coupon.component.scss']
 })
 
-export class ApplyCouponComponent implements OnInit {
+export class ApplyCouponComponent implements OnInit, OnDestroy {
 
+  private subscriptions: Subscription[] = []
   @Output() availableCoupon: EventEmitter<Coupon>;
   couponForm: FormGroup
   hasAnyErrors: boolean = false
@@ -25,7 +27,7 @@ export class ApplyCouponComponent implements OnInit {
 	constructor(
     public formBuilder: FormBuilder,
     public couponService: ProductCouponService,
-    public cartService: Cart3Service
+    public cartService: CartService
   ) {
     this.availableCoupon = new EventEmitter()
     this.couponForm = this.formBuilder.group({
@@ -38,6 +40,10 @@ export class ApplyCouponComponent implements OnInit {
   get code() {return this.couponForm.get('code')}
 	ngOnInit(): void {
 	}
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(subscr => subscr.unsubscribe())
+  }
 
   onFocus(event) {
     if(this.appliedCoupon == null) {
@@ -56,13 +62,15 @@ export class ApplyCouponComponent implements OnInit {
       return
     }
 
-    this.couponService.findByCode(this.code.value).subscribe(coupon => {
-      this.appliedCoupon = coupon
-      this.cartService.appliedCoupon = coupon
-      this.successMessage = "Applied coupon successfully!<br/>" +
-        "This coupon sale off " + this.couponService.getDiscountValue(coupon);
-      this.availableCoupon.emit(this.appliedCoupon)
-    })
+    this.subscriptions.push(
+      this.couponService.findByCode(this.code.value).subscribe(coupon => {
+        this.appliedCoupon = coupon
+        this.cartService.appliedCoupon = coupon
+        this.successMessage = "Applied coupon successfully!<br/>" +
+          "This coupon sale off " + this.couponService.getDiscountValue(coupon);
+        this.availableCoupon.emit(this.appliedCoupon)
+      })
+    )
   }
 
 }

@@ -4,7 +4,7 @@ import { CartDetail } from 'src/app/@core/models/cart/cart-detail.model';
 import { Cart } from 'src/app/@core/models/cart/cart.model';
 import { ProductSale } from 'src/app/@core/models/sale/product-sale.model';
 import { AuthenticationService } from 'src/app/@core/services/account/authentication.service';
-import { Cart3Service } from 'src/app/@core/services/account/cart3.service';
+import { CartService } from 'src/app/@core/services/account/cart.service';
 import { PRODUCT_IMAGE_DIRECTORY } from 'src/app/@core/services/image-storing-directory';
 
 @Component({
@@ -21,7 +21,7 @@ export class CartMenuComponent implements OnInit {
   totalQuantity = 0;
 
   constructor(
-    public cartService: Cart3Service,
+    public cartService: CartService,
     public authenService: AuthenticationService,
     private toastrService: ToastrService
   ) { }
@@ -36,12 +36,14 @@ export class CartMenuComponent implements OnInit {
   }
 
   loadMenu() {
-    this.cartService.findAll().subscribe(cart => {
-      this.cart = cart
-      const totalPriceAndQty = this.cartService.getTotalPriceAndQty(cart);
-      this.totalPrice = totalPriceAndQty.totalPrice;
-      this.totalQuantity = totalPriceAndQty.totalQuantity
-    })
+    if(this.authenService.isLoggedIn()){
+      this.cartService.findAll().subscribe(cart => {
+        this.cart = cart
+        const totalPriceAndQty = this.cartService.getTotalPriceAndQty(cart);
+        this.totalPrice = totalPriceAndQty.totalPrice;
+        this.totalQuantity = totalPriceAndQty.totalQuantity
+      })
+    }
   }
 
   removeFromCart(event: Event, cartDetail: CartDetail) {

@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Cart } from 'src/app/@core/models/cart/cart.model';
 import { Coupon } from 'src/app/@core/models/coupon/coupon.model';
-import { Cart3Service } from 'src/app/@core/services/account/cart3.service';
+import { CartService } from 'src/app/@core/services/account/cart.service';
 import { Shipping } from '../shared/shipping-data';
 import { ProductCouponService } from 'src/app/@core/services/product/product-coupon.service';
 import { ProductService } from 'src/app/@core/services/product/product.service';
@@ -23,10 +23,10 @@ import { Router } from '@angular/router';
 	styleUrls: ['./checkout.component.scss']
 })
 export class CheckoutComponent implements OnInit, OnDestroy {
+	private subscriptions: Subscription[] = [];
 
   @ViewChild(PaymentMethodsComponent) paymentMethodsCpn: PaymentMethodsComponent
   @ViewChild(BillingInformationComponent) billingInformationCpn: BillingInformationComponent
-	private subscrs: Subscription[] = [];
   cart: Cart
 
   subTotalPrice = 0; // with products and coupon
@@ -37,7 +37,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   appliedShipping: Shipping
 
 	constructor(
-    public cartService: Cart3Service,
+    public cartService: CartService,
     public couponService: ProductCouponService,
     public productService: ProductService,
     public orderService: OrderService,
@@ -46,15 +46,17 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     public toastrService: ToastrService,
     public router: Router
   ) {
-    this.couponService.appliedCouponChange.subscribe(() => {
-      this.appliedCoupon = this.cartService.appliedCoupon
-      this.calcTotalPrice()
-    })
+    this.subscriptions.push(
+      this.couponService.appliedCouponChange.subscribe(() => {
+        this.appliedCoupon = this.cartService.appliedCoupon
+        this.calcTotalPrice()
+      })
+    )
   }
 
 
 	ngOnInit(): void {
-    this.subscrs.push(
+    this.subscriptions.push(
       this.cartService.findAll().subscribe(cart => {
         this.cart = cart;
         this.subTotalPrice = this.cartService.getTotalPriceAndQty(this.cart).totalPrice
@@ -69,7 +71,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnDestroy(): void {
-		this.subscrs.forEach(subscr => subscr.unsubscribe())
+		this.subscriptions.forEach(subscr => subscr.unsubscribe())
 		document.querySelector('body').removeEventListener("click", () => this.clearOpacity())
 	}
 
@@ -106,15 +108,17 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
     let order: Order = this.mapFormValue(formValue, paymentMethod)
 
-    this.orderService.placeOrder(order).subscribe(result => {
-      if(result) {
-        this.toastrService.success("Place order successfully! Your order are handling")
-        this.cartService.resetCart()
-        this.router.navigateByUrl('/')
-      } else {
-        this.toastrService.error("Place order failed! Please try again")
-      }
-    })
+    this.subscriptions.push(
+      this.orderService.placeOrder(order).subscribe(result => {
+        if(result) {
+          this.toastrService.success("Place order successfully! Your order are handling")
+          this.cartService.resetCart()
+          this.router.navigateByUrl('/')
+        } else {
+          this.toastrService.error("Place order failed! Please try again")
+        }
+      })
+    )
 
 
 

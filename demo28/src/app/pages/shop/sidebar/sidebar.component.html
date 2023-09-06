@@ -7,12 +7,9 @@
           <a routerLink="/">Home</a>
         </li>
         <li class="breadcrumb-item">
-          <a routerLink="/shop/sidebar/list">Shop</a>
+          <a routerLink="/shop/list">Shop</a>
         </li>
         <li class="breadcrumb-item active">{{ pageTitle }}</li>
-        <li class="breadcrumb-item" *ngIf="filters.searchTerm != ''">
-          <span>Search - {{ filters.searchTerm }}</span>
-        </li>
       </ol>
     </div>
   </nav>

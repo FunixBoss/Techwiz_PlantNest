@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { Cart3Service } from 'src/app/@core/services/account/cart3.service';
+import { CartService } from 'src/app/@core/services/account/cart.service';
 import { PRODUCT_IMAGE_DIRECTORY } from 'src/app/@core/services/image-storing-directory';
 import { CartDetail } from 'src/app/@core/models/cart/cart-detail.model';
 import { Cart } from 'src/app/@core/models/cart/cart.model';
@@ -36,8 +36,8 @@ export const SHIPPING_DATA: Shipping[] =  [
 })
 
 export class CartComponent implements OnDestroy {
-  PRODUCT_IMAGE_DIRECTORY = PRODUCT_IMAGE_DIRECTORY
   private subscriptions: Subscription[] = [];
+  PRODUCT_IMAGE_DIRECTORY = PRODUCT_IMAGE_DIRECTORY
   shippingData = SHIPPING_DATA
   cart: Cart;
 
@@ -47,7 +47,7 @@ export class CartComponent implements OnDestroy {
   totalPrice = 0; // products, coupon & shipping cost
 
   constructor(
-    public cartService: Cart3Service,
+    public cartService: CartService,
     public toastrService: ToastrService,
     public productService: ProductService
   ) { }

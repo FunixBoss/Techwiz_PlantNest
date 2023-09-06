@@ -3,7 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { Product } from 'src/app/@core/models/product/product.model';
 import { ProductSale } from 'src/app/@core/models/sale/product-sale.model';
-import { Wishlist2Service } from 'src/app/@core/services/account/wishlist2.service';
+import { WishlistService } from 'src/app/@core/services/account/wishlist.service';
 import { PRODUCT_IMAGE_DIRECTORY } from 'src/app/@core/services/image-storing-directory';
 
 import { environment } from 'src/environments/environment';
@@ -22,7 +22,7 @@ export class WishlistComponent implements OnInit, OnDestroy {
   private subscr: Subscription;
 
   constructor(
-    public wishlistService: Wishlist2Service,
+    public wishlistService: WishlistService,
     private toastrService: ToastrService
   ) { }
 

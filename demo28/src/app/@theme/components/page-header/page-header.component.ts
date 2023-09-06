@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Wishlist2Service } from 'src/app/@core/services/account/wishlist2.service';
+import { WishlistService } from 'src/app/@core/services/account/wishlist.service';
 
 @Component({
 	selector: 'molla-page-header',
@@ -14,7 +14,7 @@ export class PageHeaderComponent implements OnInit {
 	@Input() subtitle: string;
 	@Input() title: string;
 
-	constructor(public wishlistService: Wishlist2Service) {
+	constructor(public wishlistService: WishlistService) {
 
 	}
 

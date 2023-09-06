@@ -1,22 +1,25 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { environment } from 'src/environments/environment';
 import { Product } from 'src/app/@core/models/product/product.model';
-import { Wishlist2Service } from 'src/app/@core/services/account/wishlist2.service';
+import { WishlistService } from 'src/app/@core/services/account/wishlist.service';
 import { ProductSale } from 'src/app/@core/models/sale/product-sale.model';
 import { PRODUCT_IMAGE_DIRECTORY } from 'src/app/@core/services/image-storing-directory';
 import { ToastrService } from 'ngx-toastr';
+import { AuthenticationService } from 'src/app/@core/services/account/authentication.service';
 
 @Component({
   selector: 'molla-product-twelve',
   templateUrl: './product-twelve.component.html',
   styleUrls: ['./product-twelve.component.scss'],
 })
-export class ProductTwelveComponent implements OnInit {
+export class ProductTwelveComponent implements OnInit, OnDestroy {
+  private subscriptions: Subscription[] = []
   @Input() product: Product;
   @Input() addClass = '';
   @Input() isShownSold = true;
+
 
   PRODUCT_IMAGE_DIRECTORY = PRODUCT_IMAGE_DIRECTORY
   maxPrice = 0;
@@ -26,8 +29,9 @@ export class ProductTwelveComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private wishlistService: Wishlist2Service,
+    private wishlistService: WishlistService,
     private toastrService: ToastrService,
+    private authenService: AuthenticationService
   ) {}
 
   ngOnInit(): void {
@@ -36,9 +40,28 @@ export class ProductTwelveComponent implements OnInit {
 
     this.hasOnlyOnePrice = (this.minPrice == this.maxPrice)
 
-    this.wishlistService.isInWishlist(this.product).subscribe(result => {
-      this.inWishlist = result
+    this.subscriptions.push(
+      this.authenService.authChange$.subscribe(() => {
+        this.loadIsInWishlist()
+      })
+    )
+    this.loadIsInWishlist()
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(subscr => {
+      subscr.unsubscribe()
     });
+  }
+
+  loadIsInWishlist() {
+    if(this.authenService.isLoggedIn()) {
+      this.subscriptions.push(
+        this.wishlistService.isInWishlist(this.product).subscribe(result => {
+          this.inWishlist = result
+        })
+      )
+    }
   }
 
   addToWishlist(event: Event) {
@@ -49,19 +72,21 @@ export class ProductTwelveComponent implements OnInit {
       return
     }
 
-    this.wishlistService.addToWishList(this.product).subscribe(
-      (result: boolean) => {
-        if (result) {
-          this.wishlistService.notifyWishlistChange()
-          this.inWishlist = result
-          this.product.totalLikes += 1
-          this.toastrService.success('Product added to Wishlist.');
+    this.subscriptions.push(
+      this.wishlistService.addToWishList(this.product).subscribe(
+        (result: boolean) => {
+          if (result) {
+            this.wishlistService.notifyWishlistChange()
+            this.inWishlist = result
+            this.product.totalLikes += 1
+            this.toastrService.success('Product added to Wishlist.');
+          }
+        },
+        (error) => {
+          console.error('Error while adding product to Wishlist:', error);
         }
-      },
-      (error) => {
-        console.error('Error while adding product to Wishlist:', error);
-      }
-    );;
+      )
+    )
   }
 
   calcPriceAfterSale(rootPrice, productSale: ProductSale): number {

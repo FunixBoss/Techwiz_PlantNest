@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthenticationService } from 'src/app/@core/services/account/authentication.service';
-import { Wishlist2Service } from 'src/app/@core/services/account/wishlist2.service';
+import { WishlistService } from 'src/app/@core/services/account/wishlist.service';
 import { ModalService } from 'src/app/@core/services/modal.service';
 import { UtilsService } from 'src/app/@core/services/utils.service';
 
@@ -25,7 +25,7 @@ export class HeaderComponent implements OnInit {
     public authenService: AuthenticationService,
     public toastrService: ToastrService,
     private router: Router,
-    public wishlistService: Wishlist2Service,
+    public wishlistService: WishlistService,
   )  { }
 
 	ngOnInit(): void {}

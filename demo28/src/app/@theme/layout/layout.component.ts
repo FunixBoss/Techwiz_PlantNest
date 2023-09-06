@@ -3,7 +3,8 @@ import { Router, NavigationStart, NavigationEnd, RouterOutlet } from '@angular/r
 import { Subscription } from 'rxjs';
 
 import { routeAnimation } from '../data';
-import { Wishlist2Service } from 'src/app/@core/services/account/wishlist2.service';
+import { WishlistService } from 'src/app/@core/services/account/wishlist.service';
+import { AuthenticationService } from 'src/app/@core/services/account/authentication.service';
 
 @Component({
 	selector: 'molla-layout',
@@ -24,7 +25,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
 	constructor(
     private router: Router,
-    public wishlistService: Wishlist2Service,
+    public wishlistService: WishlistService,
+    public authenService: AuthenticationService
   ) {
 		this.subscr = this.router.events.subscribe(event => {
 			if (event instanceof NavigationStart) {
@@ -65,9 +67,11 @@ export class LayoutComponent implements OnInit, OnDestroy {
 	}
 
   loadWishlist() {
-    this.wishlistService.countTotal().subscribe(qty => {
-      this.wishCount = qty
-    })
+    if(this.authenService.isLoggedIn()) {
+      this.wishlistService.countTotal().subscribe(qty => {
+        this.wishCount = qty
+      })
+    }
   }
 
 	ngOnDestroy(): void {

@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthenticationService } from 'src/app/@core/services/account/authentication.service';
-import { Wishlist2Service } from 'src/app/@core/services/account/wishlist2.service';
 
 
 @Component({

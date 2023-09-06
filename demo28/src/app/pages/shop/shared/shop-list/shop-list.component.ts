@@ -1,5 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Wishlist2Service } from 'src/app/@core/services/account/wishlist2.service';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
 	selector: 'molla-shop-list',

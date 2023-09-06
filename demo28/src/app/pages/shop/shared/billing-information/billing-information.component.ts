@@ -11,7 +11,7 @@ import { isCouponNotExisting } from 'src/app/@core/validators/is-coupon-not-exis
 import { isCouponCantBeUsed } from 'src/app/@core/validators/is-coupon-can-be-used';
 import { ProductCouponService } from 'src/app/@core/services/product/product-coupon.service';
 import { Coupon } from 'src/app/@core/models/coupon/coupon.model';
-import { Cart3Service } from 'src/app/@core/services/account/cart3.service';
+import { CartService } from 'src/app/@core/services/account/cart.service';
 import { AuthenticationService } from 'src/app/@core/services/account/authentication.service';
 import { Subscription } from 'rxjs';
 declare var $: any;
@@ -47,7 +47,7 @@ export class BillingInformationComponent implements OnInit {
     public orderService: OrderService,
     public addressService: AddressService,
     public couponService: ProductCouponService,
-    public cartService: Cart3Service,
+    public cartService: CartService,
     public authenService: AuthenticationService
   ) {
     this.billingForm = this.formBuilder.group({

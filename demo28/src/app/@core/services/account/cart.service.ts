@@ -16,7 +16,7 @@ import { SHIPPING_DATA, Shipping } from 'src/app/pages/shop/shared/shipping-data
 @Injectable({
   providedIn: 'root',
 })
-export class Cart3Service {
+export class CartService {
   cartChangeSubject: Subject<void> = new Subject();
   cart: Cart
   appliedCoupon: Coupon = null;
@@ -28,8 +28,19 @@ export class Cart3Service {
     private authenService: AuthenticationService,
     private productService: ProductService
   ) {
-    this.findAll().subscribe(cart => this.cart = cart)
+    authenService.authChange$.subscribe(() => {
+        this.loadCart()
+      }
+    )
+    this.loadCart()
   }
+
+  loadCart() {
+    if(this.authenService.isLoggedIn()) {
+      this.findAll().subscribe(cart => this.cart = cart)
+    }
+  }
+
 
   findAll(): Observable<Cart> {
     const loggedInAccount: Account = this.authenService.getAccountFromLocalCache()

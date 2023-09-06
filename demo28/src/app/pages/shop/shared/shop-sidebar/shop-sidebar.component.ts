@@ -1,4 +1,5 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { Component, OnInit, Input, ViewChild, OnDestroy } from '@angular/core';
 
 import { shopData } from '../data';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -15,8 +16,8 @@ import { ProductService } from 'src/app/@core/services/product/product.service';
 	styleUrls: ['./shop-sidebar.component.scss']
 })
 
-export class ShopSidebarComponent implements OnInit {
-
+export class ShopSidebarComponent implements OnInit, OnDestroy {
+  private subscriptions: Subscription[] = []
 	@Input() toggle = false;
 	params = {};
   catalogs: Catalog[]
@@ -33,10 +34,20 @@ export class ShopSidebarComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-    this.catalogService.findAll().subscribe(data => this.catalogs = this.catalogService.flattenCatalogs(data))
-    this.levelService.findAll().subscribe(data => this.levels = data)
-    this.productService.findAllSizes().subscribe(data => this.sizes = data)
+    this.subscriptions.push(
+      this.catalogService.findAll().subscribe(data => this.catalogs = this.catalogService.flattenCatalogs(data))
+    )
+    this.subscriptions.push(
+      this.levelService.findAll().subscribe(data => this.levels = data)
+    )
+    this.subscriptions.push(
+      this.productService.findAllSizes().subscribe(data => this.sizes = data)
+    )
 	}
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(subscr => subscr.unsubscribe())
+  }
 
 	containsAttrInUrl(type: string, value: string) {
 		const currentQueries = this.params[type] ? this.params[type].split(',') : [];

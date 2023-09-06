@@ -1,4 +1,4 @@
-import { Wishlist } from './../../models/account/wishlist.model';
+import { Wishlist } from '../../models/account/wishlist.model';
 import { Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
@@ -14,7 +14,7 @@ import { Account } from '../../models/account/account.model';
 @Injectable({
   providedIn: 'root'
 })
-export class Wishlist2Service {
+export class WishlistService {
 
   wishlistQtyChangeSubject: Subject<number> = new ReplaySubject(1);
 
