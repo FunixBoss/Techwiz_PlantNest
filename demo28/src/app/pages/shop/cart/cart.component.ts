@@ -41,10 +41,10 @@ export class CartComponent implements OnDestroy {
   shippingData = SHIPPING_DATA
   cart: Cart;
 
+  appliedCoupon: Coupon;
   subTotalPrice = 0; // with products and coupon
   shippingCost = 0;
   totalPrice = 0; // products, coupon & shipping cost
-  appliedCoupon: Coupon;
 
   constructor(
     public cartService: Cart3Service,
@@ -77,7 +77,8 @@ export class CartComponent implements OnDestroy {
       return;
     }
 
-    this.totalPrice = this.cartService.calcPriceAfterAppliedCoupon(this.subTotalPrice, this.appliedCoupon) + this.shippingCost;
+    this.totalPrice = this.cartService
+      .calcPriceAfterAppliedCoupon(this.subTotalPrice, this.appliedCoupon) + this.shippingCost;
   }
 
   ngOnDestroy() {
@@ -115,13 +116,9 @@ export class CartComponent implements OnDestroy {
     )
   }
 
-  getCartDetailTotalPrice(cartDetail: CartDetail): number {
-    return this.productService.calcPriceAfterSale(cartDetail.productVariant.price, cartDetail.product.productSale)
-            * cartDetail.quantity
-  }
-
-  changeShipping(value: number) {
-    this.shippingCost = value
+  changeShipping(shipping: Shipping) {
+    this.cartService.appliedShipping = shipping
+    this.shippingCost = shipping.cost
     this.calcTotalPrice()
   }
 

@@ -61,8 +61,6 @@ export class ProductService {
       .set('orderBy', filter.orderBy ?? "");
 
     const urlWithParams = url + '?' + queryParams.toString();
-    console.log(urlWithParams);
-
     return this.httpClient.get<GetDTOByPages<Product>>(urlWithParams);
   }
 
@@ -88,8 +86,6 @@ export class ProductService {
 
   findBySlug(slug: string): Observable<Product> {
     const url: string = `${this.baseUrlService.baseURL}/products/findBySlug?slug=${slug}`;
-    console.log(url);
-
     return this.httpClient.get<Product>(url);
   }
 

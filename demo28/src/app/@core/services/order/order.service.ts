@@ -41,39 +41,9 @@ export class OrderService {
     return this.httpClient.get<Order[]>(url)
   }
 
-  insert(order: any): Observable<Order> {
-    const url: string = `${this.baseUrlService.baseURL}/orders/create`
+  placeOrder(order: Order): Observable<Order> {
+    const url: string = `${this.baseUrlService.baseURL}/checkout/placeOrder`
     return this.httpClient.post<Order>(url, order);
-  }
-
-  updateOrderStatus(orderId: number, orderStatus: OrderStatus): Observable<boolean> {
-    const order = {
-      orderId: orderId
-    }
-    let formData = new FormData()
-    formData.append("order", JSON.stringify(order));
-    formData.append("orderStatus", JSON.stringify(orderStatus));
-    const url: string = `${this.baseUrlService.baseURL}/orders/update-status`
-    return this.httpClient.post<boolean>(url, formData);
-  }
-
-  updateOrdersStatus(orders: Order[], status: OrderStatus): Observable<boolean>{
-    const mappedOrders = orders.map(o => {
-      return {
-        orderId: o.orderId
-      }
-    })
-    const mappedStatus = {
-      orderStatusId: status.orderStatusId,
-      statusName: status.statusName,
-      description: status.description
-    }
-    let formData = new FormData()
-    formData.append("orders", JSON.stringify(mappedOrders));
-    formData.append("orderStatus", JSON.stringify(mappedStatus));
-
-    const url: string = `${this.baseUrlService.baseURL}/orders/update-orders-status`
-    return this.httpClient.post<boolean>(url, formData);
   }
 
   findOrderStatusById(orderId: number): Observable<OrderStatus> {

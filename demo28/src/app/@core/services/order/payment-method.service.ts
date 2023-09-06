@@ -14,7 +14,7 @@ export class PaymentMethodService {
     ) { }
 
     findAll(): Observable<GetPaymentMethodResponse> {
-        const url: string = `${this.baseUrlService.baseURL}/payment-methods`
+        const url: string = `${this.baseUrlService.baseURL}/admin/payment-methods`
         return this.httpClient.get<GetPaymentMethodResponse>(url)
     }
 

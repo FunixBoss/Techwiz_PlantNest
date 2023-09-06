@@ -9,6 +9,9 @@ import { Cart } from '../../models/cart/cart.model';
 import { Product } from '../../models/product/product.model';
 import { ProductVariant } from '../../models/product/product-variant.model';
 import { Coupon } from '../../models/coupon/coupon.model';
+import { CartDetail } from '../../models/cart/cart-detail.model';
+import { ProductService } from '../product/product.service';
+import { SHIPPING_DATA, Shipping } from 'src/app/pages/shop/shared/shipping-data';
 
 @Injectable({
   providedIn: 'root',
@@ -16,11 +19,14 @@ import { Coupon } from '../../models/coupon/coupon.model';
 export class Cart3Service {
   cartChangeSubject: Subject<void> = new Subject();
   cart: Cart
+  appliedCoupon: Coupon = null;
+  appliedShipping: Shipping = SHIPPING_DATA[0]
 
   constructor(
     private httpClient: HttpClient,
     private baseUrlService: BaseURLService,
-    private authenService: AuthenticationService
+    private authenService: AuthenticationService,
+    private productService: ProductService
   ) {
     this.findAll().subscribe(cart => this.cart = cart)
   }
@@ -48,6 +54,23 @@ export class Cart3Service {
 
     return this.httpClient.post<boolean>(url, cartRequest)
   }
+
+  clear(): Observable<boolean> {
+    const loggedInAccount: Account = this.authenService.getAccountFromLocalCache()
+    const url = `${this.baseUrlService.baseURL}/carts/clear?accountId=${loggedInAccount.id}`;
+    return this.httpClient.post<boolean>(url, null)
+  }
+
+  resetCart() {
+    this.clear().subscribe(result => {
+      if(result) {
+        this.appliedCoupon = null;
+        this.appliedShipping = null
+        this.cartChangeSubject.next()
+      }
+    })
+  }
+
 
   canAddToCart(variant: ProductVariant, qty: number): Observable<boolean> {
     const url = `${this.baseUrlService.baseURL}/carts/canAddToCart`;
@@ -88,4 +111,8 @@ export class Cart3Service {
     }
   }
 
+  getCartDetailTotalPrice(cartDetail: CartDetail): number {
+    return this.productService.calcPriceAfterSale(cartDetail.productVariant.price, cartDetail.product.productSale)
+            * cartDetail.quantity
+  }
 }

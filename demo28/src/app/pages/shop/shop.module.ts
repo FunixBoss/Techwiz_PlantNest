@@ -17,6 +17,8 @@ import { ThemeModule } from 'src/app/@theme/theme.module';
 import { PaginationComponent } from './shared/pagination/pagination.component';
 import { ApplyCouponComponent } from './shared/apply-coupon/apply-coupon.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PaymentMethodsComponent } from './shared/payment-methods/payment-methods.component';
+import { BillingInformationComponent } from './shared/billing-information/billing-information.component';
 
 @NgModule( {
 	declarations: [
@@ -26,7 +28,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 		ShopListComponent,
     ApplyCouponComponent,
     CartComponent,
-	  CheckoutComponent
+	  CheckoutComponent,
+    PaymentMethodsComponent,
+    BillingInformationComponent
 	],
 	imports: [
 		CommonModule,

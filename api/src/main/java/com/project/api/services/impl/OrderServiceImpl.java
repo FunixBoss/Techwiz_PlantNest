@@ -70,6 +70,7 @@ public class OrderServiceImpl implements OrderService {
 
             Account account = accountService.findByEmail(order.getAccountEmail());
             insertingOrder.setAccount(new Account(){{setId(account.getId());}});
+            account.setFullName();
 
 //            insert address
             Address insertAddress = new Address(order.getAddress());

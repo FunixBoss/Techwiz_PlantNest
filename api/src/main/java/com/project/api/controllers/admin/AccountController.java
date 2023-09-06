@@ -46,7 +46,7 @@ public class AccountController {
     }
 
     @GetMapping("/{accountId}/addresses")
-    public ResponseEntity<List<AddressDTO>> findByAccountId(@PathVariable Integer accountId) {
+    public ResponseEntity<List<AddressDTO>> findAddressesByAccountId(@PathVariable Integer accountId) {
         try {
             return new ResponseEntity<>(addressService.findByAccountId(accountId), HttpStatus.OK);
         } catch (Exception e) {

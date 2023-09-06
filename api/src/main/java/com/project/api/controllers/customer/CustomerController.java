@@ -3,10 +3,12 @@ package com.project.api.controllers.customer;
 import com.project.api.domain.HttpResponse;
 import com.project.api.domain.UserPrincipal;
 import com.project.api.dtos.AccountDTO;
+import com.project.api.dtos.AddressDTO;
 import com.project.api.entities.Account;
 import com.project.api.exceptions.ExceptionHandling;
 import com.project.api.exceptions.domain.*;
 import com.project.api.services.AccountService;
+import com.project.api.services.AddressService;
 import com.project.api.utilities.JWTTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -19,6 +21,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 
+import java.util.List;
+
 import static com.project.api.constants.SecurityConstant.JWT_TOKEN_HEADER;
 import static org.springframework.http.HttpStatus.*;
 
@@ -28,12 +32,14 @@ public class CustomerController extends ExceptionHandling {
     private AuthenticationManager authenticationManager;
     private AccountService accountService;
     private JWTTokenProvider jwtTokenProvider;
+    private AddressService addressService;
 
     @Autowired
-    public CustomerController(AuthenticationManager authenticationManager, AccountService accountService, JWTTokenProvider jwtTokenProvider) {
+    public CustomerController(AuthenticationManager authenticationManager, AccountService accountService, JWTTokenProvider jwtTokenProvider, AddressService addressService) {
         this.authenticationManager = authenticationManager;
         this.accountService = accountService;
         this.jwtTokenProvider = jwtTokenProvider;
+        this.addressService = addressService;
     }
 
     @PostMapping("/login")
@@ -120,6 +126,15 @@ public class CustomerController extends ExceptionHandling {
             return new ResponseEntity<>(this.accountService.checkEmailExisting(email), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/{accountId}/addresses")
+    public ResponseEntity<List<AddressDTO>> findAddressesByAccountId(@PathVariable Integer accountId) {
+        try {
+            return new ResponseEntity<>(addressService.findByAccountId(accountId), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 }

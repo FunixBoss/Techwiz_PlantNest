@@ -5,6 +5,8 @@ import { Subscription } from 'rxjs';
 import { HeaderType } from 'src/app/@core/enum/header-type.enum';
 import { Account } from 'src/app/@core/models/account/account.model';
 import { AuthenticationService } from 'src/app/@core/services/account/authentication.service';
+import { Cart3Service } from 'src/app/@core/services/account/cart3.service';
+import { Wishlist2Service } from 'src/app/@core/services/account/wishlist2.service';
 
 @Component({
 	selector: 'molla-login-form',
@@ -20,7 +22,9 @@ export class LoginFormComponent implements OnInit {
 
 	constructor(
     private formBuilder: FormBuilder,
-    private authenService: AuthenticationService
+    private authenService: AuthenticationService,
+    private wishlistService: Wishlist2Service,
+    private cartService: Cart3Service
   ) {
     this.loginFormGroup = this.formBuilder.group({
       username: ['', [Validators.required]],
@@ -45,6 +49,8 @@ export class LoginFormComponent implements OnInit {
           this.authenService.saveToken(token)
           this.authenService.addAccountToLocalCache(response.body)
           this.authenService.authChange()
+          this.wishlistService.wishlistQtyChangeSubject.next()
+          this.cartService.cartChangeSubject.next()
           this.loginSuccess.emit(true)
         },
         (error) => {

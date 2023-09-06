@@ -87,7 +87,7 @@
                                             </molla-quantity-input>
                                         </td>
                                         <td class="total-col  text-center">
-                                            {{ getCartDetailTotalPrice(cartDetail) | currency: "USD"}}
+                                            {{ cartService.getCartDetailTotalPrice(cartDetail) | currency: "USD"}}
                                         </td>
                                         <td class="remove-col">
                                             <button class="btn-remove" (click)="remove(cartDetail)">
@@ -129,7 +129,7 @@
                                                 <div class="custom-control custom-radio">
                                                     <input type="radio" [id]="'shipping' + i" [name]="'shipping'"
                                                         class="custom-control-input"
-                                                        (change)="changeShipping(shipping.cost)"
+                                                        (change)="changeShipping(shipping)"
                                                         [checked]="shipping.shippingName == 'Free Ship'">
                                                     <label class="custom-control-label" [for]="'shipping' + i">
                                                         {{shipping.shippingName}}
@@ -150,7 +150,7 @@
                                 </a>
                             </div>
 
-                            <a routerLink="/shop/sidebar/list" class="btn btn-outline-dark-2 btn-block mb-3">
+                            <a routerLink="/shop/list" class="btn btn-outline-dark-2 btn-block mb-3">
                                 <span>CONTINUE SHOPPING</span>
                                 <i class="icon-refresh"></i>
                             </a>

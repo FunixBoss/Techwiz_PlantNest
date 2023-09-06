@@ -71,7 +71,11 @@ public class CouponServiceImpl implements CouponService {
     @Override
     public CouponDTO findByCode(String code) {
         try {
-            return new CouponDTO(couponRepository.findCouponByCode(code));
+            Coupon coupon = couponRepository.findCouponByCode(code);
+            if(coupon != null) {
+                return new CouponDTO(coupon);
+            }
+            return null;
         } catch (Exception e) {
             e.printStackTrace();
             return null;

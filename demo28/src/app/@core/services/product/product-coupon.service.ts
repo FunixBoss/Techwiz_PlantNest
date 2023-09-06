@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BaseURLService } from '../base-url.service';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs-compat';
+import { Observable, Subject } from 'rxjs';
 import { CouponType } from '../../models/coupon/coupon-type.model';
 import { Coupon, GetCouponResponse } from '../../models/coupon/coupon.model';
 
@@ -9,6 +9,9 @@ import { Coupon, GetCouponResponse } from '../../models/coupon/coupon.model';
   providedIn: 'root'
 })
 export class ProductCouponService {
+
+  appliedCouponChange: Subject<void> = new Subject()
+
   constructor(
     private baseUrlService: BaseURLService,
     private httpClient: HttpClient
@@ -39,6 +42,7 @@ export class ProductCouponService {
   }
 
   getDiscountValue(coupon: Coupon): string {
+    if(coupon == null) return "COUPON IS NULL";
     return (coupon.couponType.typeName == 'Fixed') ? "$" + coupon.discount :  coupon.discount + "%"
   }
 }

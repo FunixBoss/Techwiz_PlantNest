@@ -6,6 +6,7 @@ import { Address } from '../../models/address/address.model';
 import { GetProvinceResponse } from '../../models/address/provinces.model';
 import { GetDistrictResponse } from '../../models/address/districts.model';
 import { GetWardResponse } from '../../models/address/wards.model';
+import { AuthenticationService } from './authentication.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,38 +16,30 @@ export class AddressService {
   constructor(
     private baseUrlService: BaseURLService,
     private httpClient: HttpClient,
+    private authenService: AuthenticationService
   ) {
   }
 
   findAllAddress(): Observable<Address[]> {
-    const url: string = `${this.baseUrlService.baseURL}/address`
+    const loggedInAccount = this.authenService.getAccountFromLocalCache()
+    const url: string = `${this.baseUrlService.baseURL}/${loggedInAccount.id}/addresses`
     return this.httpClient.get<Address[]>(url)
   }
 
   findAllProvinces(): Observable<GetProvinceResponse> {
-    const url: string = `${this.baseUrlService.baseURL}/provinces`
+    const url: string = `${this.baseUrlService.baseURL}/admin/provinces`
     return this.httpClient.get<GetProvinceResponse>(url);
   }
 
   findAllDistrictByProvince(provinceCode: string ): Observable<GetDistrictResponse> {
-    const url: string = `${this.baseUrlService.baseURL}/provinces/${provinceCode}/districts`
+    const url: string = `${this.baseUrlService.baseURL}/admin/provinces/${provinceCode}/districts`
     return this.httpClient.get<GetDistrictResponse>(url);
   }
 
 
   findAllWardByDistrict(districtCode: string): Observable<GetWardResponse> {
-    const url: string = `${this.baseUrlService.baseURL}/districts/${districtCode}/wards`
+    const url: string = `${this.baseUrlService.baseURL}/admin/districts/${districtCode}/wards`
     return this.httpClient.get<GetWardResponse>(url);
-  }
-
-  insertAddress(address: Address): Observable<Address> {
-    const url: string = `${this.baseUrlService.baseURL}/account/insertAddress`
-    return this.httpClient.post<Address>(url, address);
-  }
-
-  findByAccountId(accountId: number): Observable<Address[]> {
-    const url: string = `${this.baseUrlService.baseURL}/accounts/${accountId}/addresses`
-    return this.httpClient.get<Address[]>(url);
   }
 
   getAddressStringFormAddress(address: Address) {

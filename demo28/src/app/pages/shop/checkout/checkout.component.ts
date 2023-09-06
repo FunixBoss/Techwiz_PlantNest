@@ -1,35 +1,75 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { Cart } from 'src/app/@core/models/cart/cart.model';
+import { Coupon } from 'src/app/@core/models/coupon/coupon.model';
 import { Cart3Service } from 'src/app/@core/services/account/cart3.service';
-
-
-declare var $: any;
+import { Shipping } from '../shared/shipping-data';
+import { ProductCouponService } from 'src/app/@core/services/product/product-coupon.service';
+import { ProductService } from 'src/app/@core/services/product/product.service';
+import { BillingInformationComponent } from '../shared/billing-information/billing-information.component';
+import { OrderService } from 'src/app/@core/services/order/order.service';
+import { Order } from 'src/app/@core/models/order/order.model';
+import { AuthenticationService } from 'src/app/@core/services/account/authentication.service';
+import { AddressService } from 'src/app/@core/services/account/address.service';
+import { Address } from 'src/app/@core/models/address/address.model';
+import { PaymentMethodsComponent } from '../shared/payment-methods/payment-methods.component';
+import { PaymentMethod } from 'src/app/@core/models/order/payment-method.model';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'shop-checkout-page',
 	templateUrl: './checkout.component.html',
 	styleUrls: ['./checkout.component.scss']
 })
-
 export class CheckoutComponent implements OnInit, OnDestroy {
 
-	cartItems = [];
+  @ViewChild(PaymentMethodsComponent) paymentMethodsCpn: PaymentMethodsComponent
+  @ViewChild(BillingInformationComponent) billingInformationCpn: BillingInformationComponent
+	private subscrs: Subscription[] = [];
+  cart: Cart
 
-	private subscr: Subscription;
+  subTotalPrice = 0; // with products and coupon
+  shippingCost = 0;
+  totalPrice = 0; // products, coupon & shipping cost
 
-	constructor(public cartService: Cart3Service) {
-	}
+  appliedCoupon: Coupon;
+  appliedShipping: Shipping
+
+	constructor(
+    public cartService: Cart3Service,
+    public couponService: ProductCouponService,
+    public productService: ProductService,
+    public orderService: OrderService,
+    public authenService: AuthenticationService,
+    public addressService: AddressService,
+    public toastrService: ToastrService,
+    public router: Router
+  ) {
+    this.couponService.appliedCouponChange.subscribe(() => {
+      this.appliedCoupon = this.cartService.appliedCoupon
+      this.calcTotalPrice()
+    })
+  }
+
 
 	ngOnInit(): void {
-		// this.subscr = this.cartService.cartStream.subscribe(items => {
-		// 	this.cartItems = items;
-		// });
+    this.subscrs.push(
+      this.cartService.findAll().subscribe(cart => {
+        this.cart = cart;
+        this.subTotalPrice = this.cartService.getTotalPriceAndQty(this.cart).totalPrice
+        this.appliedCoupon = this.cartService.appliedCoupon
+        this.appliedShipping = this.cartService.appliedShipping
+
+        this.calcTotalPrice()
+      })
+    )
 
 		document.querySelector('body').addEventListener("click", () => this.clearOpacity())
 	}
 
 	ngOnDestroy(): void {
-		this.subscr.unsubscribe();
+		this.subscrs.forEach(subscr => subscr.unsubscribe())
 		document.querySelector('body').removeEventListener("click", () => this.clearOpacity())
 	}
 
@@ -44,25 +84,72 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 	addOpacity(event: any) {
 		event.target.parentElement.querySelector("label").setAttribute("style", "opacity: 0");
 		event.stopPropagation();
-
 	}
 
-	formToggle(event: any) {
-		const parent: HTMLElement = event.target.closest('.custom-control');
-		const submenu: HTMLElement = parent.closest('.form-group').querySelector('.shipping-info');
+  calcTotalPrice() {
+    if(this.appliedCoupon == null) {
+      this.totalPrice = this.subTotalPrice + this.shippingCost
+      return;
+    }
 
-		if (parent.classList.contains('open')) {
-			$(submenu).slideUp(300, function () {
-				parent.classList.remove('open');
-			});
-		}
-		else {
-			$(submenu).slideDown(300, function () {
-				parent.classList.add('open');
-			});
-		}
+    this.totalPrice = this.cartService
+      .calcPriceAfterAppliedCoupon(this.subTotalPrice, this.appliedCoupon) + this.shippingCost;
+  }
 
-		event.preventDefault();
-		event.stopPropagation();
-	}
+  placeOrder() {
+    let formValue = this.billingInformationCpn.getFormValue()
+    let paymentMethod: PaymentMethod = this.paymentMethodsCpn.getPaymentMethod()
+
+    if(formValue == null || paymentMethod == null) {
+      return;
+    }
+
+    let order: Order = this.mapFormValue(formValue, paymentMethod)
+
+    this.orderService.placeOrder(order).subscribe(result => {
+      if(result) {
+        this.toastrService.success("Place order successfully! Your order are handling")
+        this.cartService.resetCart()
+        this.router.navigateByUrl('/')
+      } else {
+        this.toastrService.error("Place order failed! Please try again")
+      }
+    })
+
+
+
+  }
+
+  mapFormValue(formValue: any, paymentMethod: PaymentMethod): Order {
+    const loggedInAccount = this.authenService.getAccountFromLocalCache()
+    let order: any = new Order()
+    order.accountEmail = loggedInAccount.email
+    if(formValue.addressOption == 'existing') {
+      order.address = formValue.address
+    } else {
+      let newAddress = new Address()
+      newAddress.roadName = formValue.roadName
+      newAddress.ward = formValue.ward
+      newAddress.district = formValue.district
+      newAddress.province = formValue.province
+      order.address = newAddress
+    }
+    order.coupon = this.cartService.appliedCoupon ?? null
+    order.orderStatus = {orderStatusId: 2, statusName: 'Handling', description: 'The order was paid, and admin are handling for shipping'}
+    order.paymentMethod = paymentMethod
+
+    order.products = this.cart.cartDetails.map(cartDetail => {
+      return {
+        productId: cartDetail.product.productId,
+        productName: cartDetail.product.productName,
+        productVariant: cartDetail.productVariant,
+        price: cartDetail.productVariant.price,
+        quantity: cartDetail.quantity
+      }
+    })
+    this.calcTotalPrice()
+    order.totalPrice = this.totalPrice
+    order.totalQuantity = this.cartService.getTotalPriceAndQty(this.cart).totalQuantity
+    return order;
+  }
 }
