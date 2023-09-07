@@ -3,6 +3,7 @@ package com.project.api.services.impl;
 import com.project.api.dtos.OrderDetailDTO;
 import com.project.api.dtos.OrderFindAllDTO;
 import com.project.api.dtos.OrderFindDetailDTO;
+import com.project.api.dtos.ProductFindAllDTO;
 import com.project.api.dtos.request.OrderRequestDTO;
 import com.project.api.dtos.request.ProductRequestDTO;
 import com.project.api.entities.*;
@@ -12,9 +13,15 @@ import com.project.api.repositories.OrderStatusRepository;
 import com.project.api.services.AccountService;
 import com.project.api.services.AddressService;
 import com.project.api.services.OrderService;
+import com.project.api.specifications.OrderSpecification;
+import com.project.api.specifications.ProductSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -42,7 +49,6 @@ public class OrderServiceImpl implements OrderService {
         } catch (Exception e) {
             return new ArrayList<>();
         }
-
     }
 
     @Override
@@ -70,7 +76,6 @@ public class OrderServiceImpl implements OrderService {
 
             Account account = accountService.findByEmail(order.getAccountEmail());
             insertingOrder.setAccount(new Account(){{setId(account.getId());}});
-            account.setFullName();
 
 //            insert address
             Address insertAddress = new Address(order.getAddress());
@@ -80,13 +85,16 @@ public class OrderServiceImpl implements OrderService {
 
                 account.getAddresses().add(insertedAddress);
                 accountService.save(account);
-
             }
             insertingOrder.setAddress(insertAddress.toString());
 
             if(order.getCoupon() != null) {
                 insertingOrder.setCoupon(new Coupon(order.getCoupon()));
                 insertingOrder.setCouponCode(order.getCoupon().getCode());
+
+                insertingOrder.setCouponDiscount(
+                        order.getCoupon().getCouponType().getTypeName().equals("Fixed") ? "$" + order.getCoupon().getDiscount() : order.getCoupon().getDiscount() + "%"
+                );
             }
 
             insertingOrder.setOrderStatus(new OrderStatus(order.getOrderStatus()));
@@ -215,5 +223,27 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Long countOrdersToday() {
         return orderRepository.countByCreatedAt(new Date());
+    }
+
+    @Override
+    public Page<OrderFindAllDTO> findOrders(Pageable pageable, Integer accountId, String orderBy, String searchTerm) {
+        Page<Order> orderPages = orderRepository.findAll(OrderSpecification.withFilters(accountId, searchTerm, orderBy), pageable);
+
+        List<OrderFindAllDTO> dtoList = orderPages.stream()
+                .map(OrderFindAllDTO::new)
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(dtoList, pageable, orderPages.getTotalElements());
+    }
+
+    private BigDecimal calcPriceAfterSale(BigDecimal rootPrice, ProductSale productSale) {
+        if(productSale == null) return rootPrice;
+
+        if(productSale.getSaleName().equals("Fixed")) {
+            return (rootPrice.subtract(BigDecimal.valueOf((long) productSale.getDiscount())));
+        } else if(productSale.getSaleName().equals("Percent")) {
+            return (rootPrice.multiply(BigDecimal.valueOf(1-productSale.getDiscount()/100)));
+        }
+        return rootPrice;
     }
 }

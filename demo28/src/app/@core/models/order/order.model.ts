@@ -11,6 +11,7 @@ export class Order {
     address: Address;
     coupon?: Coupon
     couponCode: string;
+    couponDiscount: string;
     orderStatus?: OrderStatus
     paymentMethod: PaymentMethod
     totalPrice: number;

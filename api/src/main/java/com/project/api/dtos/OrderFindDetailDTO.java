@@ -14,6 +14,7 @@ public class OrderFindDetailDTO {
     private String accountEmail;
     private String address;
     private String couponCode;
+    private String couponDiscount;
     private OrderStatusDTO orderStatus;
     private PaymentMethodDTO paymentMethod;
     private BigDecimal totalPrice;
@@ -27,6 +28,7 @@ public class OrderFindDetailDTO {
         this.accountEmail = order.getAccountEmail();
         this.address = order.getAddress();
         this.couponCode = order.getCouponCode();
+        this.couponDiscount = order.getCouponDiscount();
         this.orderStatus = new OrderStatusDTO(order.getOrderStatus());
         this.paymentMethod = new PaymentMethodDTO(order.getPaymentMethod());
         this.orderTrackingNumber = order.getOrderTrackingNumber();

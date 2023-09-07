@@ -21,7 +21,7 @@
           <div class="col-lg-9">
             <molla-billing-information></molla-billing-information>
           </div>
-            <aside class="col-lg-3 col-md-12">
+          <aside class="col-lg-3 col-md-12">
             <div class="summary">
               <h3 class="summary-title">Your Order</h3>
 
@@ -43,7 +43,8 @@
                       </div>
                       <div>
                         {{ "(Size: " + cartDetail.productVariant.productSize.sizeName + ")" }}
-                        {{ productService.calcPriceAfterSale(cartDetail.productVariant.price, cartDetail.product.productSale) | currency:"USD"  }}
+                        {{ productService.calcPriceAfterSale(cartDetail.productVariant.price,
+                        cartDetail.product.productSale) | currency:"USD" }}
                         {{ " * " + cartDetail.quantity}}
                       </div>
                     </td>
@@ -78,8 +79,7 @@
 
               <molla-payment-methods></molla-payment-methods>
 
-              <button type="submit" class="btn btn-outline-primary-2 btn-order btn-block"
-                (click)="placeOrder()">
+              <button type="submit" class="btn btn-outline-primary-2 btn-order btn-block" (click)="placeOrder()">
                 <span class="btn-text">Place Order</span>
                 <span class="btn-hover-text">Proceed to Checkout</span>
               </button>

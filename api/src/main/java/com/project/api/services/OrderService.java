@@ -7,6 +7,8 @@ import com.project.api.dtos.request.OrderRequestDTO;
 import com.project.api.entities.Account;
 import com.project.api.entities.Order;
 import com.project.api.entities.OrderStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -21,7 +23,7 @@ public interface OrderService {
     Long countProductSold();
     Long countOrdersLastMonth();
     Long countOrdersThisWeek();
-
     Long countOrdersToday();
+    Page<OrderFindAllDTO> findOrders(Pageable pageable, Integer accountId, String orderBy, String searchTerm);
 
 }

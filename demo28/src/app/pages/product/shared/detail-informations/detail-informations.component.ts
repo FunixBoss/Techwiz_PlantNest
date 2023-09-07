@@ -1,5 +1,6 @@
-import { Subscription } from 'rxjs';
-import { Component, OnInit, Input, NgZone} from '@angular/core';
+import { takeUntil } from 'rxjs/operators';
+import { Subject, Subscription } from 'rxjs';
+import { Component, OnInit, Input, NgZone, OnDestroy} from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ProductVariant } from 'src/app/@core/models/product/product-variant.model';
@@ -15,8 +16,10 @@ import { AuthenticationService } from 'src/app/@core/services/account/authentica
 	styleUrls: ['./detail-informations.component.scss']
 })
 
-export class DetailInformationsComponent implements OnInit {
+export class DetailInformationsComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = []
+  private destroy$ = new Subject<void>();
+
 	@Input() product: Product;
 
 	selectedVariant: ProductVariant
@@ -36,21 +39,31 @@ export class DetailInformationsComponent implements OnInit {
 
   ngOnInit() {
     this.subscriptions.push(
-      this.authenService.authChange$.subscribe(() => {
-        this.loadIsInWishlist()
-      })
-    )
-    this.loadIsInWishlist()
+      this.authenService.authChange$
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(() => {
+          this.loadIsInWishlist();
+        })
+    );
+    this.loadIsInWishlist();
   }
 
   loadIsInWishlist() {
-    if(this.authenService.isLoggedIn()) {
+    if (this.authenService.isLoggedIn()) {
       this.subscriptions.push(
-        this.wishlistService.isInWishlist(this.product).subscribe(result => {
-          this.inWishlist = result
-        })
-      )
+        this.wishlistService.isInWishlist(this.product)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe((result) => {
+            this.inWishlist = result;
+          })
+      );
     }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+    this.subscriptions.forEach(subscr => subscr.unsubscribe())
   }
 
 	addCart(event: Event) {

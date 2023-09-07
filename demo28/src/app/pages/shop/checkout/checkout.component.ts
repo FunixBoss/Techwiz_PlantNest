@@ -147,7 +147,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         productId: cartDetail.product.productId,
         productName: cartDetail.product.productName,
         productVariant: cartDetail.productVariant,
-        price: cartDetail.productVariant.price,
+        price: this.productService.calcPriceAfterSale(cartDetail.productVariant.price, cartDetail.product.productSale),
         quantity: cartDetail.quantity
       }
     })

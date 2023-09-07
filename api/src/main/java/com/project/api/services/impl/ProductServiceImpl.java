@@ -46,7 +46,6 @@ public class ProductServiceImpl implements ProductService {
     public ProductDetailDTO findById(Integer productId) {
         try {
             Optional<Product> product =  productRepository.findById(productId);
-
             return product.isPresent() ? mapToFindDetail(product.get()) : null;
         } catch (Exception e) {
             e.printStackTrace();

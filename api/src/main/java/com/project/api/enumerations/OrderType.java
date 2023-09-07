@@ -5,8 +5,10 @@ public enum OrderType {
     MOST_RATED("most-rated"),
     BEST_SELLER("best-seller"),
     PRICE("price"),
+    TOTAL_PRICE("total_price"),
     TOP("top"),
-    SALE("sale");
+    SALE("sale"),
+    NEWEST("newest");
     private final String value;
 
     OrderType(String value) {

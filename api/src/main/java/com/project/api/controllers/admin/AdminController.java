@@ -16,6 +16,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
@@ -55,6 +56,7 @@ public class AdminController {
     }
 
     @GetMapping("/find/{username}")
+    @PreAuthorize("hasAnyAuthority('**')")
     public ResponseEntity<Account> getUser(@PathVariable("username") String username) {
         Account account = accountService.findByUsername(username);
         return new ResponseEntity<>(account, OK);
@@ -62,6 +64,7 @@ public class AdminController {
 
 
     @PostMapping("/updateProfileImage")
+    @PreAuthorize("hasAnyAuthority('**')")
     public ResponseEntity<Boolean> updateProfileImage(
             @RequestParam("username") String username,
             @RequestParam(value = "profileImage") MultipartFile profileImage)
@@ -70,6 +73,7 @@ public class AdminController {
     }
 
     @PostMapping("/updateFullName")
+    @PreAuthorize("hasAnyAuthority('**')")
     public ResponseEntity<Boolean> updateFullName(
             @RequestParam("username") String username,
             @RequestParam("fullName") String fullName) {

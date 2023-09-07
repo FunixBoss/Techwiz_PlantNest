@@ -7,10 +7,10 @@
       </a>
       <ng-template ngbNavContent>
         <molla-accordion [adClass]="accordion.adClass">
-          <molla-card *ngFor="let card of accordion.cards; let isFirst = first" [adClass]="accordion.cardAclass"
+          <molla-card *ngFor="let card of accordion.cards; let isFirst = first"
+            [adClass]="accordion.cardAclass"
             [title]="card.title"
             [icon]="accordion.showIcon? card.icon : null" [show]="isFirst ? true : false">
-
             {{ card.body }}
           </molla-card>
         </molla-accordion>

@@ -34,27 +34,35 @@ export class PaginationComponent implements OnInit, OnChanges {
 	}
 
 	refresh() {
-		this.currentPage = this.params['page'] ? parseInt(this.params['page']) : 1;
-		this.lastPage = Math.floor(this.total / this.perPage) + (this.total % this.perPage ? 1 : 0);
-		this.startIndex = !(this.currentPage % this.perPage) ? this.currentPage : this.perPage * Math.floor(this.currentPage / this.perPage);
+    this.currentPage = this.params['page'] ? parseInt(this.params['page']) : 1;
+    this.lastPage = Math.floor(this.total / this.perPage) + (this.total % this.perPage ? 1 : 0);
+    this.startIndex = !(this.currentPage % this.perPage) ? this.currentPage : this.perPage * Math.floor(this.currentPage / this.perPage);
 
-		this.pagesToBeShown = [];
+    this.pagesToBeShown = [];
 
-		let pageCount =
-			Math.floor(this.total / this.perPage) +
-			(0 < this.total % this.perPage ? 1 : 0);
+    let pageCount =
+      Math.floor(this.total / this.perPage) +
+      (0 < this.total % this.perPage ? 1 : 0);
 
-		for (let i = -1; i < 2 && pageCount >= 3; i++) {
-			if (1 < this.currentPage && this.currentPage < pageCount)
-				this.pagesToBeShown.push(this.currentPage + i);
-			if (1 === this.currentPage)
-				this.pagesToBeShown.push(this.currentPage + i + 1);
-			if (this.currentPage === pageCount)
-				this.pagesToBeShown.push(this.currentPage + i - 1);
-		}
+    for (let i = -1; i < 2 && pageCount >= 3; i++) {
+      if (1 < this.currentPage && this.currentPage < pageCount)
+        this.pagesToBeShown.push(this.currentPage + i);
+      if (1 === this.currentPage)
+        this.pagesToBeShown.push(this.currentPage + i + 1);
+      if (this.currentPage === pageCount)
+        this.pagesToBeShown.push(this.currentPage + i - 1);
+    }
 
-		for (let i = 0; i < pageCount && pageCount < 3; i++) {
-			this.pagesToBeShown.push(i + 1);
-		}
-	}
+    for (let i = 0; i < pageCount && pageCount < 3; i++) {
+      this.pagesToBeShown.push(i + 1);
+    }
+
+    // Update the URL with the 'page' query parameter
+    this.router.navigate([], {
+      relativeTo: this.activeRoute,
+      queryParams: { page: this.currentPage },
+      queryParamsHandling: 'merge',
+      fragment: 'orders'
+    });
+  }
 }
