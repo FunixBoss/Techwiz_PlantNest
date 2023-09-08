@@ -5,10 +5,7 @@ import com.project.api.dtos.*;
 import com.project.api.entities.Account;
 import com.project.api.entities.Image;
 import com.project.api.enumerations.Role;
-import com.project.api.exceptions.domain.EmailExistException;
-import com.project.api.exceptions.domain.NotAnImageFileException;
-import com.project.api.exceptions.domain.UserNotFoundException;
-import com.project.api.exceptions.domain.UsernameExistException;
+import com.project.api.exceptions.domain.*;
 import com.project.api.repositories.AccountRepository;
 import com.project.api.repositories.RoleRepository;
 import com.project.api.services.AccountService;
@@ -100,6 +97,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
             String imgFileName = imageUploadUtils.uploadImgBase64("account", account.getImage());
             account.getImage().setImageUrl(imgFileName);
             account.setRole(roleRepository.findById(2).get());
+            account.setPassword(encodePassword(account.getPassword()));
             account.setCreatedAt(new Date());
             account.setUpdatedAt(new Date());
             return accountRepository.save(account);
@@ -291,6 +289,24 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         Account account = accountRepository.findAccountByUsername(username);
         account.setFullName(fullName);
         accountRepository.save(account);
+        return true;
+    }
+
+    @Override
+    public Boolean updateInformation(String username, String fullName,
+                                     String currentPassword, String newPassword) throws WrongPasswordException {
+        if(currentPassword == null || currentPassword.equals("")) {
+            System.out.println(currentPassword);
+            return this.updateFullName(username, fullName);
+        }
+
+        Account account = this.findByUsername(username);
+        if(!passwordEncoder.matches(currentPassword, account.getPassword())) {
+            throw new WrongPasswordException("Wrong Password");
+        }
+
+        account.setPassword(encodePassword(newPassword));
+        save(account);
         return true;
     }
 

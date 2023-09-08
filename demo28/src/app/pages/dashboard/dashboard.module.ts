@@ -4,8 +4,6 @@ import { HomeComponent } from './home/home.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AccountDetailsTabComponent } from './shared/account-details-tab/account-details-tab.component';
-import { AddressesTabComponent } from './shared/addresses-tab/addresses-tab.component';
-import { DashboardTabComponent } from './shared/dashboard-tab/dashboard-tab.component';
 import { OrdersTabComponent } from './shared/orders-tab/orders-tab.component';
 import { ThemeModule } from 'src/app/@theme/theme.module';
 import { RouterModule } from '@angular/router';
@@ -14,8 +12,6 @@ import { RouterModule } from '@angular/router';
 	declarations: [
 		HomeComponent,
     AccountDetailsTabComponent,
-    AddressesTabComponent,
-    DashboardTabComponent,
     OrdersTabComponent,
 	],
 

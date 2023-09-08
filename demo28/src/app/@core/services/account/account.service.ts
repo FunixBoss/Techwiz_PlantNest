@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { BaseURLService } from '../base-url.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpEvent } from '@angular/common/http';
 import { Account } from '../../models/account/account.model';
 import { Address } from '../../models/address/address.model';
 
@@ -9,17 +9,6 @@ import { Address } from '../../models/address/address.model';
   providedIn: 'root'
 })
 export class AccountService {
-
-  // for changing when create, edit, delete => reload
-  private accountChangeSubject = new Subject<void>();
-
-  get accountChange$(): Observable<void> {
-    return this.accountChangeSubject.asObservable();
-  }
-
-  notifyAccountChange(): void {
-    this.accountChangeSubject.next();
-  }
 
   constructor(
     private baseUrlService: BaseURLService,
@@ -42,9 +31,31 @@ export class AccountService {
     return this.httpClient.get<boolean>(url);
   }
 
+  findByUsername(username: string): Observable<Account> {
+    const url: string = `${this.baseUrlService.baseURL}/find/${username}`
+    return this.httpClient.get<Account>(url);
+  }
+
   findAllAddress(): Observable<Address[]> {
     const url: string = `${this.baseUrlService.baseURL}/address`
     return this.httpClient.get<Address[]>(url)
+  }
+
+  updateInformation(username: string, fullName: string, currentPassword: string, newPassword: string): Observable<boolean> {
+    const url: string = `${this.baseUrlService.baseURL}/updateInformation`
+    let formData = new FormData()
+    formData.append("username", username)
+    formData.append("fullName", fullName)
+    formData.append("currentPassword", currentPassword ?? "")
+    formData.append("newPassword", newPassword ?? "")
+    return this.httpClient.post<boolean>(url, formData)
+  }
+
+  updateProfileImage(formData: FormData): Observable<HttpEvent<Account>> {
+    return this.httpClient.post<Account>(`${this.baseUrlService.baseURL}/updateProfileImage`, formData,
+    {reportProgress: true,
+      observe: 'events'
+    });
   }
 
 }

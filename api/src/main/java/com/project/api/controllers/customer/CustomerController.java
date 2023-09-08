@@ -1,6 +1,5 @@
 package com.project.api.controllers.customer;
 
-import com.project.api.domain.HttpResponse;
 import com.project.api.domain.UserPrincipal;
 import com.project.api.dtos.AccountDTO;
 import com.project.api.dtos.AddressDTO;
@@ -14,13 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.MessagingException;
 
+import java.io.IOException;
 import java.util.List;
 
 import static com.project.api.constants.SecurityConstant.JWT_TOKEN_HEADER;
@@ -58,47 +58,8 @@ public class CustomerController extends ExceptionHandling {
     }
 
     @GetMapping("/find/{username}")
-    public ResponseEntity<Account> getUser(@PathVariable("username") String username) {
-        Account account = accountService.findByUsername(username);
-        return new ResponseEntity<>(account, OK);
-    }
-
-//    @GetMapping("/resetpassword/{email}")
-//    public ResponseEntity<HttpResponse> resetPassword(@PathVariable("email") String email) throws MessagingException, EmailNotFoundException {
-//        userService.resetPassword(email);
-//        return response(OK, EMAIL_SENT + email);
-//    }
-
-//    @DeleteMapping("/delete/{username}")
-//    @PreAuthorize("hasAnyAuthority('user:delete')")
-//    public ResponseEntity<HttpResponse> deleteUser(@PathVariable("username") String username) throws IOException {
-//        accountService.deleteById(username);
-//        return response(OK, USER_DELETED_SUCCESSFULLY);
-//    }
-
-
-//    @GetMapping(path = "/image/{username}/{fileName}", produces = IMAGE_JPEG_VALUE)
-//    public byte[] getProfileImage(@PathVariable("username") String username, @PathVariable("fileName") String fileName) throws IOException {
-//        return Files.readAllBytes(Paths.get(USER_FOLDER + username + FORWARD_SLASH + fileName));
-//    }
-
-//    @GetMapping(path = "/image/profile/{username}", produces = IMAGE_JPEG_VALUE)
-//    public byte[] getTempProfileImage(@PathVariable("username") String username) throws IOException {
-//        URL url = new URL(TEMP_PROFILE_IMAGE_BASE_URL + username);
-//        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-//        try (InputStream inputStream = url.openStream()) {
-//            int bytesRead;
-//            byte[] chunk = new byte[1024];
-//            while((bytesRead = inputStream.read(chunk)) > 0) {
-//                byteArrayOutputStream.write(chunk, 0, bytesRead);
-//            }
-//        }
-//        return byteArrayOutputStream.toByteArray();
-//    }
-
-    private ResponseEntity<HttpResponse> response(HttpStatus httpStatus, String message) {
-        return new ResponseEntity<>(new HttpResponse(httpStatus.value(), httpStatus, httpStatus.getReasonPhrase().toUpperCase(),
-                message), httpStatus);
+    public ResponseEntity<AccountDTO> getUser(@PathVariable("username") String username) {
+        return new ResponseEntity<>(new AccountDTO(accountService.findByUsername(username)), OK);
     }
 
     private HttpHeaders getJwtHeader(UserPrincipal user) {
@@ -136,5 +97,24 @@ public class CustomerController extends ExceptionHandling {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @PostMapping("/updateProfileImage")
+    public ResponseEntity<Boolean> updateProfileImage(
+            @RequestParam("username") String username,
+            @RequestParam(value = "profileImage") MultipartFile profileImage)
+            throws IOException, NotAnImageFileException {
+        return new ResponseEntity<>(accountService.updateProfileImage(username, profileImage), OK);
+    }
+
+    @PostMapping("/updateInformation")
+    public ResponseEntity<Boolean> updateInformation(
+            @RequestParam(value = "username") String username,
+            @RequestParam(value = "fullName", required = false) String fullName,
+            @RequestParam(value = "currentPassword", required = false) String currentPassword,
+            @RequestParam(value = "newPassword", required = false) String newPassword)
+            throws WrongPasswordException {
+        System.out.println(username + " - " + fullName + " - " + currentPassword + " - " + newPassword);
+        return new ResponseEntity<>(accountService.updateInformation(username, fullName, currentPassword, newPassword), OK);
     }
 }

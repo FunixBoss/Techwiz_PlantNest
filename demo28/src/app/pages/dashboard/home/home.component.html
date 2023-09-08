@@ -1,7 +1,7 @@
 <main class="main">
   <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
     <div class="container">
-      <h1 class="page-title">My Account<span>Shop</span></h1>
+      <h1 class="page-title">My Account</h1>
     </div>
   </div>
   <nav class="breadcrumb-nav mb-3">
@@ -22,8 +22,11 @@
           <aside class="col-md-4 col-lg-3">
             <ul class="nav nav-dashboard flex-column mb-3 mb-md-0" role="tablist" tabClick>
               <li class="nav-item" *ngFor="let tab of tabs">
-                <a class="nav-link" [class.active]="selectingTabIndex == tab.tabIndex" [routerLink]="'/dashboard'"
-                  [fragment]="tab.fragment" href="javascript:;" role="tab" (click)="selectTab(tab)">
+                <a class="nav-link"
+                  [class.active]="currentFragment == tab.fragment"
+                  routerLink="."
+                  [fragment]="tab.fragment"
+                  role="tab">
                   {{tab.label}}
                 </a>
               </li>
@@ -36,19 +39,9 @@
           <div class="col-md-8 col-lg-9">
             <div class="tab-content">
               <ul ngbNav #nav="ngbNav">
-                <li [ngbNavItem]="'dashboard'">
+                <li [ngbNavItem]="'orders'">
                   <ng-template ngbNavContent>
-                    <dashboard-dashboard-tab [nav]="nav"></dashboard-dashboard-tab>
-                  </ng-template>
-                </li>
-                <li [ngbNavItem]="'orders'" (click)="loadOrders()">
-                  <ng-template ngbNavContent>
-                    <dashboard-orders-tab [orders]="orders" [loadedOrders]="loadedOrders" [filters]="filters"></dashboard-orders-tab>
-                  </ng-template>
-                </li>
-                <li [ngbNavItem]="'addresses'">
-                  <ng-template ngbNavContent>
-                    <dashboard-addresses-tab></dashboard-addresses-tab>
+                    <dashboard-orders-tab></dashboard-orders-tab>
                   </ng-template>
                 </li>
                 <li [ngbNavItem]="'account-details'">

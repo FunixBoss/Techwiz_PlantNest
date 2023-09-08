@@ -1,7 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgbCalendar, NgbDate, NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { FilterOrderCriteria } from 'src/app/@core/models/filter-order-criteria';
 import { Order } from 'src/app/@core/models/order/order.model';
@@ -16,12 +15,17 @@ import { ProductService } from 'src/app/@core/services/product/product.service';
 
 export class OrdersTabComponent implements OnInit {
   private subscriptions: Subscription[] = []
-  @Input() orders: Order[]
-  @Input() loadedOrders: boolean = false
+  orders: Order[]
+  loadedOrders: boolean = false
   selectedOrder: Order
+  filters: FilterOrderCriteria = {
+    page: 1,
+    pageSize: 4,
+    totalElements: null,
+    searchTerm: null,
+    orderBy: 'default'
+  };
 
-
-  @Input() filters: FilterOrderCriteria;
   searchFormGroup: FormGroup
 
   constructor(
@@ -38,7 +42,24 @@ export class OrdersTabComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.activatedRoute.queryParams.subscribe((params) => {
+      this.filters.page = params['page'] ?? 1;
+      this.filters.pageSize = params['pageSize'] ?? 4;
+      this.filters.searchTerm = params['searchTerm'] ?? null;
+      this.filters.orderBy = params['orderBy'] ?? 'default';
 
+      this.loadOrders()
+    })
+  }
+
+  loadOrders() {
+    this.subscriptions.push(
+      this.orderService.findByPages(this.filters).subscribe((result) => {
+        this.loadedOrders = true
+        this.orders = result.content;
+        this.filters.totalElements = result.totalElements;
+      })
+    )
   }
 
   selectOrderDetail(orderId: number) {

@@ -343,6 +343,7 @@ CREATE TABLE [Order] (
 	[account_email] NVARCHAR(255),
 	[coupon_id] INT,
 	[coupon_code] NVARCHAR(200),
+	[coupon_discount] NVARCHAR(50),
 	[total_price] decimal(18,2) NOT NULL,
 	[total_quantity] INT NOT NULL,
 	[order_status_id] INT NOT NULL,

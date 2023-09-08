@@ -5,10 +5,7 @@ import com.project.api.dtos.AccountDetailDTO;
 import com.project.api.dtos.ProductFindAllDTO;
 import com.project.api.entities.Account;
 import com.project.api.entities.Product;
-import com.project.api.exceptions.domain.EmailExistException;
-import com.project.api.exceptions.domain.NotAnImageFileException;
-import com.project.api.exceptions.domain.UserNotFoundException;
-import com.project.api.exceptions.domain.UsernameExistException;
+import com.project.api.exceptions.domain.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -32,6 +29,7 @@ public interface AccountService {
     Integer countWishlist(Integer accountId);
     Long count();
     Boolean updateProfileImage(String username, MultipartFile image) throws IOException, NotAnImageFileException;
-
     Boolean updateFullName(String username, String fullName);
+    Boolean updateInformation(String username, String fullName, String currentPassword, String newPassword) throws WrongPasswordException;
+
 }

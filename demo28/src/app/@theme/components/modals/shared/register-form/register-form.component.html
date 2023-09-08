@@ -75,10 +75,10 @@
 		<div class="alert alert-danger mt-1" *ngIf="registerFormGroup.get('fullName').invalid &&
 				(registerFormGroup.get('fullName').dirty || registerFormGroup.get('fullName').touched)">
 			<div *ngIf="registerFormGroup.get('fullName').errors['minlength']">
-				Fullname must have at least 3 character
+				Full Name must have at least 3 character
 			</div>
 			<div *ngIf="registerFormGroup.get('fullName').errors['maxlength']">
-				Fullname must not exceed 100 characters
+				Full Name must not exceed 100 characters
 			</div>
 		</div>
 	</div>

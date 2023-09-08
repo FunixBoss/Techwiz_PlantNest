@@ -35,6 +35,7 @@ public class ExceptionHandling implements ErrorController {
     private static final String ACCOUNT_DISABLED = "Your account has been disabled. If this is an error, please contact administration";
     private static final String ERROR_PROCESSING_FILE = "Error occurred while processing file";
     private static final String NOT_ENOUGH_PERMISSION = "You do not have enough permission";
+    private static final String WRONG_PASSWORD = "You password incorrect. Please try again";
     public static final String ERROR_PATH = "/error";
 
     @ExceptionHandler(DisabledException.class)
@@ -115,6 +116,12 @@ public class ExceptionHandling implements ErrorController {
     public ResponseEntity<HttpResponse> iOException(IOException exception) {
         LOGGER.error(exception.getMessage());
         return createHttpResponse(INTERNAL_SERVER_ERROR, ERROR_PROCESSING_FILE);
+    }
+
+    @ExceptionHandler(WrongPasswordException.class)
+    public ResponseEntity<HttpResponse> wrongPasswordException(WrongPasswordException exception) {
+        LOGGER.error(exception.getMessage());
+        return createHttpResponse(BAD_REQUEST, WRONG_PASSWORD);
     }
 
     private ResponseEntity<HttpResponse> createHttpResponse(HttpStatus httpStatus, String message) {
