@@ -56,7 +56,7 @@ public class AdminController {
     }
 
     @GetMapping("/find/{username}")
-    @PreAuthorize("hasAnyAuthority('**')")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     public ResponseEntity<Account> getUser(@PathVariable("username") String username) {
         Account account = accountService.findByUsername(username);
         return new ResponseEntity<>(account, OK);
@@ -64,7 +64,7 @@ public class AdminController {
 
 
     @PostMapping("/updateProfileImage")
-    @PreAuthorize("hasAnyAuthority('**')")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     public ResponseEntity<Boolean> updateProfileImage(
             @RequestParam("username") String username,
             @RequestParam(value = "profileImage") MultipartFile profileImage)
@@ -73,7 +73,7 @@ public class AdminController {
     }
 
     @PostMapping("/updateFullName")
-    @PreAuthorize("hasAnyAuthority('**')")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     public ResponseEntity<Boolean> updateFullName(
             @RequestParam("username") String username,
             @RequestParam("fullName") String fullName) {

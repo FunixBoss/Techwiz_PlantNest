@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/admin/catalogs")
-@PreAuthorize("hasAnyAuthority('**')")
+@PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
 public class CatalogController {
 
     @Autowired

@@ -32,18 +32,14 @@ public class Role implements java.io.Serializable {
 	@Column(name = "name", unique = true, nullable = false)
 	private String name;
 
-	@Column(name = "authorities")
-	private String[] authorities;
-
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
 	private Set<Account> accounts = new HashSet<Account>(0);
 
 	public Role() {
 	}
 
-	public Role(String name, String[] authorities) {
+	public Role(String name) {
 		this.name = name;
-		this.authorities = authorities;
 	}
 
 	public Role(String name, Set<Account> accounts) {

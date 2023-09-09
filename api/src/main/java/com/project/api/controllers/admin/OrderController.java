@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/admin/orders")
-@PreAuthorize("hasAnyAuthority('**')")
+@PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
 public class OrderController {
 
     @Autowired

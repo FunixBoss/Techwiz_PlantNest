@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/admin/coupons")
-@PreAuthorize("hasAnyAuthority('**')")
+@PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
 public class CouponController {
 
     @Autowired

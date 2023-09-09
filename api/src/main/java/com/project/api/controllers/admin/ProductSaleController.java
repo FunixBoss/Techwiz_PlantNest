@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/admin/product-sales")
-@PreAuthorize("hasAnyAuthority('**')")
+@PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
 public class ProductSaleController {
 
     @Autowired

@@ -124,4 +124,172 @@ public class Product implements Serializable {
 	public int hashCode() {
 		return Objects.hash(productId);
 	}
+
+	public Integer getProductId() {
+		return productId;
+	}
+
+	public void setProductId(Integer productId) {
+		this.productId = productId;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	public String getSlug() {
+		return slug;
+	}
+
+	public void setSlug(String slug) {
+		this.slug = slug;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
+
+	public Boolean getSale() {
+		return sale;
+	}
+
+	public void setSale(Boolean sale) {
+		this.sale = sale;
+	}
+
+	public Boolean getTop() {
+		return top;
+	}
+
+	public void setTop(Boolean top) {
+		this.top = top;
+	}
+
+	public Boolean getNew_() {
+		return new_;
+	}
+
+	public void setNew_(Boolean new_) {
+		this.new_ = new_;
+	}
+
+	public Catalog getCatalog() {
+		return catalog;
+	}
+
+	public void setCatalog(Catalog catalog) {
+		this.catalog = catalog;
+	}
+
+	public PlantingDifficultyLevel getPlantingDifficultyLevel() {
+		return plantingDifficultyLevel;
+	}
+
+	public void setPlantingDifficultyLevel(PlantingDifficultyLevel plantingDifficultyLevel) {
+		this.plantingDifficultyLevel = plantingDifficultyLevel;
+	}
+
+	public ProductSale getProductSale() {
+		return productSale;
+	}
+
+	public void setProductSale(ProductSale productSale) {
+		this.productSale = productSale;
+	}
+
+	public ProductCareGuide getProductCareGuide() {
+		return productCareGuide;
+	}
+
+	public void setProductCareGuide(ProductCareGuide productCareGuide) {
+		this.productCareGuide = productCareGuide;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Image getImageSizeGuide() {
+		return imageSizeGuide;
+	}
+
+	public void setImageSizeGuide(Image imageSizeGuide) {
+		this.imageSizeGuide = imageSizeGuide;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public Set<ProductVariant> getProductVariants() {
+		return productVariants;
+	}
+
+	public void setProductVariants(Set<ProductVariant> productVariants) {
+		this.productVariants = productVariants;
+	}
+
+	public Set<CartDetail> getCartDetails() {
+		return cartDetails;
+	}
+
+	public void setCartDetails(Set<CartDetail> cartDetails) {
+		this.cartDetails = cartDetails;
+	}
+
+	public Set<OrderDetail> getOrderDetails() {
+		return orderDetails;
+	}
+
+	public void setOrderDetails(Set<OrderDetail> orderDetails) {
+		this.orderDetails = orderDetails;
+	}
+
+	public Set<Account> getWishlists() {
+		return wishlists;
+	}
+
+	public void setWishlists(Set<Account> wishlists) {
+		this.wishlists = wishlists;
+	}
+
+	public List<Image> getImages() {
+		return images;
+	}
+
+	public void setImages(List<Image> images) {
+		this.images = images;
+	}
+
+	public Set<ProductReview> getProductReviews() {
+		return productReviews;
+	}
+
+	public void setProductReviews(Set<ProductReview> productReviews) {
+		this.productReviews = productReviews;
+	}
 }

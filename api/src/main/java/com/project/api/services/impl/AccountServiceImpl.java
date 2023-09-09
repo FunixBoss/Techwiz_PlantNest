@@ -232,8 +232,6 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     @Override
     public AccountDTO register(String username, String email, String password, String fullName, String phoneNumber) throws UserNotFoundException, EmailExistException, UsernameExistException {
         validateNewUsernameAndEmail(EMPTY, username, email);
-
-
         Account account = new Account();
         account.setUsername(username);
         account.setEmail(email);
@@ -245,7 +243,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         account.setUpdatedAt(new Date());
         account.setImage(null);
 
-        account.setRole(roleRepository.findById(1).get());
+        account.setRole(roleRepository.findById(2).get());
         return new AccountDTO(accountRepository.save(account));
     }
 
