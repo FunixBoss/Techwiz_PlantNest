@@ -266,8 +266,6 @@ CREATE TABLE [ProductReview] (
 )
 
 
-
-
 DROP TABLE IF EXISTS [ProductSize];
 CREATE TABLE [ProductSize] (
 	[product_size_id] INT PRIMARY KEY IDENTITY,

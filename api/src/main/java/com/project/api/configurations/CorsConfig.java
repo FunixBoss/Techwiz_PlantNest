@@ -19,7 +19,8 @@ public class CorsConfig implements WebMvcConfigurer {
 
     public final static List<String> ALLOWED_ORIGINS = Arrays.asList(
         "http://localhost:4200",
-        "http://localhost:4300"
+        "http://localhost:4300",
+        "https://techwiz-plant-nest.vercel.app"
     );
 
 

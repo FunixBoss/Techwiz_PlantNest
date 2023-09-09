@@ -17,7 +17,9 @@
                           <div class="col-12 col-sm-auto">
                             <div class="mx-auto" style="width: 120px;">
                               <div class="d-flex justify-content-center align-items-center rounded">
-                                <img class="rounded" height="135" width="135" src="{{account?.image}}" alt="">
+                                <img class="rounded-circle" 
+                                  style="height: 135px; width: 135px; object-fit: cover;" 
+                                  [src]="account.image !== null ? account.image : 'assets/images/no-image.jpg'" alt="">
                               </div>
                               <div *ngIf="fileStatus?.status==='progress'" class="progress mt-1">
                                 <div class="progress-bar bg-info" role="progressbar"
