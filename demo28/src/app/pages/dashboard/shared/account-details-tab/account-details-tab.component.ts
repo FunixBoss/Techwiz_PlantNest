@@ -17,6 +17,7 @@ import { CustomValidator } from 'src/app/@core/validators/custom-validator';
 })
 
 export class AccountDetailsTabComponent implements OnInit {
+
   ACCOUNT_IMAGE_DIRECTORY = ACCOUNT_IMAGE_DIRECTORY
   private subscriptions: Subscription[] = [];
   loggedInAccount: any;
@@ -26,6 +27,9 @@ export class AccountDetailsTabComponent implements OnInit {
   fileStatus = new FileUploadStatus();
   changeProfileFormGroup: FormGroup
   isFormChanged: boolean = false;
+
+  errorMessage: string;
+
   constructor(
     private accountService: AccountService,
     private authenService: AuthenticationService,
@@ -43,15 +47,24 @@ export class AccountDetailsTabComponent implements OnInit {
       Validators.minLength(3),
       CustomValidator.notBlank]],
       currentPassword: [],
-      newPassword:
-        [,
-          [Validators.minLength(6),
-          Validators.maxLength(50)]],
+      newPassword: [],
     })
     this.changeProfileFormGroup.get('username').disable()
     this.changeProfileFormGroup.get('email').disable()
     this.isFormChange()
-    this.onChangePassword()
+    this.changeProfileFormGroup.get('currentPassword').valueChanges.subscribe((data) => {
+      if (data != null || data != '') {
+        this.changeProfileFormGroup.get('newPassword').setValidators([
+          Validators.required,
+          Validators.minLength(6),
+          Validators.maxLength(50)
+        ])
+      } else {
+        this.changeProfileFormGroup.get('newPassword').clearValidators();
+      }
+
+      this.changeProfileFormGroup.get('newPassword').updateValueAndValidity();
+    })
   }
 
   isFormChange() {
@@ -60,20 +73,10 @@ export class AccountDetailsTabComponent implements OnInit {
     })
   }
 
-  onChangePassword() {
-    this.changeProfileFormGroup.get('currentPassword').valueChanges.subscribe((currentPassword: string) => {
-      if (currentPassword != null && currentPassword.trim() != '') {
-        this.changeProfileFormGroup.get('newPassword').setValidators(CustomValidator.notBlank)
-      }
-    })
-  }
-
   changeProfile() {
-    console.log(this.changeProfileFormGroup.value);
-
     if (this.changeProfileFormGroup.invalid) {
       this.changeProfileFormGroup.markAllAsTouched()
-      return
+      return;
     }
 
     this.subscriptions.push(
@@ -89,11 +92,12 @@ export class AccountDetailsTabComponent implements OnInit {
                 this.authenService.addAccountToLocalCache(data)
                 this.toastrService.success('Updated account information successfully')
                 this.fileStatus.status = 'done';
+                this.errorMessage = null
               })
             }
           },
           (error: HttpErrorResponse) => {
-            console.log(error);
+            this.errorMessage = error.error.message
             this.toastrService.error('Updated account information failed')
 
           }
@@ -101,6 +105,10 @@ export class AccountDetailsTabComponent implements OnInit {
     );
   }
 
+  focusCurrentPw() {
+    this.changeProfileFormGroup.get('currentPassword').setValue(null)
+    this.errorMessage = null
+  }
 
   public updateProfileImage(): void {
     document.getElementById('profile-image-input').click();

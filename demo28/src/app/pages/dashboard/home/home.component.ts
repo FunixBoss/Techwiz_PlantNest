@@ -2,12 +2,14 @@ import { Component, OnInit, Renderer2, ElementRef, ViewChild, OnDestroy } from '
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbNav } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { Address } from 'src/app/@core/models/address/address.model';
 import { FilterOrderCriteria } from 'src/app/@core/models/filter-order-criteria';
 import { Order } from 'src/app/@core/models/order/order.model';
 import { AccountService } from 'src/app/@core/services/account/account.service';
 import { AddressService } from 'src/app/@core/services/account/address.service';
+import { AuthenticationService } from 'src/app/@core/services/account/authentication.service';
 import { OrderService } from 'src/app/@core/services/order/order.service';
 import { UtilsService } from 'src/app/@core/services/utils.service';
 
@@ -47,7 +49,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     public utilsService: UtilsService,
     private router: Router,
     public accountService: AccountService,
-    public addressService: AddressService
+    public addressService: AddressService,
+    public authenService: AuthenticationService,
+    public toastrService: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -70,5 +74,12 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(subscr => subscr.unsubscribe());
+  }
+
+  logout() {
+    this.authenService.logout()
+    this.authenService.authChange()
+    this.toastrService.success("Log out successfully!")
+    this.router.navigateByUrl("/")
   }
 }
