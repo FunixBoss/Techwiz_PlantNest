@@ -41,6 +41,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private OrderDetailService orderDetailService;
+    @Autowired
+    private AccountRepository accountRepository;
+    @Autowired
+    private ProductReviewRepository productReviewRepository;
 
     @Override
     public ProductDetailDTO findById(Integer productId) {
@@ -507,6 +511,24 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
 
         return new PageImpl<>(mapToFindAll(dtoList), pageable, productPage.getTotalElements());
+    }
+
+    @Override
+    public Boolean comment(Integer productId, String username, Integer ratingStar, String content) {
+        try {
+            ProductReview review = new ProductReview();
+            review.setAccount(accountRepository.findAccountByUsername(username));
+            review.setProduct(productRepository.findById(productId).get());
+            review.setRating(ratingStar);
+            review.setContent(content);
+            review.setCreatedAt(new Date());
+            review.setUpdatedAt(new Date());
+            productReviewRepository.save(review);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     private List<BigDecimal> findMinAndMaxPrice(Integer productId) {

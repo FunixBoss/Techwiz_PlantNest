@@ -4,6 +4,7 @@ import { BaseURLService } from '../base-url.service';
 import { HttpClient, HttpEvent } from '@angular/common/http';
 import { Account } from '../../models/account/account.model';
 import { Address } from '../../models/address/address.model';
+import { ProductReview } from '../../models/product/product-review.model';
 
 @Injectable({
   providedIn: 'root'

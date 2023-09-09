@@ -39,5 +39,5 @@ public interface ProductService {
     Long count();
     List<ProductSizeDTO> findAllSizes();
     Page<ProductFindAllDTO> findByPages(Pageable pageable, String catalog, String size, String level, String orderBy, String searchTerm);
-
+    Boolean comment(Integer productId, String username, Integer ratingStar, String content);
 }

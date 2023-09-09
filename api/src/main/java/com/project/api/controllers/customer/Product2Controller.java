@@ -219,4 +219,13 @@ public class Product2Controller {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PostMapping("comment")
+    public ResponseEntity<Boolean> comment(
+            @RequestParam String username,
+            @RequestParam Integer productId,
+            @RequestParam Integer ratingStar,
+            @RequestParam String content) {
+        return new ResponseEntity<>(productService.comment(productId, username, ratingStar, content), HttpStatus.OK);
+    }
 }

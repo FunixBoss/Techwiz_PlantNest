@@ -11,6 +11,7 @@ import { ProductSize } from '../../models/product/product-size.model';
 import { GetDTOByPages } from '../../models/product/get-dto-by-pages.model';
 import { FilterCriteria } from '../../models/filter-criteria';
 import { ProductSale } from '../../models/sale/product-sale.model';
+import { ProductReview } from '../../models/product/product-review.model';
 
 export class ToastState {
   bahavior: String;
@@ -94,6 +95,11 @@ export class ProductService {
     return this.httpClient.get<number>(url);
   }
 
+  findReviews(id: number): Observable<ProductReview[]> {
+    const url: string = `${this.baseUrlService.baseURL}/products/${id}/productReviews`;
+    return this.httpClient.get<ProductReview[]>(url);
+  }
+
   isExist(productId: number): Observable<boolean> {
     const url: string = `${this.baseUrlService.baseURL}/products/isExist?productId=${productId}`;
     return this.httpClient.get<boolean>(url);
@@ -128,6 +134,17 @@ export class ProductService {
       return (rootPrice * (1 - productSale.discount/100))
     }
   }
+
+  submitComment(productId, username, rating, content): Observable<boolean> {
+    const url: string = `${this.baseUrlService.baseURL}/products/comment`;
+    let formData = new FormData();
+    formData.append("productId", productId)
+    formData.append("username", username)
+    formData.append("ratingStar", rating)
+    formData.append("content", content)
+
+    return this.httpClient.post<boolean>(url, formData)
+  }
 }
 
 export function removeDuplicateSize(sizes: ProductSize[]): ProductSize[] {
@@ -140,6 +157,7 @@ export function removeDuplicateSize(sizes: ProductSize[]): ProductSize[] {
       })
     );
   });
+
 
 
 }

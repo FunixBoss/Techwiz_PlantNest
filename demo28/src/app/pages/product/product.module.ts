@@ -11,7 +11,7 @@ import { DetailPageComponent } from './detail/detail.component';
 
 
 import { InfoTabsComponent } from './shared/info-tabs/info-tabs.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ThemeModule } from 'src/app/@theme/theme.module';
 import { PriceComponent } from './shared/price/price.component';
 import { DetailInformationsComponent } from './shared/detail-informations/detail-informations.component';
@@ -35,7 +35,8 @@ import { GalleryComponent } from './shared/gallery/gallery.component';
     NgbModule,
     OwlModule,
     LightboxModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
 
   exports: [],
