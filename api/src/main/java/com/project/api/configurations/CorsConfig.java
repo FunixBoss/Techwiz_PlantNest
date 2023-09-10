@@ -22,7 +22,7 @@ public class CorsConfig implements WebMvcConfigurer {
         "http://localhost:4300",
         "https://techwiz-plant-nest-funixboss.vercel.app",
         "https://techwiz-plant-nest.vercel.app",
-        "http://plantnest.online"
+        "https://plantnest.online"
     );
 
 
