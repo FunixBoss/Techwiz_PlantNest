@@ -54,30 +54,24 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-lg-6 col-md-12 pl-0">
-                <input nbInput placeholder="Start Date" [nbDatepicker]="startDate" formControlName="startedAt">
-                <nb-datepicker #startDate></nb-datepicker>
-                <div class="alert alert-danger mt-2 mb-3"
-                    *ngIf="editSaleFormGroup.get('startedAt').invalid && (editSaleFormGroup.get('startedAt').dirty || editSaleFormGroup.get('startedAt').touched)">
-                    <div *ngIf="editSaleFormGroup.get('startedAt').errors['required']">
-                        Start Date is required
-                    </div>
-                </div>
+        <input nbInput fullWidth placeholder="Start Date" [nbDatepicker]="startDate" formControlName="startedAt">
+        <nb-datepicker #startDate></nb-datepicker>
+        <div class="alert alert-danger mt-2 mb-3"
+            *ngIf="editSaleFormGroup.get('startedAt').invalid && (editSaleFormGroup.get('startedAt').dirty || editSaleFormGroup.get('startedAt').touched)">
+            <div *ngIf="editSaleFormGroup.get('startedAt').errors['required']">
+                Start Date is required
             </div>
-            <div class="col-lg-6 col-md-12 pr-0">
-                <input nbInput placeholder="Expire Date" [nbDatepicker]="expireDate" formControlName="expiredAt">
-                <nb-datepicker #expireDate></nb-datepicker>
-                <div class="alert alert-danger mt-2 mb-3"
-                    *ngIf="editSaleFormGroup.get('expiredAt').invalid && (editSaleFormGroup.get('expiredAt').dirty || editSaleFormGroup.get('expiredAt').touched)">
-                    <div *ngIf="editSaleFormGroup.get('expiredAt').errors['required']">
-                        Expire Date is required
-                    </div>
-                </div>
-            </div>            
+        </div>
+        <input nbInput fullWidth placeholder="Expire Date" [nbDatepicker]="expireDate" formControlName="expiredAt">
+        <nb-datepicker #expireDate></nb-datepicker>
+        <div class="alert alert-danger mt-2 mb-3"
+            *ngIf="editSaleFormGroup.get('expiredAt').invalid && (editSaleFormGroup.get('expiredAt').dirty || editSaleFormGroup.get('expiredAt').touched)">
+            <div *ngIf="editSaleFormGroup.get('expiredAt').errors['required']">
+                Expire Date is required
+            </div>
         </div>
 
-        <nb-checkbox (checkedChange)="editSaleFormGroup.get('active').setValue($event)" status="success" 
+        <nb-checkbox (checkedChange)="editSaleFormGroup.get('active').setValue($event)" status="success"
             [checked]="editSaleFormGroup.get('active').value">
             Active
         </nb-checkbox>

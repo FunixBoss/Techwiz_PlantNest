@@ -1,27 +1,29 @@
 <div class="row">
     <div class="col-lg-8 col-md-12">
-        <nb-card>
-            <nb-card-header class="d-flex justify-content-between align-items-center">
-                <h6>
-                    Coupon List
-                </h6>
-                <ngx-item-of-list (selectNumberOfItem)="source.setPaging(1, $event)"></ngx-item-of-list>
-            </nb-card-header>
-            <nb-card-body>
-                <ng2-smart-table 
-                    [settings]="settings" [source]="source"
-                    [ngClass]="'smart-table'"
-                    (userRowSelect)="onRowSelect($event)">
-                </ng2-smart-table>
-            </nb-card-body>
-            <nb-card-footer>
-                <ng-container *ngIf="selectedCoupons.length > 0">
-                    <button nbButton status="danger" (click)="openDeleteWindow()">
-                        <nb-icon icon="trash-outline"></nb-icon>
-                    </button>
-                </ng-container>
-            </nb-card-footer>
-        </nb-card>
+        <ng-container *ngIf="loadedCoupons; else loadingBlock">
+            <nb-card>
+                <nb-card-header class="d-flex justify-content-between align-items-center">
+                    <h6>
+                        Coupon List
+                    </h6>
+                    <ngx-item-of-list (selectNumberOfItem)="source.setPaging(1, $event)"></ngx-item-of-list>
+                </nb-card-header>
+                <nb-card-body>
+                    <ng2-smart-table 
+                        [settings]="settings" [source]="source"
+                        [ngClass]="'smart-table'"
+                        (userRowSelect)="onRowSelect($event)">
+                    </ng2-smart-table>
+                </nb-card-body>
+                <nb-card-footer>
+                    <ng-container *ngIf="selectedCoupons.length > 0">
+                        <button nbButton status="danger" (click)="openDeleteWindow()">
+                            <nb-icon icon="trash-outline"></nb-icon>
+                        </button>
+                    </ng-container>
+                </nb-card-footer>
+            </nb-card>
+        </ng-container>
     </div>
     <div class="col-lg-4 col-md-12">
         <ng-container *ngIf="state === 'add'">
@@ -44,5 +46,10 @@
                 CONFIRM
             </button>
         </nb-card-body>
+    </nb-card>
+</ng-template>
+
+<ng-template #loadingBlock>
+    <nb-card [size]="'small'" [nbSpinner]="!loadedCatalogs" nbSpinnerSize="large" nbSpinnerStatus="primary">
     </nb-card>
 </ng-template>

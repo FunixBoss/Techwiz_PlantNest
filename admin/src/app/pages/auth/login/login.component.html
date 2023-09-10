@@ -1,13 +1,13 @@
-<div class="d-flex justify-content-center my-auto">
-    <div class="w-50">
+<div class="d-flex justify-content-center">
+    <div class="custom-div">
         <nb-card [formGroup]="loginFormGroup">
-            <nb-card-header>Admin Login</nb-card-header>
+            <nb-card-header class="text-center">Admin Login</nb-card-header>
             <nb-card-body>
-                <!-- <ng-container *ngIf="errorMessage !== undefined">
+                <ng-container *ngIf="errorMessage !== undefined">
                     <div class="alert alert-danger mb-3">
                         {{errorMessage}}
                     </div>
-                </ng-container> -->
+                </ng-container>
 
                 <input type="text" nbInput fullWidth status="basic" placeholder="Username" formControlName="username">
                 <div class="alert alert-danger mt-1"
@@ -28,8 +28,9 @@
 
                 
             </nb-card-body>
-            <nb-card-footer>
-                <button nbButton status="success" (click)="login()">
+            <nb-card-footer class="text-center">
+                <button [nbSpinner]="loadOnLogin" nbSpinnerStatus="primary" 
+                    nbButton status="success" (click)="login()">
                     LOGIN
                 </button>
             </nb-card-footer>

@@ -19,6 +19,6 @@ public class SecurityConstant {
             "/api/isUsernameExist",
             "/api/user/image/**",
             "/assets/upload/**",
-            "/api/products/**"
+            "/api/products/**",
     };
 }

@@ -2,10 +2,15 @@ package com.project.api.dtos;
 
 import com.project.api.entities.Account;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Date;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 public class AccountDTO {
     private Integer id;
     private String username;

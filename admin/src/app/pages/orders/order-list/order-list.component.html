@@ -1,35 +1,33 @@
-<div class="row">
-    <div class="col-lg-12">
-        <nb-card>
-            <nb-card-header class="d-flex justify-content-between align-items-center">
-                <h6>
-                    Order List
-                </h6>
-                <ngx-item-of-list (selectNumberOfItem)="source.setPaging(1, $event)"></ngx-item-of-list>
-            </nb-card-header>
-            <nb-card-body>
-                <ng2-smart-table [ngClass]="'smart-table'" [settings]="settings" [source]="source"
-                    (userRowSelect)="onRowSelect($event)">
-                </ng2-smart-table>
-            </nb-card-body>
-            <nb-card-footer>
-                <ng-container *ngIf="selectedOrders.length > 0">
-                    <button nbButton status="warning" (click)="onEdit()">
-                        <nb-icon icon="edit-2-outline"></nb-icon>
-                        Edit Status
-                    </button>
-                </ng-container>
-            </nb-card-footer>
-        </nb-card>
-    </div>
-</div>
-
+<ng-container *ngIf="loadedOrders; else loadingBlock">
+    <nb-card>
+        <nb-card-header class="d-flex justify-content-between align-items-center">
+            <h6>
+                Order List
+            </h6>
+            <ngx-item-of-list (selectNumberOfItem)="source.setPaging(1, $event)"></ngx-item-of-list>
+        </nb-card-header>
+        <nb-card-body>
+            <ng2-smart-table [ngClass]="'smart-table'" [settings]="settings" [source]="source"
+                (userRowSelect)="onRowSelect($event)">
+            </ng2-smart-table>
+        </nb-card-body>
+        <nb-card-footer>
+            <ng-container *ngIf="selectedOrders.length > 0">
+                <button nbButton status="warning" (click)="onEdit()">
+                    <nb-icon icon="edit-2-outline"></nb-icon>
+                    Edit Status
+                </button>
+            </ng-container>
+        </nb-card-footer>
+    </nb-card>
+</ng-container>
 
 <ng-template #editOrderStatus let-data>
     <div class="d-flex flex-column" [formGroup]="editStatusFormGroup">
         <nb-select fullWidth placeholder="Order Status" formControlName="orderStatus">
             <nb-select-label>
-                Order Status: {{ editStatusFormGroup.get('orderStatus').value !== null ? editStatusFormGroup.get('orderStatus').value['statusName'] : null }}
+                Order Status: {{ editStatusFormGroup.get('orderStatus').value !== null ?
+                editStatusFormGroup.get('orderStatus').value['statusName'] : null }}
             </nb-select-label>
             <nb-option *ngFor="let status of orderStatuses" [value]="status">{{status.statusName}}</nb-option>
         </nb-select>
@@ -43,4 +41,10 @@
             SAVE
         </button>
     </div>
+</ng-template>
+
+
+<ng-template #loadingBlock>
+    <nb-card [size]="'small'" [nbSpinner]="!loadedCatalogs" nbSpinnerSize="large" nbSpinnerStatus="primary">
+    </nb-card>
 </ng-template>

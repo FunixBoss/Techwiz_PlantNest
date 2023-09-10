@@ -6,7 +6,7 @@ import { CustomerListComponent } from './customer-list/customer-list.component';
 import { CustomerDetailComponent } from './customer-detail/customer-detail.component';
 import { CustomersRoutingModule } from './customers-routing.module';
 import { RouterModule } from '@angular/router';
-import { NbAccordionModule, NbActionsModule, NbButtonModule, NbCardModule, NbCheckboxModule, NbDatepickerModule, NbFormFieldModule, NbIconModule, NbInputModule, NbRadioModule, NbSelectModule, NbTabsetModule } from '@nebular/theme';
+import { NbAccordionModule, NbActionsModule, NbButtonModule, NbCardModule, NbCheckboxModule, NbDatepickerModule, NbFormFieldModule, NbIconModule, NbInputModule, NbRadioModule, NbSelectModule, NbSpinnerModule, NbTabsetModule } from '@nebular/theme';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { CustomCustomerActionComponent } from './customer-list/custom/custom-customer-action/custom-customer-action.component';
 import { CustomCustomerImageComponent } from './customer-list/custom/custom-customer-image.component';
@@ -18,6 +18,8 @@ import { CustomerDetailBasicComponent } from './customer-detail/customer-detail-
 import { CustomerDetailOrdersComponent } from './customer-detail/customer-detail-orders/customer-detail-orders.component';
 import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from '../shared/shared.module';
+import { CustomCustomerContactActionComponent } from './customer-contact/custom-customer-contact-action.component';
+import { CustomerContactComponent } from './customer-contact/customer-contact.component';
 
 
 
@@ -26,12 +28,13 @@ import { SharedModule } from '../shared/shared.module';
     CustomersComponent,
     CustomerListComponent,
     CustomerDetailComponent,
+    CustomerContactComponent,
     CustomCustomerActionComponent,
     CustomCustomerImageComponent,
     CustomCustomerFilterActionsComponent,
     CustomCustomerActiveActionComponent,
     CustomerListMultiComponent,
-
+    CustomCustomerContactActionComponent,
     CustomerDetailBasicComponent,
     CustomerDetailCommentsComponent,
     CustomerDetailOrdersComponent
@@ -56,7 +59,8 @@ import { SharedModule } from '../shared/shared.module';
     NbTabsetModule,
     NbFormFieldModule,
     NgbRatingModule,
-    SharedModule
+    SharedModule,
+    NbSpinnerModule
   ]
 })
 export class CustomersModule { }

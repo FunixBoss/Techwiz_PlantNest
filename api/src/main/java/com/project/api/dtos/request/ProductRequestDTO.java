@@ -3,10 +3,13 @@ package com.project.api.dtos.request;
 import com.project.api.dtos.ProductSizeDTO;
 import com.project.api.dtos.ProductVariantDTO;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 
-@Data
+@Getter
+@Setter
 public class ProductRequestDTO {
     private Integer productId;
     private String productName;

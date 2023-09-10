@@ -56,7 +56,17 @@ export const MENU_ITEMS_AUTHORIZED: NbMenuItem[] = [
   {
     title: 'Customers',
     icon: 'person-done-outline',
-    link: '/admin/customers/list',
+    expanded: true,
+    children: [
+      {
+        title: "Customer List",
+        link: '/admin/customers/list',
+      },
+      {
+        title: "Contact",
+        link: '/admin/customers/contact',
+      }
+    ]
   },
   {
     title: 'Logout',

@@ -2,10 +2,15 @@ package com.project.api.dtos;
 
 import com.project.api.entities.ProductReview;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Date;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 public class ProductReviewDTO {
     private Integer productReviewId;
     private String imageUrl;
@@ -13,8 +18,6 @@ public class ProductReviewDTO {
     private String content;
     private Integer rating;
     private Date createdAt;
-
-    public ProductReviewDTO() {}
 
     public ProductReviewDTO(ProductReview productReview) {
         this.productReviewId = productReview.getProductReviewId();

@@ -2,12 +2,17 @@ package com.project.api.dtos;
 
 import com.project.api.entities.Order;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 public class OrderFindDetailDTO {
     private Integer orderId;
     private String orderTrackingNumber;

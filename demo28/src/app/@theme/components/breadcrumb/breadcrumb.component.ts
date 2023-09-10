@@ -1,8 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-
 import { Product } from '../../../@core/classes/product';
-
-import { environment } from 'src/environments/environment';
 
 @Component({
 	selector: 'molla-breadcrumb',
@@ -16,8 +13,6 @@ export class BreadcrumbComponent implements OnInit {
 	@Input() next: Product;
 	@Input() current: string;
 	@Input() fullWidth = false;
-
-	SERVER_URL = environment.SERVER_URL;
 
 	constructor() {
 	}

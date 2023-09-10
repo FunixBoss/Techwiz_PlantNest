@@ -1,7 +1,6 @@
 import { filter } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { ApiService } from 'src/app/@core/services/api.service';
 import { UtilsService } from 'src/app/@core/services/utils.service';
 
 import { introSlider, brandSlider, serviceSlider, bannerSlider } from '../data';
@@ -26,7 +25,6 @@ export class IndexComponent implements OnInit, OnDestroy {
   bannerSlider = bannerSlider;
 
   constructor(
-    public apiService: ApiService,
     public utilsService: UtilsService,
     private productService: ProductService
   ) { }

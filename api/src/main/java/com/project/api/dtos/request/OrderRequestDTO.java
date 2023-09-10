@@ -7,11 +7,16 @@ import com.project.api.dtos.PaymentMethodDTO;
 import com.project.api.entities.OrderStatus;
 import com.project.api.entities.PaymentMethod;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 public class OrderRequestDTO {
     private String accountEmail;
     private AddressDTO address;

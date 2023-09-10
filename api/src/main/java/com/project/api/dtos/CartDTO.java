@@ -2,15 +2,14 @@ package com.project.api.dtos;
 
 import com.project.api.entities.Account;
 import com.project.api.entities.Cart;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class CartDTO {
     private Integer cartId;

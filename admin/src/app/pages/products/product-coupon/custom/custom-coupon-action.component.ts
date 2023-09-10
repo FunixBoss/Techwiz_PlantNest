@@ -66,10 +66,10 @@ export class CustomCouponActionComponent implements ViewCell {
             data => {
                 this.deleteWindowRef.close()
                 this.couponService.notifyCouponChange();
-                this.utilsService.updateToastState(new ToastState('Delete Shape Successfully!', "success"))
+                this.utilsService.updateToastState(new ToastState('Delete Coupon Successfully!', "success"))
             },
             error => {
-                this.utilsService.updateToastState(new ToastState('Delete Shape Failed!', "danger"))
+                this.utilsService.updateToastState(new ToastState('Delete Coupon Failed!', "danger"))
                 console.log(error);
 
             }

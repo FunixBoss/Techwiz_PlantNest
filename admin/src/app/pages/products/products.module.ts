@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { NbAccordionModule, NbActionsModule, NbAlertModule, NbButtonModule, NbCardModule, NbCheckboxModule, NbDatepickerModule, NbFormFieldModule, NbIconModule, NbInputModule, NbListModule, NbRadioModule, NbSelectModule, NbStepperComponent, NbStepperModule, NbTreeGridModule, NbUserModule } from '@nebular/theme';
+import { NbAccordionModule, NbActionsModule, NbAlertModule, NbButtonModule, NbCardModule, NbCheckboxModule, NbDatepickerModule, NbFormFieldModule, NbIconModule, NbInputModule, NbListModule, NbRadioModule, NbSelectModule, NbSpinnerModule, NbStepperComponent, NbStepperModule, NbTreeGridModule, NbUserModule } from '@nebular/theme';
 import { NbTabsetModule } from '@nebular/theme';
 import { ThemeModule } from '../../@theme/theme.module';
 import { ProductsRoutingModule, routedComponents } from './products-routing.module';
@@ -64,7 +64,8 @@ import { FormCareGuideComponent } from './shared/form-care-guide/form-care-guide
     NbFormFieldModule,
     NbTreeGridModule,
     NbStepperModule,
-    SharedModule
+    SharedModule,
+    NbSpinnerModule
   ],
   declarations: [
     ...routedComponents,

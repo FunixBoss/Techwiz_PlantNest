@@ -5,11 +5,16 @@ import com.project.api.entities.Order;
 import com.project.api.entities.OrderStatus;
 import com.project.api.entities.PaymentMethod;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 public class OrderFindAllDTO {
     private Integer orderId;
     private String accountEmail;

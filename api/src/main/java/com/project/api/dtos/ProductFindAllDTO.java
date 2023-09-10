@@ -2,6 +2,9 @@ package com.project.api.dtos;
 
 import com.project.api.entities.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -10,7 +13,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 public class ProductFindAllDTO {
     private Integer productId;
     private String productName;

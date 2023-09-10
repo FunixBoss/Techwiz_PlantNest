@@ -4,6 +4,7 @@ import com.project.api.dtos.AccountDTO;
 import com.project.api.dtos.AccountDetailDTO;
 import com.project.api.dtos.ProductFindAllDTO;
 import com.project.api.entities.Account;
+import com.project.api.entities.Contact;
 import com.project.api.entities.Product;
 import com.project.api.exceptions.domain.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,5 +32,5 @@ public interface AccountService {
     Boolean updateProfileImage(String username, MultipartFile image) throws IOException, NotAnImageFileException;
     Boolean updateFullName(String username, String fullName);
     Boolean updateInformation(String username, String fullName, String currentPassword, String newPassword) throws WrongPasswordException;
-
+    Boolean deleteContacts(List<Contact> contacts);
 }

@@ -3,7 +3,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from 'src/app/@core/models/product/product.model';
 import { ProductSale } from 'src/app/@core/models/sale/product-sale.model';
-import { ApiService } from 'src/app/@core/services/api.service';
 import { ProductService } from 'src/app/@core/services/product/product.service';
 import { UtilsService } from 'src/app/@core/services/utils.service';
 
@@ -24,7 +23,6 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
     public router: Router,
     public utilsService: UtilsService,
     public productService: ProductService,
-    public apiService: ApiService
   ) { }
 
   ngOnInit(): void {

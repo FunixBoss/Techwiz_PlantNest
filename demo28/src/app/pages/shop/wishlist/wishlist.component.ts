@@ -17,7 +17,6 @@ import { environment } from 'src/environments/environment';
 export class WishlistComponent implements OnInit, OnDestroy {
 
   wishlist: Product[] = [];
-  SERVER_URL = environment.SERVER_URL;
   PRODUCT_IMAGE_DIRECTORY = PRODUCT_IMAGE_DIRECTORY
   private subscr: Subscription;
 

@@ -2,10 +2,15 @@ package com.project.api.dtos;
 
 import com.project.api.entities.ProductSale;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Date;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 public class ProductSaleDTO {
     private Integer productSaleId;
     private ProductSaleTypeDTO productSaleType;
@@ -16,7 +21,6 @@ public class ProductSaleDTO {
     private Date startedAt;
     private Date expiredAt;
 
-    public ProductSaleDTO() {}
     public ProductSaleDTO(ProductSale productSale) {
         this.productSaleId = productSale.getProductSaleId();
         this.productSaleType = new ProductSaleTypeDTO(productSale.getProductSaleType());

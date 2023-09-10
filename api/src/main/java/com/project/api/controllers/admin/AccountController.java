@@ -6,6 +6,7 @@ import com.project.api.dtos.AccountDTO;
 import com.project.api.dtos.AccountDetailDTO;
 import com.project.api.dtos.AddressDTO;
 import com.project.api.entities.Account;
+import com.project.api.entities.Contact;
 import com.project.api.services.AccountService;
 import com.project.api.services.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -146,5 +147,10 @@ public class AccountController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @PostMapping("delete-contacts")
+    public ResponseEntity<Boolean> deleteContacts(@RequestBody List<Contact> contacts) {
+        return new ResponseEntity<>(this.accountService.deleteContacts(contacts), HttpStatus.OK);
     }
 }

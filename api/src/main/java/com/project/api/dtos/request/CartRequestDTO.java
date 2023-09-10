@@ -1,10 +1,11 @@
 package com.project.api.dtos.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+import lombok.Data;
+
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class CartRequestDTO {

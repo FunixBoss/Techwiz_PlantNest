@@ -23,6 +23,8 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
   private unsubscribe = new Subject<void>();
 
   selectedCustomers: Account[] = []
+  loadedCustomers: boolean = false
+
   settings = {
     selectMode: 'multi',
     actions: {
@@ -135,6 +137,7 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
           }
         })
         this.source.load(mappedAccounts)
+        this.loadedCustomers = true
       }
     )
   }

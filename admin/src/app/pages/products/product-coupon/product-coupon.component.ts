@@ -16,9 +16,10 @@ import { NbWindowRef, NbWindowService } from '@nebular/theme';
   styleUrls: ["./product-coupon.component.scss"],
 })
 export class ProductCouponComponent implements OnInit {
-  state: string = "add"; // default
   private unsubscribe = new Subject<void>();
-
+  state: string = "add"; // default
+  loadedCoupons: boolean = false;
+  
   // for deleting multi coupon
   @ViewChild('onDeleteTemplate') deleteWindow: TemplateRef<any>;
   selectedCoupons: Coupon[] = []
@@ -105,6 +106,7 @@ export class ProductCouponComponent implements OnInit {
           }
         })
         this.source.load(mappedCoupons)
+        this.loadedCoupons = true
       }
     )
   }

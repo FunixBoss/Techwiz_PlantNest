@@ -29,13 +29,14 @@ export class OrderListComponent implements OnInit, AfterViewInit {
   paymentMethods: PaymentMethod[];
   orderStatuses: OrderStatus[];
   private unsubscribe = new Subject<void>();
-  
+
   // select multi order
   selectedOrders: Order[] = []
+  loadedOrders: boolean = false;
   @ViewChild('editOrderStatus') editOrderStatusWindow: TemplateRef<any>;
   windowRef: NbWindowRef;
   editStatusFormGroup: FormGroup;
-  
+
 
 
   settings = {
@@ -64,6 +65,10 @@ export class OrderListComponent implements OnInit, AfterViewInit {
     private utilsService: UtilsService,
     private formBuilder: FormBuilder
   ) {
+
+  }
+
+  ngOnInit(): void {
     const paymentObservable = this.paymentMethodService.findAll();
     const orderStatusObservable = this.orderStatusService.findAll();
 
@@ -150,17 +155,17 @@ export class OrderListComponent implements OnInit, AfterViewInit {
             perPage: this.numberOfItem
           },
         }
+
+        this.orderService.orderChange$
+          .pipe(takeUntil(this.unsubscribe))
+          .subscribe(() => {
+            this.loadOrders();
+          });
+        this.loadOrders()
       }
     )
-  }
 
-  ngOnInit(): void {
-    this.orderService.orderChange$
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe(() => {
-        this.loadOrders();
-      });
-    this.loadOrders()
+
 
   }
 
@@ -180,6 +185,7 @@ export class OrderListComponent implements OnInit, AfterViewInit {
           }
         })
         this.source.load(mappedOrders)
+        this.loadedOrders = true
       }
     )
   }

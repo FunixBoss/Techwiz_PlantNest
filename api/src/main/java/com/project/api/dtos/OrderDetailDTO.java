@@ -3,10 +3,15 @@ package com.project.api.dtos;
 import com.project.api.entities.OrderDetail;
 import com.project.api.entities.Product;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 public class OrderDetailDTO {
     private Integer orderDetailId;
     private Integer productId;

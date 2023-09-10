@@ -2,10 +2,15 @@ package com.project.api.dtos;
 
 import com.project.api.entities.ProductVariant;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 public class ProductVariantDTO {
     private Integer productVariantId;
     private int height;
@@ -15,9 +20,6 @@ public class ProductVariantDTO {
     private ProductSizeDTO productSize;
     private String imageUrl;
 
-    public ProductVariantDTO() {
-
-    }
     public ProductVariantDTO(ProductVariant variant) {
         this.productVariantId = variant.getProductVariantId();
         this.height = variant.getHeight();

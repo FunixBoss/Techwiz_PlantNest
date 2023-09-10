@@ -18,7 +18,7 @@ import { CustomSaleActiveActionComponent } from "./custom/custom-sale-active-act
 export class ProductSaleComponent implements OnInit {
   state: string = "add"; // default
   private unsubscribe = new Subject<void>();
-
+  loadedSales: boolean = false;
   selectedSales: ProductSale[] = []
 
   numberOfItem: number = localStorage.getItem('itemPerPage') != null ? +localStorage.getItem('itemPerPage') : 10; // default
@@ -119,6 +119,7 @@ export class ProductSaleComponent implements OnInit {
           }
         })
         this.source.load(mappedSalesupons)
+        this.loadedSales = true
       }
     )
   }

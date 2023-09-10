@@ -10,6 +10,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { ContactPageComponent } from './contact/contact.component';
 import { AboutPageComponent } from './about/about.component';
 import { ThemeModule } from 'src/app/@theme/theme.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule( {
 	declarations: [
@@ -27,7 +28,9 @@ import { ThemeModule } from 'src/app/@theme/theme.module';
 		OwlModule,
 		GoogleMapsModule,
 		HttpClientModule,
-		HttpClientJsonpModule
+		HttpClientJsonpModule,
+    ReactiveFormsModule,
+    FormsModule
 	]
 } )
 

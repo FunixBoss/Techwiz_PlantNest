@@ -5,13 +5,18 @@ import com.project.api.entities.PlantingDifficultyLevel;
 import com.project.api.entities.Product;
 import jdk.jfr.Category;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 public class ProductDetailDTO {
     private Integer productId;
     private String productName;

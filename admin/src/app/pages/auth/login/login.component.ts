@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   loginFormGroup: FormGroup
   errorMessage: string;
-  
+  loadOnLogin: boolean = false
   private subscriptions: Subscription[] = []
 
   constructor(
@@ -27,8 +27,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private utilsService: UtilsService
   ) {
     this.loginFormGroup = this.formBuilder.group({
-      username: ['', [Validators.required]],
-      password: ['', [Validators.required]]
+      username: ['admin', [Validators.required]],
+      password: ['12345678', [Validators.required]]
     })
   }
 
@@ -44,6 +44,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.loginFormGroup.markAllAsTouched();
       return;
     }
+    this.loadOnLogin = true
 
     this.subscriptions.push(
       this.authService.login(this.loginFormGroup.value).subscribe(
@@ -55,11 +56,13 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.authService.authChange()
         },
         (error: HttpErrorResponse) => {
-          console.log(error);
+          this.loadOnLogin = false
+          this.errorMessage = error.error.message
           this.utilsService.updateToastState(new ToastState(error.error.message, "danger"))
         }
       )
     )
+
   }
 
   saveToken(token: string) {

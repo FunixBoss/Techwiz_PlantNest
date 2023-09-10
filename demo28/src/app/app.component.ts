@@ -61,12 +61,6 @@ export class AppComponent {
 
 			this.modalService.dismissAll();
 		})
-
-		if (localStorage.getItem("molla-angular-demo") !== environment.demo) {
-			this.store.dispatch(new RefreshStoreAction());
-		}
-
-		localStorage.setItem("molla-angular-demo", environment.demo);
 	}
 
 	@HostListener('window: scroll', ['$event'])

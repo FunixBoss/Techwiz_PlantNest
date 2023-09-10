@@ -24,9 +24,10 @@ import { PlantingDifficultyLevelService } from '../../../@core/services/product/
 })
 export class ProductListComponent implements OnInit, AfterViewInit {
   private unsubscribe = new Subject<void>();
-  numberOfItem: number = localStorage.getItem('itemPerPage') != null ? +localStorage.getItem('itemPerPage') : 5; 
+  numberOfItem: number = localStorage.getItem('itemPerPage') != null ? +localStorage.getItem('itemPerPage') : 5;
   source: LocalDataSource = new LocalDataSource();
-  
+
+  loadedList: boolean = false;
   // Setting for List layout
   catalogs: Catalog[];
   sales: ProductSale[];
@@ -165,7 +166,7 @@ export class ProductListComponent implements OnInit, AfterViewInit {
                 component: CustomProductStatusFilterComponent,
               },
               renderComponent: CustomProductStatusComponent,
-              filterFunction : (value, query) => {
+              filterFunction: (value, query) => {
                 value = JSON.parse(value)
                 query = JSON.parse(query)
                 const result: boolean = query.every((status) => value[status] === true);
@@ -191,18 +192,19 @@ export class ProductListComponent implements OnInit, AfterViewInit {
             perPage: this.numberOfItem
           },
         };
+
+        this.productService.productChange$
+          .pipe(takeUntil(this.unsubscribe))
+          .subscribe(() => {
+            this.loadProducts();
+          });
+        this.loadProducts();
+        this.loadedList = true
       },
       (error: any) => {
         console.error("Error:", error);
       }
     );
-
-    this.productService.productChange$
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe(() => {
-        this.loadProducts();
-      });
-    this.loadProducts();
   }
 
   loadProducts() {
@@ -233,16 +235,18 @@ export class ProductListComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     const pager = document.querySelector('ng2-smart-table-pager');
-    pager.classList.add('d-block')
+    if (pager != null) {
+      pager.classList.add('d-block')
+    }
   }
 
   onRowSelect(event: any): void {
     this.selectedProducts = (event.selected)
-    
+
   }
 
   onDelete(isDeleted: boolean) {
-    if(isDeleted) {
+    if (isDeleted) {
       this.loadProducts();
       this.selectedProducts = []
       this.utilsService.updateToastState(new ToastState('Delete The Product\'s Status Successfully!', "success"))
@@ -252,7 +256,7 @@ export class ProductListComponent implements OnInit, AfterViewInit {
   }
 
   onUpdateNewStatus(isUpdated: boolean) {
-    if(isUpdated) {
+    if (isUpdated) {
       this.selectedProducts = []
       this.loadProducts();
       this.utilsService.updateToastState(new ToastState("Updated The Product's Status New Successfully!", "success"))
@@ -262,7 +266,7 @@ export class ProductListComponent implements OnInit, AfterViewInit {
   }
 
   onUpdateTopStatus(isUpdated: boolean) {
-    if(isUpdated) {
+    if (isUpdated) {
       this.selectedProducts = []
       this.loadProducts();
       this.utilsService.updateToastState(new ToastState("Updated The Product's Status Top Successfully!", "success"))
@@ -272,7 +276,7 @@ export class ProductListComponent implements OnInit, AfterViewInit {
   }
 
   onUpdateActiveStatus(isUpdated: boolean) {
-    if(isUpdated) {
+    if (isUpdated) {
       this.selectedProducts = []
       this.loadProducts();
       this.utilsService.updateToastState(new ToastState("Updated The Product's Status Active Successfully!", "success"))
@@ -282,7 +286,7 @@ export class ProductListComponent implements OnInit, AfterViewInit {
   }
 
   onAppliedSale(isAppliedSale: boolean) {
-    if(isAppliedSale) {
+    if (isAppliedSale) {
       this.selectedProducts = []
       this.loadProducts();
       this.utilsService.updateToastState(new ToastState("Updated The Product's Sale Successfully!", "success"))
@@ -292,7 +296,7 @@ export class ProductListComponent implements OnInit, AfterViewInit {
   }
 
   onUpdateStatuses(isUpdated: boolean) {
-    if(isUpdated) {
+    if (isUpdated) {
       this.selectedProducts = []
       this.loadProducts();
       this.utilsService.updateToastState(new ToastState("Updated Statuses Successfully!", "success"))

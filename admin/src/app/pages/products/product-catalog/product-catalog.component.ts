@@ -30,25 +30,25 @@ interface FSEntry {
   styleUrls: ["./product-catalog.component.scss"],
 })
 export class ProductCatalogComponent implements OnInit {
-  state: string = "add"; // default
   private unsubscribe = new Subject<void>();
+  state: string = "add"; // default
 
   // for deleting multi catalog
   @ViewChild('onDeleteTemplate') deleteWindow: TemplateRef<any>;
   selectedCatalogs: Catalog[] = []
   deleteWindowRef: NbWindowRef;
+  loadedCatalogs: boolean = false;
 
   // for loading table
   numberOfItem: number = localStorage.getItem('itemPerPage') != null ? +localStorage.getItem('itemPerPage') : 10; // default
   
-// table
+  // table
   customColumn = 'Image';
   defaultColumns = [ 'catalogId', 'catalogName', 'description' ];
   actionColumn = 'Action'
   allColumns = [ this.customColumn, ...this.defaultColumns, this.actionColumn ];
   sortColumn: string;
   sortDirection: NbSortDirection = NbSortDirection.NONE;
-  
   dataSource: NbTreeGridDataSource<FSEntry>;
 
   constructor(
@@ -77,6 +77,7 @@ export class ProductCatalogComponent implements OnInit {
       data => {
         const mappedCatalogs: TreeNode<FSEntry>[] = this.mapTableValue(data);
         this.dataSource = this.dataSourceBuilder.create(mappedCatalogs);
+        this.loadedCatalogs = true
       }
     )
   }

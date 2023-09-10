@@ -3,10 +3,12 @@ package com.project.api.services.impl;
 import com.project.api.domain.UserPrincipal;
 import com.project.api.dtos.*;
 import com.project.api.entities.Account;
+import com.project.api.entities.Contact;
 import com.project.api.entities.Image;
 import com.project.api.enumerations.Role;
 import com.project.api.exceptions.domain.*;
 import com.project.api.repositories.AccountRepository;
+import com.project.api.repositories.ContactRepository;
 import com.project.api.repositories.RoleRepository;
 import com.project.api.services.AccountService;
 import com.project.api.services.ProductService;
@@ -48,15 +50,17 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     private ImageUploadUtils imageUploadUtils;
     private BCryptPasswordEncoder passwordEncoder;
     private LoginAttemptService loginAttemptService;
+    private ContactRepository contactRepository;
     private Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    public AccountServiceImpl(AccountRepository accountRepository, RoleRepository roleRepository, ImageUploadUtils imageUploadUtils, BCryptPasswordEncoder passwordEncoder, LoginAttemptService loginAttemptService) {
+    public AccountServiceImpl(AccountRepository accountRepository, RoleRepository roleRepository, ImageUploadUtils imageUploadUtils, BCryptPasswordEncoder passwordEncoder, LoginAttemptService loginAttemptService, ContactRepository contactRepository) {
         this.accountRepository = accountRepository;
         this.roleRepository = roleRepository;
         this.imageUploadUtils = imageUploadUtils;
         this.passwordEncoder = passwordEncoder;
         this.loginAttemptService = loginAttemptService;
+        this.contactRepository = contactRepository;
     }
 
 
@@ -306,6 +310,17 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         account.setPassword(encodePassword(newPassword));
         save(account);
         return true;
+    }
+
+    @Override
+    public Boolean deleteContacts(List<Contact> contacts) {
+        try {
+            contacts.forEach(contact -> this.contactRepository.deleteById(contact.getContactId()));
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     private void saveProfileImage(Account account, MultipartFile profileImage) throws IOException, NotAnImageFileException {

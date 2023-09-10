@@ -54,26 +54,20 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-lg-6 col-md-12 pl-0">
-                <input nbInput placeholder="Start Date" [nbDatepicker]="startDate" formControlName="startedDate">
-                <nb-datepicker #startDate></nb-datepicker>
-                <div class="alert alert-danger mt-2 mb-3"
-                    *ngIf="editCouponFormGroup.get('startedDate').invalid && (editCouponFormGroup.get('startedDate').dirty || editCouponFormGroup.get('startedDate').touched)">
-                    <div *ngIf="editCouponFormGroup.get('startedDate').errors['required']">
-                        Start Date is required
-                    </div>
-                </div>
+        <input nbInput fullWidth placeholder="Start Date" [nbDatepicker]="startDate" formControlName="startedDate">
+        <nb-datepicker #startDate></nb-datepicker>
+        <div class="alert alert-danger mt-2 mb-3"
+            *ngIf="editCouponFormGroup.get('startedDate').invalid && (editCouponFormGroup.get('startedDate').dirty || editCouponFormGroup.get('startedDate').touched)">
+            <div *ngIf="editCouponFormGroup.get('startedDate').errors['required']">
+                Start Date is required
             </div>
-            <div class="col-lg-6 col-md-12 pr-0">
-                <input nbInput placeholder="Expire Date" [nbDatepicker]="expireDate" formControlName="expiredDate">
-                <nb-datepicker #expireDate></nb-datepicker>
-                <div class="alert alert-danger mt-2 mb-3"
-                    *ngIf="editCouponFormGroup.get('expiredDate').invalid && (editCouponFormGroup.get('expiredDate').dirty || editCouponFormGroup.get('expiredDate').touched)">
-                    <div *ngIf="editCouponFormGroup.get('expiredDate').errors['required']">
-                        Expire Date is required
-                    </div>
-                </div>
+        </div>
+        <input nbInput fullWidth placeholder="Expire Date" [nbDatepicker]="expireDate" formControlName="expiredDate">
+        <nb-datepicker #expireDate></nb-datepicker>
+        <div class="alert alert-danger mt-2 mb-3"
+            *ngIf="editCouponFormGroup.get('expiredDate').invalid && (editCouponFormGroup.get('expiredDate').dirty || editCouponFormGroup.get('expiredDate').touched)">
+            <div *ngIf="editCouponFormGroup.get('expiredDate').errors['required']">
+                Expire Date is required
             </div>
         </div>
     </nb-card-body>

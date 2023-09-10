@@ -2,10 +2,15 @@ package com.project.api.dtos;
 
 import com.project.api.entities.Coupon;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Date;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 public class CouponDTO {
     private Integer couponId;
     private CouponTypeDTO couponType;
@@ -15,8 +20,6 @@ public class CouponDTO {
     private Date startedAt;
     private Date expiredAt;
 
-
-    public CouponDTO() { }
     public CouponDTO(Coupon coupon) {
         this.couponId = coupon.getCouponId();
         this.couponType = new CouponTypeDTO(coupon.getCouponType());

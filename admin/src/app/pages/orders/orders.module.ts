@@ -5,7 +5,7 @@ import { OrderDetailComponent } from './order-detail/order-detail.component';
 import { RouterModule } from '@angular/router';
 import { OrderListComponent } from './order-list/order-list.component';
 import { OrdersRoutingModule } from './orders-routing.module';
-import { NbAccordionModule, NbActionsModule, NbAutocompleteComponent, NbAutocompleteModule, NbButtonModule, NbCardModule, NbCheckboxModule, NbDatepickerModule, NbIconComponent, NbIconModule, NbInputModule, NbRadioModule, NbSelectModule } from '@nebular/theme';
+import { NbAccordionModule, NbActionsModule, NbAutocompleteComponent, NbAutocompleteModule, NbButtonModule, NbCardModule, NbCheckboxModule, NbDatepickerModule, NbIconComponent, NbIconModule, NbInputModule, NbRadioModule, NbSelectModule, NbSpinnerModule } from '@nebular/theme';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { OrderAddComponent } from './order-add/order-add.component';
 import { Ng2CompleterModule } from 'ng2-completer';
@@ -48,7 +48,8 @@ import { SharedModule } from '../shared/shared.module';
     ReactiveFormsModule,
     NbIconModule,
     ThemeModule,
-    SharedModule
+    SharedModule,
+    NbSpinnerModule
   ]
 })
 export class OrdersModule { }
