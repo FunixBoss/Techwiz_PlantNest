@@ -56,9 +56,15 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 mt-1">
-                <div *ngIf="uploadedFile">
-                    <img [src]="uploadedFile?.dataUrl" class="d-block w-50 mx-auto mt-3" alt="Slide Image">
+            <div class="col-12 mt-2">
+                <div class="row d-flex justify-content-center align-item-center">
+                    <div class="col-12 d-flex justify-content-center align-item-center border border-primary"
+                        style="height: 275px">
+                        <ng-container *ngIf="uploadedFile">
+                            <img [src]="uploadedFile?.dataUrl" class="d-block w-100"
+                                alt="Slide Image" style="max-height: 300px; object-fit: contain;">
+                        </ng-container>
+                    </div>
                 </div>
             </div>
         </div>

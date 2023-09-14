@@ -49,15 +49,15 @@
           </molla-pagination>
         </div>
 
-        <aside class="col-lg-3 skel-shop-sidebar order-lg-first skeleton-body" [class.loaded]="firstLoad">
-          <div *ngIf="!firstLoad else sidebarLoaded">
+        <aside class="col-lg-3 skel-shop-sidebar order-lg-first skeleton-body" [class.loaded]="filtersLoaded">
+          <div *ngIf="!filtersLoaded else sidebarLoaded">
             <div class="skel-widget"></div>
             <div class="skel-widget"></div>
             <div class="skel-widget"></div>
             <div class="skel-widget"></div>
           </div>
           <ng-template #sidebarLoaded>
-            <molla-shop-sidebar [toggle]="toggle">
+            <molla-shop-sidebar [toggle]="toggle" [catalogs]="catalogs" [levels]="levels" [sizes]="sizes">
             </molla-shop-sidebar>
 
             <button class="sidebar-fixed-toggler" (click)="toggleSidebar()" *ngIf="toggle">

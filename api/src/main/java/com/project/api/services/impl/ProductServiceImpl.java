@@ -128,8 +128,10 @@ public class ProductServiceImpl implements ProductService {
                 String imgFileName = imageUploadUtils.uploadImgBase64("product", image);
                 image.setImageUrl(imgFileName);
             });
-            Image sizeGuideImg = new Image(imageUploadUtils.uploadImgBase64("size_guide", product.getImageSizeGuide()));
-            product.setImageSizeGuide(sizeGuideImg);
+            if(product.getImageSizeGuide() != null) {
+                Image sizeGuideImg = new Image(imageUploadUtils.uploadImgBase64("size_guide", product.getImageSizeGuide()));
+                product.setImageSizeGuide(sizeGuideImg);
+            }
 
             product.getProductVariants().forEach(variant -> {
                 if(variant.getImage() != null) {

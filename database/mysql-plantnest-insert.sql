@@ -1,4 +1,4 @@
-use railway
+use plantnest
 ;
 
 INSERT INTO `Image` (image_url)
@@ -96,7 +96,7 @@ VALUES
 
 INSERT INTO `Role` (`name`, authorities)
 VALUES
-('ROLE_ADMI', '**'),
+('ROLE_ADMIN', '**'),
 ('ROLE_CUSTOMER', 'user:read');
 
 

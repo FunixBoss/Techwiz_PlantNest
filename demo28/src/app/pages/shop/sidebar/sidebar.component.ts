@@ -1,6 +1,13 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { forkJoin } from 'rxjs';
 import { FilterCriteria } from 'src/app/@core/models/filter-criteria';
+import { Catalog } from 'src/app/@core/models/product/catalog.model';
+import { PlantingDifficultyLevel } from 'src/app/@core/models/product/planting-difficulty-level.model';
+import { ProductSize } from 'src/app/@core/models/product/product-size.model';
+import { Product } from 'src/app/@core/models/product/product.model';
+import { PlantingDifficultyLevelService } from 'src/app/@core/services/product/planting-difficulty-level.service';
+import { CatalogService } from 'src/app/@core/services/product/product-catalog.service';
 import { ProductService } from 'src/app/@core/services/product/product.service';
 import { UtilsService } from 'src/app/@core/services/utils.service';
 
@@ -10,7 +17,10 @@ import { UtilsService } from 'src/app/@core/services/utils.service';
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarPageComponent implements OnInit {
-  products = [];
+  catalogs: Catalog[]
+  levels: PlantingDifficultyLevel[]
+  sizes: ProductSize[]
+  products: Product[] = [];
   pageTitle = 'List';
 
   filters: FilterCriteria = {
@@ -25,14 +35,15 @@ export class SidebarPageComponent implements OnInit {
   }
   toggle = false;
   loaded = false;
-  firstLoad = false;
+  filtersLoaded = false;
 
   constructor(
     public activeRoute: ActivatedRoute,
     public router: Router,
     public utilsService: UtilsService,
     public productService: ProductService,
-
+    private catalogService: CatalogService,
+    private levelService: PlantingDifficultyLevelService
   ) {
     this.activeRoute.queryParams.subscribe((params) => {
       this.loaded = false;
@@ -43,17 +54,9 @@ export class SidebarPageComponent implements OnInit {
       this.filters.catalog = params['catalog'] ?? null;
       this.filters.size = params['size'] ?? null;
       this.filters.level = params['level'] ?? null;
-      this.filters.orderBy = params['orderBy'] ?? 'default' ;
+      this.filters.orderBy = params['orderBy'] ?? 'default';
 
-      this.productService.findByPages(this.filters).subscribe((result) => {
-        this.products = result.content;
-        this.filters.totalElements = result.totalElements;
-        this.loaded = true;
-        if (!this.firstLoad) {
-          this.firstLoad = true;
-        }
-        this.utilsService.scrollToPageContent();
-      });
+      this.loadProductsAndFilters()
     });
   }
 
@@ -64,6 +67,28 @@ export class SidebarPageComponent implements OnInit {
 
   resetFilter() {
 
+  }
+
+  loadProductsAndFilters() {
+    const catalog$ = this.catalogService.findAll()
+    const level$ = this.levelService.findAll()
+    const sizes$ = this.productService.findAllSizes()
+    const productPage$ = this.productService.findByPages(this.filters);
+
+    forkJoin([catalog$, level$, sizes$, productPage$]).subscribe(
+      ([catalogData, levelData, sizesData, productPageData]) => {
+        this.catalogs = this.catalogService.flattenCatalogs(catalogData)
+        this.levels = levelData
+        this.sizes = sizesData
+        if (!this.filtersLoaded) {
+          this.filtersLoaded = true;
+        }
+
+        this.products = productPageData.content
+        this.filters.totalElements = productPageData.totalElements;
+        this.loaded = true;
+        this.utilsService.scrollToPageContent();
+      })
   }
 
   @HostListener('window: resize', ['$event'])
@@ -80,7 +105,7 @@ export class SidebarPageComponent implements OnInit {
   }
 
   toggleSidebar() {
-    if ( document.querySelector('body').classList.contains('sidebar-filter-active'))
+    if (document.querySelector('body').classList.contains('sidebar-filter-active'))
       document.querySelector('body').classList.remove('sidebar-filter-active');
     else document.querySelector('body').classList.add('sidebar-filter-active');
   }

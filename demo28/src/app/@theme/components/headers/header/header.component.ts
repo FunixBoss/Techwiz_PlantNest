@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ElementRef, Renderer2, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthenticationService } from 'src/app/@core/services/account/authentication.service';
@@ -15,6 +15,7 @@ import { UtilsService } from 'src/app/@core/services/utils.service';
 
 export class HeaderComponent implements OnInit {
 
+  screenWidth: number;
 	@Input() containerClass = "container";
 	@Input() wishCount = 0;
 
@@ -26,9 +27,12 @@ export class HeaderComponent implements OnInit {
     public toastrService: ToastrService,
     private router: Router,
     public wishlistService: WishlistService,
+    private renderer: Renderer2, private el: ElementRef
   )  { }
 
-	ngOnInit(): void {}
+	ngOnInit(): void {
+    this.getScreenWidth();
+  }
 
 	showLoginModal(event: Event): void {
 		event.preventDefault();
@@ -40,5 +44,16 @@ export class HeaderComponent implements OnInit {
     this.authenService.authChange()
     this.toastrService.success("Log out successfully!")
     this.router.navigateByUrl("/")
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any): void {
+    // Update the screen width variable on window resize
+    this.getScreenWidth();
+  }
+
+  // Function to get the current screen width
+  getScreenWidth(): void {
+    this.screenWidth = window.innerWidth;
   }
 }

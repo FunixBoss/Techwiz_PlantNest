@@ -30,12 +30,11 @@ export class ProductAddComponent {
     if(!this.validate()) return;
 
     const product: Product = this.mapFormValue()
-    console.log(product);
     this.productService.insert(product).subscribe(
       data => {
         if (data) {
           this.utilsService.updateToastState(new ToastState('Add Product Successfully!', 'success'))
-          this.router.navigate(['/admin/product/list'])
+          this.router.navigate(['/admin/products/list'])
         } else {
           this.utilsService.updateToastState(new ToastState('Add Product Failed!', 'danger'))
         }

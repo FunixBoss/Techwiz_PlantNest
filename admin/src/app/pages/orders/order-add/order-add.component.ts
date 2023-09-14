@@ -148,6 +148,8 @@ export class OrderAddComponent implements OnInit, AfterViewInit {
   loadProvinces() {
     this.addressService.findAllProvinces().subscribe(
       data => {
+        console.log(data);
+        
         this.provinces = data._embedded.provinces
         this.accountForm.get('district').setValue({})
         this.accountForm.get('ward').setValue({})

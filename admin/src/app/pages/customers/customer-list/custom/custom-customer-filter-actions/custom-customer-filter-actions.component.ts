@@ -47,12 +47,9 @@ export class CustomCustomerFilterActionsComponent extends DefaultFilter implemen
                     Validators.maxLength(50),
                     Validators.pattern(/^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/)]],
             fullName: [, [CustomValidator.notBlank, Validators.maxLength(50)]],
-            phoneNumber: [, 
-                    [CustomValidator.notBlank,
-                    Validators.maxLength(10),
-                    Validators.pattern(/^-?(0|[1-9]\d*)?$/)]],
+            phoneNumber: [,  [Validators.pattern(/^\s*\d{10}\s*$/)]],
             active: [true],
-            image: [, Validators.required],
+            image: [],
         });
     }
 

@@ -62,7 +62,7 @@ export class ProductEditComponent {
     this.productService.update(product).subscribe(data => {
       if (data) {
         this.utilsService.updateToastState(new ToastState('Edit Product Successfully!', "success"))
-        this.router.navigate(['/admin/product/list'])
+        this.router.navigate(['/admin/products/list'])
       } else {
         this.utilsService.updateToastState(new ToastState('Edit Product Failed!', "danger"))
       }

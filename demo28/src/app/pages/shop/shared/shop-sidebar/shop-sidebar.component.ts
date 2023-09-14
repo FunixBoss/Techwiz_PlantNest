@@ -1,7 +1,5 @@
 import { Subscription } from 'rxjs';
 import { Component, OnInit, Input, ViewChild, OnDestroy } from '@angular/core';
-
-import { shopData } from '../data';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PlantingDifficultyLevel } from 'src/app/@core/models/product/planting-difficulty-level.model';
 import { Catalog } from 'src/app/@core/models/product/catalog.model';
@@ -20,29 +18,18 @@ export class ShopSidebarComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = []
 	@Input() toggle = false;
 	params = {};
-  catalogs: Catalog[]
-  levels: PlantingDifficultyLevel[]
-  sizes: ProductSize[]
+  @Input() catalogs: Catalog[]
+  @Input() levels: PlantingDifficultyLevel[]
+  @Input() sizes: ProductSize[]
 
 	constructor(
     public activeRoute: ActivatedRoute,
     public router: Router,
-    private productService: ProductService,
-    private catalogService: CatalogService,
-    private levelService: PlantingDifficultyLevelService
   ) {
 	}
 
 	ngOnInit(): void {
-    this.subscriptions.push(
-      this.catalogService.findAll().subscribe(data => this.catalogs = this.catalogService.flattenCatalogs(data))
-    )
-    this.subscriptions.push(
-      this.levelService.findAll().subscribe(data => this.levels = data)
-    )
-    this.subscriptions.push(
-      this.productService.findAllSizes().subscribe(data => this.sizes = data)
-    )
+
 	}
 
   ngOnDestroy(): void {

@@ -5,6 +5,7 @@ import { NbAccordionItemComponent, NbTabComponent } from '@nebular/theme';
 import { PRODUCT_IMAGE_DIRECTORY, VARIANT_IMAGE_DIRECTORY } from '../../../@core/utils/image-storing-directory';
 import { ProductReviewService } from '../../../@core/services/product/product-review.service';
 import { ProductReview } from '../../../@core/models/product/product-review.model';
+import { Product } from '../../../@core/models/product/product.model';
 
 @Component({
   selector: 'ngx-product-detail',
@@ -14,7 +15,8 @@ import { ProductReview } from '../../../@core/models/product/product-review.mode
 export class ProductDetailComponent implements OnInit {
   @ViewChildren(NbAccordionItemComponent) accordions: QueryList<NbAccordionItemComponent>;
 
-  product;
+  product: Product;
+  loaded: boolean = false
   comments: ProductReview[];
   numberOfComments: string;
 
@@ -26,6 +28,7 @@ export class ProductDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
+      this.loaded = false;
       this.productService.findById(params['id'])
         .subscribe(data => {
           this.product = data
@@ -33,7 +36,7 @@ export class ProductDetailComponent implements OnInit {
           this.product.productVariants.map(variant => {
             variant.imageUrl = VARIANT_IMAGE_DIRECTORY + variant.imageUrl
           })
-          console.log(this.product.productCareGuide);
+          this.loaded = true
           
           this.productService.countTotalComments(this.product.productId).subscribe(data => {
             if(data > 99) {
@@ -41,8 +44,6 @@ export class ProductDetailComponent implements OnInit {
             } else {
               this.numberOfComments = data + ''
             }
-            console.log(data);
-            
           })
         })
     })

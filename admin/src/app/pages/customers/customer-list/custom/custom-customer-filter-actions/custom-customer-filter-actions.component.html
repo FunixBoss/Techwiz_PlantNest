@@ -14,7 +14,7 @@
                             Username is required
                         </div>
                         <div *ngIf="addCustomerFormGroup.get('username').errors['pattern']">
-                            Invalid username format 
+                            Invalid username format
                         </div>
                         <div *ngIf="addCustomerFormGroup.get('username').errors['minlength']">
                             Username must have at least 3 characters
@@ -36,7 +36,7 @@
                             Email is required
                         </div>
                         <div *ngIf="addCustomerFormGroup.get('email').errors['pattern']">
-                            Invalid email format 
+                            Invalid email format
                         </div>
                         <div *ngIf="addCustomerFormGroup.get('email').errors['maxlength']">
                             Email must not exceed 50 characters
@@ -84,14 +84,8 @@
                     <input type="text" nbInput fullWidth placeholder="Phone Number" formControlName="phoneNumber">
                     <div class="alert w-100 alert-danger mt-1"
                         *ngIf="addCustomerFormGroup.get('phoneNumber').invalid && (addCustomerFormGroup.get('phoneNumber').dirty || addCustomerFormGroup.get('phoneNumber').touched)">
-                        <div *ngIf="addCustomerFormGroup.get('phoneNumber').errors['notblank']">
-                            Phone Number is required
-                        </div>
-                        <div *ngIf="addCustomerFormGroup.get('phoneNumber').errors['maxlength']">
-                            Phone Number must not exceed 10 characters
-                        </div>
                         <div *ngIf="addCustomerFormGroup.get('phoneNumber').errors['pattern']">
-                            Phone Number only contains number
+                            Phone number must be exactly 10 digits in length and can only contain numerical digits
                         </div>
                     </div>
                 </div>
@@ -113,23 +107,26 @@
                             <label class="custom-file-label">Choose images</label>
                         </div>
                     </div>
-                    <div class="alert alert-danger mt-1 mb-3"
-                        *ngIf="addCustomerFormGroup.get('image').invalid && (addCustomerFormGroup.get('image').dirty || addCustomerFormGroup.get('image').touched)">
-                        <div *ngIf="addCustomerFormGroup.get('image').errors['required']">
-                            Customer Image is required
+                </div>
+
+                <div class="col-lg-6 col-md-12 mt-3">
+                    <div class="row d-flex justify-content-center align-item-center">
+                        <div class="col-12 d-flex justify-content-center align-item-center border border-primary"
+                            style="height: 275px">
+                            <ng-container *ngIf="addCustomerFormGroup.get('image').value !== null">
+                                <img [src]="addCustomerFormGroup.get('image').value" class="d-block w-100"
+                                    alt="Slide Image" style="max-height: 300px; object-fit: contain;">
+                            </ng-container>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-lg-6 col-md-12 mt-3">
-                    <ng-container *ngIf="addCustomerFormGroup.get('image').value !== null">
-                        <div class="col-12">
-                            <img [src]="addCustomerFormGroup.get('image').value" class="d-block w-100 mx-auto"
-                                alt="Slide Image">
-                        </div>
-                    </ng-container>
-                </div>
-
+                <!-- <ng-container *ngIf="addCustomerFormGroup.get('image').value !== null">
+                    <div class="col-12">
+                        <img [src]="addCustomerFormGroup.get('image').value" class="d-block w-100 mx-auto"
+                            alt="Slide Image">
+                    </div>
+                </ng-container> -->
             </div>
 
         </nb-card-body>

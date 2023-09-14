@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthenticationService } from 'src/app/@core/services/account/authentication.service';
+import { ModalService } from 'src/app/@core/services/modal.service';
 
 
 @Component({
@@ -11,12 +12,18 @@ import { AuthenticationService } from 'src/app/@core/services/account/authentica
 export class AccountComponent implements OnInit, OnDestroy {
 
 	constructor(
-    public authenService: AuthenticationService
+    public authenService: AuthenticationService,
+    public modalService: ModalService,
   ) { }
 
 	ngOnInit(): void {
 	}
 
 	ngOnDestroy(): void {
+	}
+
+  showLoginModal(event: Event): void {
+		event.preventDefault();
+		this.modalService.showLoginModal();
 	}
 }

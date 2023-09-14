@@ -89,7 +89,7 @@
                                                     District: {{ accountForm.get('district').value['name'] }}
                                                 </nb-select-label>
                                                 <nb-option *ngFor="let district of districts"
-                                                    [value]="district">{{district.name}}</nb-option>
+                                                    [value]="district">{{district.fullName}}</nb-option>
                                             </nb-select>
                                             <div class="alert alert-danger mt-1"
                                                 *ngIf="accountForm.get('district').invalid && (accountForm.get('district').dirty || accountForm.get('district').touched)">
@@ -103,7 +103,7 @@
                                                 <nb-select-label>
                                                     Ward: {{ accountForm.get('ward').value['name'] }}
                                                 </nb-select-label>
-                                                <nb-option *ngFor="let ward of wards" [value]="ward">{{ward.name}}</nb-option>
+                                                <nb-option *ngFor="let ward of wards" [value]="ward">{{ward.fullName}}</nb-option>
                                             </nb-select>
                                             <div class="alert alert-danger mt-1"
                                                 *ngIf="accountForm.get('ward').invalid && (accountForm.get('ward').dirty || accountForm.get('ward').touched)">

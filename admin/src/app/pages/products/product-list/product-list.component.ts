@@ -210,7 +210,7 @@ export class ProductListComponent implements OnInit, AfterViewInit {
   loadProducts() {
     this.productService.findAll().subscribe(
       data => {
-        const mappedProducts: any[] = data.map(pro => {
+        const mappedProducts: any[] = data.reverse().map(pro => {
           return {
             productId: pro.productId,
             productName: pro.productName,
