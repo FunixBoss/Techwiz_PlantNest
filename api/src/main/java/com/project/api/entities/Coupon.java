@@ -21,7 +21,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Getter
 @Setter
 @Entity
-@Table(name = "Coupon")
+@Table(name = "`coupon`")
 public class Coupon implements Serializable {
 
 	@Id

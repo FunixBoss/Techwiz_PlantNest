@@ -18,7 +18,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Getter
 @Setter
 @Entity
-@Table(name = "Product")
+@Table(name = "`product`")
 public class Product implements Serializable {
 
 	@Id
@@ -85,13 +85,13 @@ public class Product implements Serializable {
 	private Set<OrderDetail> orderDetails = new HashSet<OrderDetail>(0);
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-	@JoinTable(name = "Wishlist", joinColumns = {
+	@JoinTable(name = "`wishlist`", joinColumns = {
 			@JoinColumn(name = "product_id", nullable = false, updatable = false) }, inverseJoinColumns = {
 			@JoinColumn(name = "account_id", nullable = false, updatable = false) })
 	private Set<Account> wishlists = new HashSet<Account>(0);
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "ProductImage", joinColumns = {
+	@JoinTable(name = "`product_image`", joinColumns = {
 			@JoinColumn(name = "product_id", nullable = false, updatable = false) }, inverseJoinColumns = {
 			@JoinColumn(name = "image_id", nullable = false, updatable = false) })
 	private List<Image> images = new ArrayList<>(0);

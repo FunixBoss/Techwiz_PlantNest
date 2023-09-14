@@ -26,7 +26,7 @@ import javax.persistence.TemporalType;
 @Getter
 @Setter
 @Entity
-@Table(name = "ProductReview")
+@Table(name = "`product_review`")
 public class ProductReview implements Serializable {
 
 	@Id

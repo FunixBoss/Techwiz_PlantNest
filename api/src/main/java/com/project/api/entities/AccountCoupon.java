@@ -23,7 +23,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
-@Table(name = "AccountCoupon")
+@Table(name = "`account_coupon`")
 public class AccountCoupon implements java.io.Serializable {
 
 	@EmbeddedId

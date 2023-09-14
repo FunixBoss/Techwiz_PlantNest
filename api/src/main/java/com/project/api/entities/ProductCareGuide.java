@@ -11,7 +11,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Getter
 @Setter
 @Entity
-@Table(name = "ProductCareGuide")
+@Table(name = "`product_care_guide`")
 public class ProductCareGuide {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

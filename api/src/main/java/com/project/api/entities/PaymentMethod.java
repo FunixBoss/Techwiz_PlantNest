@@ -24,7 +24,7 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @Entity
-@Table(name = "PaymentMethod")
+@Table(name = "`payment_method`")
 public class PaymentMethod implements Serializable {
 
 	@Id

@@ -19,7 +19,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Getter
 @Setter
 @Entity
-@Table(name = "PlantingDifficultyLevel")
+@Table(name = "`planting_difficulty_level`")
 public class PlantingDifficultyLevel implements java.io.Serializable {
 
 	@Id

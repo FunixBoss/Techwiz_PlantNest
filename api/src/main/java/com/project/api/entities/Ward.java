@@ -25,7 +25,7 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @Entity
-@Table(name = "Ward")
+@Table(name = "`ward`")
 public class Ward implements Serializable {
 
 	@Id

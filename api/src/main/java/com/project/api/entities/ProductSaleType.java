@@ -24,7 +24,7 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @Entity
-@Table(name = "ProductSaleType")
+@Table(name = "`product_sale_type`")
 public class  ProductSaleType implements Serializable {
 
 	@Id

@@ -24,7 +24,7 @@ import javax.persistence.UniqueConstraint;
 @Getter
 @Setter
 @Entity
-@Table(name = "Role")
+@Table(name = "`role`")
 public class Role implements java.io.Serializable {
 
 	@Id

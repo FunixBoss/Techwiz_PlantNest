@@ -19,7 +19,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Setter
 @AllArgsConstructor
 @Entity
-@Table(name = "Account")
+@Table(name = "`account`")
 public class Account implements java.io.Serializable {
 
 	@Id

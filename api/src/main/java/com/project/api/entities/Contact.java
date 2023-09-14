@@ -20,7 +20,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Getter
 @Setter
 @Entity
-@Table(name = "Contact")
+@Table(name = "`contact`")
 public class Contact implements Serializable {
 
 	@Id

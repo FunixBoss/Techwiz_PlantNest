@@ -23,7 +23,7 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @Entity
-@Table(name = "AdministrativeUnit")
+@Table(name = "`administrative_unit`")
 public class AdministrativeUnit implements java.io.Serializable {
 
 	@Id

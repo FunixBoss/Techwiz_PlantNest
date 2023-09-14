@@ -20,7 +20,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Getter
 @Setter
 @Entity
-@Table(name = "ProductVariant")
+@Table(name = "`product_variant`")
 public class ProductVariant implements java.io.Serializable {
 
 	@Id

@@ -24,7 +24,7 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @Entity
-@Table(name = "CouponType")
+@Table(name = "`coupon_type`")
 public class CouponType implements java.io.Serializable {
 
 	@Id

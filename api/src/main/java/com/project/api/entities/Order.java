@@ -22,7 +22,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Getter
 @Setter
 @Entity
-@Table(name = "[Order]")
+@Table(name = "`order`")
 public class Order implements Serializable {
 
 	@Id

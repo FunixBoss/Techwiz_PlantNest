@@ -19,7 +19,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Getter
 @Setter
 @Entity
-@Table(name = "Catalog")
+@Table(name = "`catalog`")
 public class Catalog implements java.io.Serializable {
 
 	@Id

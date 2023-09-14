@@ -24,7 +24,7 @@ import javax.persistence.Table;
 @Setter
 @Getter
 @Entity
-@Table(name = "Image")
+@Table(name = "`image`")
 public class Image implements java.io.Serializable {
 
 	@Id

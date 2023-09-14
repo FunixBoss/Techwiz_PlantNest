@@ -23,7 +23,7 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @Entity
-@Table(name = "CartDetail")
+@Table(name = "`cart_detail`")
 public class CartDetail implements java.io.Serializable {
 
 	@Id
