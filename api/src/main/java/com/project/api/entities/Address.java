@@ -53,7 +53,7 @@ public class Address implements java.io.Serializable {
 	private String roadName;
 
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "AccountAddress", joinColumns = {
+	@JoinTable(name = "`account_address`", joinColumns = {
 			@JoinColumn(name = "address_id", nullable = false, updatable = false) }, inverseJoinColumns = {
 			@JoinColumn(name = "account_id", nullable = false, updatable = false) })
 	private Set<Account> accounts = new HashSet<Account>(0);

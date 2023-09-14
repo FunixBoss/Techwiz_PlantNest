@@ -65,6 +65,8 @@ export class CartMenuComponent implements OnInit {
   }
 
   calcPriceAfterSale(rootPrice, productSale: ProductSale): number {
+    if(productSale == null) return rootPrice;
+
     if(productSale.productSaleType.typeName == "Fixed") {
       return (rootPrice - productSale.discount > 0) ? rootPrice - productSale.discount : 0
     } else {
