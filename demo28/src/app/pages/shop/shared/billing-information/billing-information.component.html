@@ -69,7 +69,7 @@
         <select name="size" id="size" class="form-control" formControlName="district" (ngModelChange)="loadWards()">
           <option [ngValue]="null">Select a district</option>
           <option [ngValue]="district" *ngFor="let district of districts">
-            {{ district.name }}
+            {{ district.fullName }}
           </option>
         </select>
         <div class="alert alert-danger mt-1" *ngIf="billingForm.get('district').invalid &&
@@ -84,7 +84,7 @@
         <select name="size" id="size" class="form-control" formControlName="ward">
           <option [ngValue]="null">Select a ward</option>
           <option [ngValue]="ward" *ngFor="let ward of wards">
-            {{ ward.name }}
+            {{ ward.fullName }}
           </option>
         </select>
         <div class="alert alert-danger mt-1" *ngIf="billingForm.get('ward').invalid &&

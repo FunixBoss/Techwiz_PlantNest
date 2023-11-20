@@ -27,7 +27,7 @@ export class AddressService {
   }
 
   findAllProvinces(): Observable<GetProvinceResponse> {
-    const url: string = `${this.baseUrlService.baseURL}/admin/provinces`
+    const url: string = `${this.baseUrlService.baseURL}/admin/provinces?size=63`
     return this.httpClient.get<GetProvinceResponse>(url);
   }
 
